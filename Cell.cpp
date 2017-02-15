@@ -6,7 +6,10 @@
 //==============================
 //  DEFINITION STATIC ATTRIBUTES
 //==============================
-
+float Cell::rAA_ = 0; 
+float Cell::rAB_ = 0;
+float Cell::rBB_ = 0;
+float Cell::rBC_ = 0;
 //==============================
 //    CONSTRUCTORS
 //=============================
@@ -19,12 +22,14 @@ Cell::Cell(int x, int y)
   cB_ = 0;
   cC_ = 0;
 
+  this->compute_fitness();
 
 }
 
 //==============================
 //    DESTRUCTOR
 //==============================
+Cell::~Cell(){}
 
 //==============================
 //    PUBLIC METHODS

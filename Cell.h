@@ -70,7 +70,7 @@ protected:
   int x_,y_;              //Coordinates
   float fit_;             //Fitness
 
-  static const float rAA_, rAB_, rBB_, rBC_; //Metabolism rates
+  static float rAA_, rAB_, rBB_, rBC_; //Metabolism rates
 };
 
 
