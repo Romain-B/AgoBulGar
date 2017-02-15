@@ -11,12 +11,12 @@
 //    CONSTRUCTORS
 //=============================
 Spot::Spot(){
-	x = 0;
-	y = 0;
-	cA = 0;
-	cB = 0;
-	cC = 0;
-	isEmpty = FALSE;
+	x_ = 0;
+	y_ = 0;
+	cA_ = 0;
+	cB_ = 0;
+	cC_ = 0;
+	isEmpty_ = FALSE;
 }
 
 
