@@ -4,6 +4,13 @@
 //==============================
 //    INCLUDES
 //==============================
+#include <stdlib>
+#include <iostream>
+#include <vector>
+#include <array>
+
+using std::vector;
+using std::array;
 
 /**
  * @class Environement
@@ -50,6 +57,15 @@ protected:
 //==============================
 //    ATTRIBUTES
 //==============================
+	int H;
+	int W;
+	float D;
+	float Pdth;
+	float Pmut;
+	//array <Spot> grid;
+	//vector<Spot> free_spot;
+	//vector<Cell> cells;
+
 };
 
 //==============================
