@@ -16,7 +16,7 @@ Spot::Spot(){
 	cA_ = 0;
 	cB_ = 0;
 	cC_ = 0;
-	isEmpty_ = FALSE;
+	isEmpty_ = 0;
 }
 
 

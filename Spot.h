@@ -26,9 +26,9 @@ public:
 //==============================
   inline int x() const;
   inline int y() const;
-  inline int cA() const;
-  inline int cB() const;
-  inline int cC() const;
+  inline float cA() const;
+  inline float cB() const;
+  inline float cC() const;
 
 //==============================
 //    SETTERS
@@ -55,12 +55,11 @@ protected:
 //==============================
 //    ATTRIBUTES
 //==============================
-  public int x_, y_; //Position attributs
-
-  public float cA_, cB_, cC_; //Concentration attribut
-  
-  protected bool isEmpty_; 
+  int x_, y_; //Position attributs
+  float cA_, cB_, cC_; //Concentration attribut
+  bool isEmpty_; 
 };
+
 //==============================
 //    GETTER DEFINITION
 //==============================
