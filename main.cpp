@@ -21,6 +21,24 @@ using std::cout;
 //==============================
 //    FUNCTION DECLARATION
 //==============================
+void print_cell_info(Cell* cell, int nb)
+{
+  cout << "\n Info on cell "<< nb <<"\n---------\n";
+
+  cout << "\n x,y :\t" << cell->x() << "," 
+                              << cell->y();
+
+  cout << "\n cA, cB, cC :\t" << cell->cA() << ","
+                                     << cell->cB() << ","
+                                     << cell->cC();
+
+  cout << "\n fitness : \t" << cell->fit();
+  cout << "\n Metabolim rates rAA, rAB, rBB, rBC : \t" << cell->rAA() << ","
+                                                        << cell->rAB() << ","
+                                                        << cell->rBB() << ","
+                                                        << cell->rBC();
+  cout << "\n----------------------\n";
+}
 
 
   //-------------
@@ -32,19 +50,11 @@ using std::cout;
     cout << "\n\t===============\n\tCELL TESTS\n\t===============\n";
 
     Cell* cell_1 = new CellA(0,0);
+    Cell* cell_2 = new CellB(0,5);
 
-    cout << "\n cell_1 x,y :\t" << cell_1->x() << "," 
-                                << cell_1->y();
+    print_cell_info(cell_1, 1);
+    print_cell_info(cell_2, 2);
 
-    cout << "\n cell_1 cA, cB, cC :\t" << cell_1->cA() << ","
-                                       << cell_1->cB() << ","
-                                       << cell_1->cC();
-
-    cout << "\n cell_1 fitness : \t" << cell_1->fit();
-    cout << "\n Metabolim rates rAA, rAB, rBB, rBC : \t" << cell_1->rAA() << ","
-                                                          << cell_1->rAB() << ","
-                                                          << cell_1->rBB() << ","
-                                                          << cell_1->rBC();
 
 
     delete cell_1;
