@@ -25,6 +25,8 @@ void print_cell_info(Cell* cell, int nb)
 {
   cout << "\n Info on cell "<< nb <<"\n---------\n";
 
+  cout << "\n Cell type :\t"<< cell->whatAmI();
+
   cout << "\n x,y :\t" << cell->x() << "," 
                               << cell->y();
 
