@@ -54,12 +54,53 @@ void print_cell_info(Cell* cell, int nb)
     Cell* cell_1 = new CellA(0,0);
     Cell* cell_2 = new CellB(0,5);
 
+    float A=12.3, B=10.2, C=2.5;
+
+    cell_1 -> set_rates(0.1,0.1,0.1,0.1);
+
     print_cell_info(cell_1, 1);
     print_cell_info(cell_2, 2);
 
+    float* s_c;
+
+    //Metabolism test for CellA
+
+    for(u_int i=0; i<3; ++i)
+    {
+      s_c = cell_1->metabolism(A,B,C);
+      cout << "\n returned from metabolism :\t" << s_c[0] << "," << s_c[1] << "," << s_c[2];
+
+      A += s_c[0];
+      B += s_c[1];
+      C += s_c[2];
+
+      cout << "\n A, B, C \t" << A << "," << B << "," << C;
+      cout <<"\n++++++++++\n";
+
+      print_cell_info(cell_1, 1);
+      delete [] s_c;
+    }
+
+    for(u_int i=0; i<3; ++i)
+    {
+      s_c = cell_2->metabolism(A,B,C);
+      cout << "\n returned from metabolism :\t"<< s_c[0] << "," << s_c[1] << "," << s_c[2];
+
+      A += s_c[0];
+      B += s_c[1];
+      C += s_c[2];
+
+      cout << "\n A, B, C \t" << A << "," << B << "," << C;
+      cout <<"\n++++++++++\n";
 
 
+      print_cell_info(cell_2, 2);
+      delete [] s_c;
+    }
+
+    
     delete cell_1;
+    delete cell_2;
   }
 
 //==============================
