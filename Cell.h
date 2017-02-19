@@ -21,7 +21,7 @@ public:
 //==============================
 //    DESTRUCTOR
 //==============================
-  ~Cell();
+  virtual ~Cell();
  
 //==============================
 //    GETTERS
@@ -51,13 +51,14 @@ public:
 //==============================
 //    PUBLIC METHODS
 //==============================
+  virtual void compute_fitness() = 0;
+  virtual float* metabolism(float csA, float csB, float csC) = 0;
 
 
 protected:
 //==============================
 //    PROTECTED METHODS
 //==============================
-  void compute_fitness();
 
 //==============================
 // DECLARATION STATIC ATTRIBUTES

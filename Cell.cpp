@@ -21,9 +21,6 @@ Cell::Cell(int x, int y)
   cA_ = 0;
   cB_ = 0;
   cC_ = 0;
-
-  this->compute_fitness();
-
 }
 
 //==============================
@@ -35,10 +32,7 @@ Cell::~Cell(){}
 //    PUBLIC METHODS
 //==============================
 
+
 //==============================
 //    PROTECTED METHODS
 //==============================
-void Cell::compute_fitness()
-{
-  fit_ = cA_+cB_+cC_;
-}
