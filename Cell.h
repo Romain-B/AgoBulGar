@@ -10,6 +10,8 @@
  * @brief A CELL
  */
 
+enum Genotype{GenA, GenB};
+
 class Cell
 {
 public:
@@ -54,6 +56,8 @@ public:
   virtual void compute_fitness() = 0;
   virtual float* metabolism(float csA, float csB, float csC) = 0;
 
+  virtual char whatAmI();
+
 
 protected:
 //==============================
@@ -70,6 +74,7 @@ protected:
   float cA_, cB_, cC_;    //Concentration of metabolites
   int x_,y_;              //Coordinates
   float fit_;             //Fitness
+  Genotype geno_;         //Genotype
 
   static float rAA_, rAB_, rBB_, rBC_; //Metabolism rates
 };

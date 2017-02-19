@@ -31,6 +31,15 @@ Cell::~Cell(){}
 //==============================
 //    PUBLIC METHODS
 //==============================
+char Cell::whatAmI()
+{
+  switch(geno_)
+  {
+    case GenA : return 'A'; break;
+    case GenB : return 'B'; break;
+  }
+}
+
 
 
 //==============================
