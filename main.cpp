@@ -31,7 +31,7 @@ using std::cout;
   {
     cout << "\n\t===============\n\tCELL TESTS\n\t===============\n";
 
-    Cell* cell_1 = new Cell(0,0);
+    Cell* cell_1 = new CellA(0,0);
 
     cout << "\n cell_1 x,y :\t" << cell_1->x() << "," 
                                 << cell_1->y();
