@@ -5,21 +5,25 @@
 //    INCLUDES
 //==============================
 
+#include "Cell.h"
+
 /**
  * @class CELLB
  * @brief A CELLB
  */
 
-class CellB
+class CellB : public Cell
 {
 public:
 //==============================
 //    CONSTRUCTORS
 //==============================
+  CellB(int x, int y);
  
 //==============================
 //    DESTRUCTOR
 //==============================
+  ~CellB();
  
 //==============================
 //    GETTERS
@@ -36,6 +40,9 @@ public:
 //==============================
 //    PUBLIC METHODS
 //==============================
+  virtual void compute_fitness();
+  virtual float* metabolism(float s_cA, float s_cB, float s_cC);
+
 
 
 protected:
