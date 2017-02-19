@@ -41,7 +41,8 @@ public:
 //    PUBLIC METHODS
 //==============================
   virtual void compute_fitness();
-  virtual float* metabolism(float csA, float csB, float csC);
+  virtual float* metabolism(float s_cA, float s_cB, float s_cC);
+
 
 
 protected:
