@@ -41,7 +41,13 @@ char Cell::whatAmI()
 }
 
 
-
 //==============================
 //    PROTECTED METHODS
 //==============================
+void Cell::set_rates(float rAA, float rAB, float rBB, float rBC)
+{
+  rAA_ = rAA;
+  rAB_ = rAB;
+  rBB_ = rBB;
+  rBC_ = rBC;
+}

@@ -54,9 +54,13 @@ public:
 //    PUBLIC METHODS
 //==============================
   virtual void compute_fitness() = 0;
-  virtual float* metabolism(float csA, float csB, float csC) = 0;
+  virtual float* metabolism(float s_cA, float s_cB, float s_cC) = 0;
 
   virtual char whatAmI();
+
+  
+  //will be protected after testing
+  void set_rates(float rAA, float rAB, float rBB, float rBC);
 
 
 protected:
