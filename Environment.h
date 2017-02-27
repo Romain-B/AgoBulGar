@@ -79,7 +79,7 @@ protected:
 	float D_;				//Diffusion coefficient
 	float Pdth_;		// Death probability
 	float Pmut_;		//Mutation probability
-	vector<vector <Spot>> grid_;	//Matrix of Spot
+	vector<vector <Spot*>> grid_;	//Matrix of Spot
 	//vector<Spot> free_spot_;	// Contains free spots
 	//vector<Cell> cells_;		  //Contains cells
 

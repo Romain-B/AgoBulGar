@@ -128,6 +128,14 @@ void print_spot_info(Spot* spot, int nb)
     print_spot_info(spot_1, 1);
     print_spot_info(spot_2, 2);
 
+  void test_env()
+  {
+    Environment env;
+
+    cout << "\n\t===============\n\tCELL TESTS\n\t===============\n";
+
+    cout << "\nDone.\n";
+
   }
 
 //==============================
@@ -137,6 +145,7 @@ void print_spot_info(Spot* spot, int nb)
 int main(int argc, char const *argv[])
 {
   test_cell();
+  test_env();
 
   test_spot();
 
