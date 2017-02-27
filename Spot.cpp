@@ -45,5 +45,9 @@ void Spot::c_update(float cA, float cB, float cC)
   cC_ = cC;
 }
 
+bool Spot::isEmpty()
+{
+  return isEmpty_;
+}
 
 

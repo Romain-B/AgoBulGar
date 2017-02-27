@@ -50,8 +50,9 @@ void print_spot_info(Spot* spot, int nb)
   
   cout << "\n cA, cB, cC :\t" << spot->cA() << ","
                                      << spot->cB() << ","
-                                     << spot->cC()<<"\n";
-  //cout << "\nSpot is empty : "<< spot->isEmpty_;
+                                     << spot->cC();
+                                     
+  cout << "\nSpot is empty : "<< spot->isEmpty()<<"\n";
   
 }
 

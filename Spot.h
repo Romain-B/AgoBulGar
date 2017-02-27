@@ -47,6 +47,8 @@ public:
 //==============================
 void c_update(float cA, float cB, float cC);
 
+bool isEmpty();
+
 
 protected:
 //==============================
