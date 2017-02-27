@@ -57,6 +57,15 @@ protected:
 //    PROTECTED METHODS
 //==============================
   Spot* tl(Spot* center);
+  Spot* tc(Spot* center);
+  Spot* tr(Spot* center);
+
+  // Spot* cl(Spot* center);
+  // Spot* cr(Spot* center);
+
+  // Spot* bl(Spot* center);
+  // Spot* bc(Spot* center);
+  // Spot* br(Spot* center);  
 
 //==============================
 // DECLARATION STATIC ATTRIBUTES
