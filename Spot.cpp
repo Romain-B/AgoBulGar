@@ -28,6 +28,13 @@ Spot::Spot(int x, int y):x_(x),y_(y){
 	isEmpty_ = 1;	
 }
 
+//Constructor with concentration
+Spot::Spot(int x, int y, float cA, float cB, float cC):
+					x_(x), y_(y), cA_(cA), cB_(cB), cC_(cC)
+  {
+  	isEmpty_ = 1;
+  }
+
 
 
 //==============================

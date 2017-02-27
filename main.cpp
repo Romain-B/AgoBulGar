@@ -128,6 +128,8 @@ void print_spot_info(Spot* spot, int nb)
     print_spot_info(spot_1, 1);
     print_spot_info(spot_2, 2);
 
+  }
+
   void test_env()
   {
     Environment env;
