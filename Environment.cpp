@@ -3,6 +3,8 @@
 //==============================
 #include "Environment.h"
 
+
+
 //==============================
 //  DEFINITION STATIC ATTRIBUTES
 //==============================
@@ -196,9 +198,9 @@ Spot* Environment::br(Spot* center)
 
 void Environment::diffusion(int x , int y) //Diffusion of metabolites A,B and C
 {
-	int cA_t = (grid_[x][y])->cA();
-	int cB_t = (grid_[x][y])->cB();
-	int cC_t = (grid_[x][y])->cC();
+	float cA_t = (grid_[x][y])->cA();
+	float cB_t = (grid_[x][y])->cB();
+	float cC_t = (grid_[x][y])->cC();
 
 	cA_t = cA_t + D_ * this->tl(grid_[x][y])->cA();
 	cB_t = cB_t + D_ * this->tl(grid_[x][y])->cB();
@@ -239,5 +241,3 @@ void Environment::diffusion(int x , int y) //Diffusion of metabolites A,B and C
 	grid_[x][y]->c_update(cA_t , cB_t , cC_t);
 
 }
-
-
