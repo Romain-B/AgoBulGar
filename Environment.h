@@ -54,7 +54,7 @@ public:
 //==============================
 
   void env_wipe();
-
+  void cell_death();
 
 protected:
 //==============================
@@ -88,7 +88,7 @@ protected:
   int Ainit_;     // cA init
 
 	vector<vector <Spot*>> grid_;	//Matrix of Spot
-	//vector<Spot> free_spot_;	// Contains free spots
+	vector<Spot*> free_spot_;	// Contains free spots
 	vector<Cell*> cells_;		  //Contains cells
 
 };

@@ -243,6 +243,33 @@ Spot* Environment::br(Spot* center)
 
 }
 
+
+//Cellular Death
+void Environment::cell_death()
+{
+  for (auto it = cells_.begin(); it!= cells_.end();++it)
+  {
+    float reaper =  (rand()%(1000))/1000.0;
+    if (reaper < Pdth_)
+    {
+
+      int xdead = (*it)->x();
+      int ydead = (*it)->y();
+      float ca, cb, cc;
+      ca = (*it)->cA();
+      cb = (*it)->cB();
+      cc = (*it)->cC();
+
+      grid_[xdead][ydead]->c_update(ca, cb, cc);
+
+      cells_.erase(it);
+      free_spot_.push_back(grid_[xdead][ydead]);
+
+    }
+  }
+}
+
+
 void Environment::diffusion(int x , int y) //Diffusion of metabolites A,B and C
 {
 	float cA_t = (grid_[x][y])->cA();
@@ -288,3 +315,4 @@ void Environment::diffusion(int x , int y) //Diffusion of metabolites A,B and C
 	grid_[x][y]->c_update(cA_t , cB_t , cC_t);
 
 }
+
