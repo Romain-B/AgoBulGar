@@ -26,7 +26,8 @@ public:
 //    CONSTRUCTORS
 //==============================
  	
- 	Environment(float R , float Pmut , float Pdth , int size , float Wmin , int Ainit);		//Custom constructor
+ 	Environment();
+  Environment(float R , float Pmut , float Pdth , int size , float Wmin , int Ainit);		//Custom constructor
 
 //==============================
 //    DESTRUCTOR
@@ -84,6 +85,11 @@ protected:
 //==============================
 //    OPERATOR DEFINITION
 //==============================
+
+//==============================
+//  FRIEND FUNCTION DEFINITION
+//==============================
+
 
 
 #endif // ENVIRONMENT_H
