@@ -42,20 +42,6 @@ void print_cell_info(Cell* cell, int nb)
   cout << "\n----------------------\n";
 }
 
-void print_spot_info(Spot* spot, int nb)
-{
-  cout << "\n Info on spot "<< nb <<"\n---------\n";
-  cout << "\n x,y :\t" << spot->x() << "," 
-                              << spot->y();
-  
-  cout << "\n cA, cB, cC :\t" << spot->cA() << ","
-                                     << spot->cB() << ","
-                                     << spot->cC();
-                                     
-  cout << "\nSpot is empty : "<< spot->isEmpty()<<"\n";
-  
-}
-
 
   //-------------
   //    TESTS
@@ -150,8 +136,6 @@ int main(int argc, char const *argv[])
 {
   test_cell();
   test_env();
-
-  test_spot();
 
   cout << "\nDone.\n\n";
   return 0;
