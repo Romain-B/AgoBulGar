@@ -288,3 +288,12 @@ void Environment::diffusion(int x , int y) //Diffusion of metabolites A,B and C
 	grid_[x][y]->c_update(cA_t , cB_t , cC_t);
 
 }
+
+void Environment::competition()
+{
+	for(auto it = free_spot_.begin() ; it != free_spot_.end() ; ++it)
+	{
+		
+	}
+
+}
