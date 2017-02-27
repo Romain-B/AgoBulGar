@@ -90,3 +90,77 @@ Spot* Environment::tr(Spot* center)
 
 }
 
+Spot* Environment::cl(Spot* center)
+{
+  //Top left : x-1 ; y
+
+  int x = center->x(), y = center->y();
+
+  int tlx, tly;
+
+  tlx = (x > 0) ? x-1 : W_-1;
+  tly = y;
+
+  return &grid_[tlx][tly];
+
+}
+
+Spot* Environment::cr(Spot* center)
+{
+  //Top left : x+1 ; y
+
+  int x = center->x(), y = center->y();
+
+  int tlx, tly;
+
+  tlx = (x < W_-1) ? x+1 : 0;
+  tly = y;
+
+  return &grid_[tlx][tly];
+
+}
+
+Spot* Environment::bl(Spot* center)
+{
+  //Top left : x-1 ; y-1
+
+  int x = center->x(), y = center->y();
+
+  int tlx, tly;
+
+  tlx = (x > 0) ? x-1 : W_-1;
+  tly = (y > 0) ? y-1 : H_-1;
+
+  return &grid_[tlx][tly];
+
+}
+
+Spot* Environment::bc(Spot* center)
+{
+  //Top left : x ; y-1
+
+  int x = center->x(), y = center->y();
+
+  int tlx, tly;
+
+  tlx = x;
+  tly = (y > 0) ? y-1 : H_-1;
+
+  return &grid_[tlx][tly];
+
+}
+
+Spot* Environment::br(Spot* center)
+{
+  //Top left : x+1 ; y-1
+
+  int x = center->x(), y = center->y();
+
+  int tlx, tly;
+
+  tlx = (x < W_-1) ? x+1 : 0;
+  tly = (y > 0) ? y-1 : H_-1;
+
+  return &grid_[tlx][tly];
+
+}
