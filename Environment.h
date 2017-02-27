@@ -10,6 +10,7 @@
 #include <array>
 
 #include "Cell.h"
+#include "Spot.h"
 
 using std::vector;
 using std::array;
@@ -55,6 +56,7 @@ protected:
 //==============================
 //    PROTECTED METHODS
 //==============================
+  Spot* tl(Spot* center);
 
 //==============================
 // DECLARATION STATIC ATTRIBUTES
@@ -63,14 +65,14 @@ protected:
 //==============================
 //    ATTRIBUTES
 //==============================
-	int H_; 				// Heigh	
+	int H_; 				// Height	
 	int W_; 				// Width
 	float D_;				//Diffusion coefficient
 	float Pdth_;		// Death probability
 	float Pmut_;		//Mutation probability
-	//array <Spot> grid_;		//Matrix of Spot
+	vector<vector <Spot>> grid_;	//Matrix of Spot
 	//vector<Spot> free_spot_;	// Contains free spots
-	//vector<Cell> cells_;		//Contains cells
+	//vector<Cell> cells_;		  //Contains cells
 
 };
 
