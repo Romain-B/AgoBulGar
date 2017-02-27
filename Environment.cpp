@@ -164,3 +164,48 @@ Spot* Environment::br(Spot* center)
   return &grid_[brx][bry];
 
 }
+
+void Environment::diffusion(int x , int y) //Diffusion of metabolites A,B and C
+{
+	int cA_t = (grid_[x][y]).cA();
+	int cB_t = (grid_[x][y]).cB();
+	int cC_t = (grid_[x][y]).cC();
+
+	cA_t = cA_t + D_ * (this->tl(grid_[x][y]))->cA();
+	cB_t = cB_t + D_ * (this->tl(grid_[x][y]))->cB();
+	cC_t = cC_t + D_ * (this->tl(grid_[x][y]))->cC();
+
+	cA_t = cA_t + D_ * this->tc(grid_[x][y])->cA();
+	cB_t = cB_t + D_ * this->tc(grid_[x][y])->cB();
+	cC_t = cC_t + D_ * this->tc(grid_[x][y])->cC();
+
+	cA_t = cA_t + D_ * this->tr(grid_[x][y])->cA();
+	cB_t = cB_t + D_ * this->tr(grid_[x][y])->cB();
+	cC_t = cC_t + D_ * this->tr(grid_[x][y])->cC();
+
+	cA_t = cA_t + D_ * this->bl(grid_[x][y])->cA();
+	cB_t = cB_t + D_ * this->bl(grid_[x][y])->cB();
+	cC_t = cC_t + D_ * this->bl(grid_[x][y])->cC();
+
+	cA_t = cA_t + D_ * this->bc(grid_[x][y])->cA();
+	cB_t = cB_t + D_ * this->bc(grid_[x][y])->cB();
+	cC_t = cC_t + D_ * this->bc(grid_[x][y])->cC();
+
+	cA_t = cA_t + D_ * this->br(grid_[x][y])->cA();
+	cB_t = cB_t + D_ * this->br(grid_[x][y])->cB();
+	cC_t = cC_t + D_ * this->br(grid_[x][y])->cC();
+
+	cA_t = cA_t + D_ * this->cl(grid_[x][y])->cA();
+	cB_t = cB_t + D_ * this->cl(grid_[x][y])->cB();
+	cC_t = cC_t + D_ * this->cl(grid_[x][y])->cC();
+
+	cA_t = cA_t + D_ * this->cr(grid_[x][y])->cA();
+	cB_t = cB_t + D_ * this->cr(grid_[x][y])->cB();
+	cC_t = cC_t + D_ * this->cr(grid_[x][y])->cC();
+
+	cA_t = cA_t - 9 * D_ * cA_t;
+	cB_t = cB_t - 9 * D_ * cB_t;
+	cC_t = cC_t - 9 * D_ * cC_t;
+}
+
+

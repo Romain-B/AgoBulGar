@@ -65,7 +65,9 @@ protected:
 
   Spot* bl(Spot* center);
   Spot* bc(Spot* center);
-  Spot* br(Spot* center);  
+  Spot* br(Spot* center);
+
+  void diffusion(int x , int y );
 
 //==============================
 // DECLARATION STATIC ATTRIBUTES
