@@ -62,46 +62,46 @@ Spot* Environment::tl(Spot* center)
 
 Spot* Environment::tc(Spot* center)
 {
-  //Top left : x ; y+1
+  //Top Center : x ; y+1
 
   int x = center->x(), y = center->y();
 
-  int tlx, tly;
+  int tcx, tcy;
 
-  tlx = x;
-  tly = (y < H_-1) ? y+1 : 0;
+  tcx = x;
+  tcy = (y < H_-1) ? y+1 : 0;
 
-  return &grid_[tlx][tly];
+  return &grid_[tcx][tcy];
 
 }
 
 Spot* Environment::tr(Spot* center)
 {
-  //Top left : x+1 ; y+1
+  //Top right : x+1 ; y+1
 
   int x = center->x(), y = center->y();
 
-  int tlx, tly;
+  int trx, try_;
 
-  tlx = (x < W_-1) ? x+1 : 0;
-  tly = (y < H_-1) ? y+1 : 0;
+  trx = (x < W_-1) ? x+1 : 0;
+  try_ = (y < H_-1) ? y+1 : 0;
 
-  return &grid_[tlx][tly];
+  return &grid_[trx][try_];
 
 }
 
 Spot* Environment::cl(Spot* center)
 {
-  //Top left : x-1 ; y
+  //Center left : x-1 ; y
 
   int x = center->x(), y = center->y();
 
-  int tlx, tly;
+  int clx, cly;
 
-  tlx = (x > 0) ? x-1 : W_-1;
-  tly = y;
+  clx = (x > 0) ? x-1 : W_-1;
+  cly = y;
 
-  return &grid_[tlx][tly];
+  return &grid_[clx][cly];
 
 }
 
@@ -111,12 +111,12 @@ Spot* Environment::cr(Spot* center)
 
   int x = center->x(), y = center->y();
 
-  int tlx, tly;
+  int crx, cry;
 
-  tlx = (x < W_-1) ? x+1 : 0;
-  tly = y;
+  crx = (x < W_-1) ? x+1 : 0;
+  cry = y;
 
-  return &grid_[tlx][tly];
+  return &grid_[crx][cry];
 
 }
 
@@ -126,12 +126,12 @@ Spot* Environment::bl(Spot* center)
 
   int x = center->x(), y = center->y();
 
-  int tlx, tly;
+  int blx, bly;
 
-  tlx = (x > 0) ? x-1 : W_-1;
-  tly = (y > 0) ? y-1 : H_-1;
+  blx = (x > 0) ? x-1 : W_-1;
+  bly = (y > 0) ? y-1 : H_-1;
 
-  return &grid_[tlx][tly];
+  return &grid_[blx][bly];
 
 }
 
@@ -141,12 +141,12 @@ Spot* Environment::bc(Spot* center)
 
   int x = center->x(), y = center->y();
 
-  int tlx, tly;
+  int bcx, bcy;
 
-  tlx = x;
-  tly = (y > 0) ? y-1 : H_-1;
+  bcx = x;
+  bcy = (y > 0) ? y-1 : H_-1;
 
-  return &grid_[tlx][tly];
+  return &grid_[bcx][bcy];
 
 }
 
@@ -156,11 +156,11 @@ Spot* Environment::br(Spot* center)
 
   int x = center->x(), y = center->y();
 
-  int tlx, tly;
+  int brx, bry;
 
-  tlx = (x < W_-1) ? x+1 : 0;
-  tly = (y > 0) ? y-1 : H_-1;
+  brx = (x < W_-1) ? x+1 : 0;
+  bry = (y > 0) ? y-1 : H_-1;
 
-  return &grid_[tlx][tly];
+  return &grid_[brx][bry];
 
 }
