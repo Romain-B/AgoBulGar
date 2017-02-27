@@ -9,6 +9,8 @@
 #include <vector>
 #include <array>
 
+#include "Cell.h"
+
 using std::vector;
 using std::array;
 
@@ -29,6 +31,7 @@ public:
 //==============================
 //    DESTRUCTOR
 //==============================
+  ~Environment();
  
 //==============================
 //    GETTERS

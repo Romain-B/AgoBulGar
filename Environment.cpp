@@ -25,6 +25,7 @@ Environment::Environment(float R , float Pmut , float Pdth , int size , float Wm
 //==============================
 //    DESTRUCTOR
 //==============================
+Environment::~Environment(){}
 
 //==============================
 //    PUBLIC METHODS
