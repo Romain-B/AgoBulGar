@@ -45,6 +45,7 @@ public:
 //==============================
 //    PUBLIC METHODS
 //==============================
+void c_update(float cA, float cB, float cC);
 
 
 protected:

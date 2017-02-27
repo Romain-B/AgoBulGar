@@ -17,7 +17,7 @@ Spot::Spot(){
 	cA_ = 0;
 	cB_ = 0;
 	cC_ = 0;
-	isEmpty_ = 0;
+	isEmpty_ = 1;
 }
 
 //Constructeur from position
@@ -25,7 +25,7 @@ Spot::Spot(int x, int y):x_(x),y_(y){
 	cA_ = 0;
 	cB_ = 0;
 	cC_ = 0;
-	isEmpty_ = 0;	
+	isEmpty_ = 1;	
 }
 
 
@@ -37,3 +37,13 @@ Spot::~Spot(){}
 //==============================
 //    PUBLIC METHODS
 //==============================
+//update concentration after diffusion
+void Spot::c_update(float cA, float cB, float cC)
+{
+  cA_ = cA;
+  cB_ = cB;
+  cC_ = cC;
+}
+
+
+
