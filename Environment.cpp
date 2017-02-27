@@ -18,6 +18,16 @@ Environment::Environment(float R , float Pmut , float Pdth , int size , float Wm
 	D_ = 0.1;
 	W_ = size;
 	H_ = W_;
+
+  for (u_int x = 0; x < W_; ++x)
+  {
+    vector<Spot*> tmp;
+    for (u_int y = 0; y < H_; ++y)
+    {
+      tmp.push_back(new Spot(x,y));
+    }
+    grid_.push_back(tmp);
+  }
 		
 }
 
@@ -28,13 +38,32 @@ Environment::Environment()
   D_ = 0.1;
   W_ = 32;
   H_ = 32;
-    
+  
+  for (u_int x = 0; x < W_; ++x)
+  {
+    vector<Spot*> tmp;
+    for (u_int y = 0; y < H_; ++y)
+    {
+      tmp.push_back(new Spot(x,y));
+    }
+    grid_.push_back(tmp);
+  }
+
 }
 
 //==============================
 //    DESTRUCTOR
 //==============================
-Environment::~Environment(){}
+Environment::~Environment()
+{
+  for (u_int x = 0; x < W_; ++x)
+  {
+    for (u_int y = 0; y < H_; ++y)
+    {
+      delete grid_[x][y];
+    }
+  }
+}
 
 //==============================
 //    PUBLIC METHODS
@@ -56,7 +85,7 @@ Spot* Environment::tl(Spot* center)
   tlx = (x > 0) ? x-1 : W_-1;
   tly = (y < H_-1) ? y+1 : 0;
 
-  return &grid_[tlx][tly];
+  return grid_[tlx][tly];
 
 }
 
@@ -71,7 +100,7 @@ Spot* Environment::tc(Spot* center)
   tcx = x;
   tcy = (y < H_-1) ? y+1 : 0;
 
-  return &grid_[tcx][tcy];
+  return grid_[tcx][tcy];
 
 }
 
@@ -86,7 +115,7 @@ Spot* Environment::tr(Spot* center)
   trx = (x < W_-1) ? x+1 : 0;
   try_ = (y < H_-1) ? y+1 : 0;
 
-  return &grid_[trx][try_];
+  return grid_[trx][try_];
 
 }
 
@@ -101,7 +130,7 @@ Spot* Environment::cl(Spot* center)
   clx = (x > 0) ? x-1 : W_-1;
   cly = y;
 
-  return &grid_[clx][cly];
+  return grid_[clx][cly];
 
 }
 
@@ -116,7 +145,7 @@ Spot* Environment::cr(Spot* center)
   crx = (x < W_-1) ? x+1 : 0;
   cry = y;
 
-  return &grid_[crx][cry];
+  return grid_[crx][cry];
 
 }
 
@@ -131,7 +160,7 @@ Spot* Environment::bl(Spot* center)
   blx = (x > 0) ? x-1 : W_-1;
   bly = (y > 0) ? y-1 : H_-1;
 
-  return &grid_[blx][bly];
+  return grid_[blx][bly];
 
 }
 
@@ -146,7 +175,7 @@ Spot* Environment::bc(Spot* center)
   bcx = x;
   bcy = (y > 0) ? y-1 : H_-1;
 
-  return &grid_[bcx][bcy];
+  return grid_[bcx][bcy];
 
 }
 
@@ -161,6 +190,6 @@ Spot* Environment::br(Spot* center)
   brx = (x < W_-1) ? x+1 : 0;
   bry = (y > 0) ? y-1 : H_-1;
 
-  return &grid_[brx][bry];
+  return grid_[brx][bry];
 
 }
