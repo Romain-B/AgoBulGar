@@ -16,11 +16,15 @@ public:
 //==============================
 //    CONSTRUCTORS
 //==============================
-   Spot();
+   //default constructeur
+  Spot();
+
+   //Constructeur from position only
+  Spot(int x, int y); 
 //==============================
 //    DESTRUCTOR
 //==============================
-   ~Spot();
+  ~Spot();
 //==============================
 //    GETTERS
 //==============================
