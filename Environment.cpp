@@ -41,7 +41,7 @@ Environment::Environment()
   W_ = 32;
   H_ = 32;
 
-  Ainit_ = Ainit;
+  Ainit_ = 25;
 
   
   for (u_int x = 0; x < W_; ++x)
