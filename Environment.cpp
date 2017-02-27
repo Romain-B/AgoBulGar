@@ -196,13 +196,13 @@ Spot* Environment::br(Spot* center)
 
 void Environment::diffusion(int x , int y) //Diffusion of metabolites A,B and C
 {
-	int cA_t = (grid_[x][y]).cA();
-	int cB_t = (grid_[x][y]).cB();
-	int cC_t = (grid_[x][y]).cC();
+	int cA_t = (grid_[x][y])->cA();
+	int cB_t = (grid_[x][y])->cB();
+	int cC_t = (grid_[x][y])->cC();
 
-	cA_t = cA_t + D_ * (this->tl(grid_[x][y]))->cA();
-	cB_t = cB_t + D_ * (this->tl(grid_[x][y]))->cB();
-	cC_t = cC_t + D_ * (this->tl(grid_[x][y]))->cC();
+	cA_t = cA_t + D_ * this->tl(grid_[x][y])->cA();
+	cB_t = cB_t + D_ * this->tl(grid_[x][y])->cB();
+	cC_t = cC_t + D_ * this->tl(grid_[x][y])->cC();
 
 	cA_t = cA_t + D_ * this->tc(grid_[x][y])->cA();
 	cB_t = cB_t + D_ * this->tc(grid_[x][y])->cB();
@@ -235,6 +235,9 @@ void Environment::diffusion(int x , int y) //Diffusion of metabolites A,B and C
 	cA_t = cA_t - 9 * D_ * cA_t;
 	cB_t = cB_t - 9 * D_ * cB_t;
 	cC_t = cC_t - 9 * D_ * cC_t;
+
+	grid_[x][y]->c_update(cA_t , cB_t , cC_t);
+
 }
 
 
