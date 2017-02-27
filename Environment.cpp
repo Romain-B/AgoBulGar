@@ -2,6 +2,8 @@
 //    INCLUDES
 //==============================
 #include "Environment.h"
+#include <cstdlib>
+#include <ctime>
 
 
 
@@ -21,12 +23,26 @@ Environment::Environment(float R , float Pmut , float Pdth , int size , float Wm
 	W_ = size;
 	H_ = W_;
 
+  Ainit_ = Ainit;
+
+  srand(time(0));
+
   for (u_int x = 0; x < W_; ++x)
   {
     vector<Spot*> tmp;
     for (u_int y = 0; y < H_; ++y)
     {
       tmp.push_back(new Spot(x,y));
+
+      int t = rand() % 2;
+      if (t)
+      { 
+        cells_.push_back(new CellA(x, y));
+      }
+      else
+      {
+        cells_.push_back(new CellB(x, y));
+      }
     }
     grid_.push_back(tmp);
   }
@@ -40,6 +56,11 @@ Environment::Environment()
   D_ = 0.1;
   W_ = 32;
   H_ = 32;
+
+  Ainit_ = 25;
+
+  srand(time(0));
+
   
   for (u_int x = 0; x < W_; ++x)
   {
@@ -47,6 +68,16 @@ Environment::Environment()
     for (u_int y = 0; y < H_; ++y)
     {
       tmp.push_back(new Spot(x,y));
+
+      int t = rand() % 2;
+      if (t)
+      { 
+        cells_.push_back(new CellA(x, y));
+      }
+      else
+      {
+        cells_.push_back(new CellB(x, y));
+      }
     }
     grid_.push_back(tmp);
   }
@@ -65,11 +96,27 @@ Environment::~Environment()
       delete grid_[x][y];
     }
   }
+
+  for(u_int i = 0; i < cells_.size() ; i++)
+  {
+    delete cells_[i];
+  }
 }
 
 //==============================
 //    PUBLIC METHODS
 //==============================
+
+void Environment::env_wipe()
+{
+  for (u_int x = 0; x < W_; ++x)
+  {
+    for (u_int y = 0; y < H_; ++y)
+    {
+      grid_[x][y]->c_update(Ainit_, 0, 0);
+    }
+  }
+}
 
 //==============================
 //    PROTECTED METHODS

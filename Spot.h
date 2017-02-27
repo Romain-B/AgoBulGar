@@ -21,6 +21,9 @@ public:
 
    //Constructeur from position only
   Spot(int x, int y); 
+
+  //Constructor with concentration
+  Spot(int x, int y, float cA, float cB, float cC);
 //==============================
 //    DESTRUCTOR
 //==============================

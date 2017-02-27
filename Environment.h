@@ -10,6 +10,8 @@
 #include <array>
 
 #include "Cell.h"
+#include "CellA.h"
+#include "CellB.h"
 #include "Spot.h"
 
 using std::vector;
@@ -51,6 +53,8 @@ public:
 //    PUBLIC METHODS
 //==============================
 
+  void env_wipe();
+
 
 protected:
 //==============================
@@ -78,12 +82,14 @@ protected:
 //==============================
 	int H_; 				// Height	
 	int W_; 				// Width
-	float D_;				//Diffusion coefficient
+	float D_;				// Diffusion coefficient
 	float Pdth_;		// Death probability
-	float Pmut_;		//Mutation probability
+	float Pmut_;		// Mutation probability
+  int Ainit_;     // cA init
+
 	vector<vector <Spot*>> grid_;	//Matrix of Spot
 	//vector<Spot> free_spot_;	// Contains free spots
-	//vector<Cell> cells_;		  //Contains cells
+	vector<Cell*> cells_;		  //Contains cells
 
 };
 

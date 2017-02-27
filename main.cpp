@@ -103,11 +103,26 @@ void print_cell_info(Cell* cell, int nb)
     delete cell_2;
   }
 
+  void test_spot()
+  {
+  
+    cout << "\n\t===============\n\tSPOT TESTS\n\t===============\n";
+
+    Spot* spot_1 = new Spot(0,0);
+    Spot* spot_2 = new Spot(0,1);
+
+    print_spot_info(spot_1, 1);
+    print_spot_info(spot_2, 2);
+
+  }
+
   void test_env()
   {
     Environment env;
 
-    cout << "\n\t===============\n\tCELL TESTS\n\t===============\n";
+    cout << "\n\t===============\n\tENV TESTS\n\t===============\n";
+    env.env_wipe();
+    
 
     cout << "\nDone.\n";
 
