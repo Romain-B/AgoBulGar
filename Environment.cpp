@@ -116,6 +116,14 @@ void Environment::env_wipe()
   }
 }
 
+void Environment::run(int it)
+{
+  for(u_int i = 0; i < it ; i++)
+  {
+    
+  }
+}
+
 //==============================
 //    PROTECTED METHODS
 //==============================
