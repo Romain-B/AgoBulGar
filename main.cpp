@@ -108,6 +108,8 @@ void print_cell_info(Cell* cell, int nb)
     Environment env;
 
     cout << "\n\t===============\n\tCELL TESTS\n\t===============\n";
+    env.env_wipe();
+    
 
     cout << "\nDone.\n";
 
