@@ -134,7 +134,9 @@ void print_spot_info(Spot* spot, int nb)
   {
     Environment env;
 
-    cout << "\n\t===============\n\tCELL TESTS\n\t===============\n";
+    cout << "\n\t===============\n\tENV TESTS\n\t===============\n";
+    env.env_wipe();
+    
 
     cout << "\nDone.\n";
 

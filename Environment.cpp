@@ -19,6 +19,8 @@ Environment::Environment(float R , float Pmut , float Pdth , int size , float Wm
 	W_ = size;
 	H_ = W_;
 
+  Ainit_ = Ainit;
+
   for (u_int x = 0; x < W_; ++x)
   {
     vector<Spot*> tmp;
@@ -38,6 +40,9 @@ Environment::Environment()
   D_ = 0.1;
   W_ = 32;
   H_ = 32;
+
+  Ainit_ = 25;
+
   
   for (u_int x = 0; x < W_; ++x)
   {
@@ -68,6 +73,17 @@ Environment::~Environment()
 //==============================
 //    PUBLIC METHODS
 //==============================
+
+void Environment::env_wipe()
+{
+  for (u_int x = 0; x < W_; ++x)
+  {
+    for (u_int y = 0; y < H_; ++y)
+    {
+      grid_[x][y]->c_update(Ainit_, 0, 0);
+    }
+  }
+}
 
 //==============================
 //    PROTECTED METHODS
