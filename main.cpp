@@ -103,6 +103,16 @@ void print_cell_info(Cell* cell, int nb)
     delete cell_2;
   }
 
+  void test_env()
+  {
+    Environment env;
+
+    cout << "\n\t===============\n\tCELL TESTS\n\t===============\n";
+
+    cout << "\nDone.\n";
+
+  }
+
 //==============================
 //    MAIN
 //==============================
@@ -110,6 +120,7 @@ void print_cell_info(Cell* cell, int nb)
 int main(int argc, char const *argv[])
 {
   test_cell();
+  test_env();
 
   cout << "\nDone.\n\n";
   return 0;
