@@ -10,6 +10,8 @@
 #include <array>
 
 #include "Cell.h"
+#include "CellA.h"
+#include "CellB.h"
 #include "Spot.h"
 
 using std::vector;
@@ -85,7 +87,7 @@ protected:
 
 	vector<vector <Spot*>> grid_;	//Matrix of Spot
 	//vector<Spot> free_spot_;	// Contains free spots
-	//vector<Cell> cells_;		  //Contains cells
+	vector<Cell*> cells_;		  //Contains cells
 
 };
 
