@@ -21,6 +21,8 @@ using std::array;
  * @class Environement
  * @brief Manage the environment
  */
+class Environment;
+typedef Spot* (Environment::*FP)(Spot*);
 
 class Environment
 {
@@ -55,7 +57,6 @@ public:
 
   void env_wipe();
   void run(int it);
-  void cell_death();
 
 protected:
 //==============================
@@ -73,6 +74,11 @@ protected:
   Spot* br(Spot* center);
 
   void diffusion(int x , int y );
+  void competition();
+  void cell_death();
+  //void cell_division(Spot* mother, Spot* daughter);
+
+
 
 //==============================
 // DECLARATION STATIC ATTRIBUTES
@@ -91,6 +97,11 @@ protected:
 	vector<vector <Spot*>> grid_;	//Matrix of Spot
 	vector<Spot*> free_spot_;	// Contains free spots
 	vector<Cell*> cells_;		  //Contains cells
+
+  //Array of function pointers to Spots around center
+  static constexpr FP around[8] = {&Environment::tl, &Environment::tc, &Environment::tr,
+                                &Environment::cl, &Environment::cr, &Environment::bl, 
+                                &Environment::bc, &Environment::br};
 
 };
 

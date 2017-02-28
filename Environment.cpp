@@ -32,7 +32,7 @@ Environment::Environment(float R , float Pmut , float Pdth , int size , float Wm
     vector<Spot*> tmp;
     for (u_int y = 0; y < H_; ++y)
     {
-      tmp.push_back(new Spot(x,y));
+      tmp.push_back(new Spot(x,y, Ainit_, 0,0));
 
       int t = rand() % 2;
       if (t)
@@ -70,7 +70,7 @@ Environment::Environment()
     {
       
       //Generate Spot
-      tmp.push_back(new Spot(x,y));
+      tmp.push_back(new Spot(x,y, Ainit_, 0,0));
 
       //Generate cell randomly between A and B
       int t = rand() % 2;
@@ -357,9 +357,35 @@ void Environment::diffusion(int x , int y) //Diffusion of metabolites A,B and C
 
 void Environment::competition()
 {
-	for(auto it = free_spot_.begin() ; it != free_spot_.end() ; ++it)
+
+  for(auto it = free_spot_.begin() ; it != free_spot_.end() ; ++it)
 	{
-		
+		float best_fitness = 0;
+    Spot* best_cell_spot = nullptr;
+
+    //Get best cell (if any)
+
+    for(u_int i=0 ; i < 8 ; ++i)
+    {
+      Spot* tmp_spot = (around[i])(it);
+
+      if (! tmp_spot->isEmpty() && (tmp_spot->cell())->fit() >= best_fitness ) //HERE TO ADD MIN FIT
+      {
+        best_cell_spot =  tmp_spot;
+        best_fitness = (best_cell_spot->cell())->fit();
+      }
+    }
+
+    if (best_cell_spot != nullptr)
+    {
+      //Division
+        //mutation, répartition ABC
+
+      //Erase it
+    }
+
 	}
 
 }
+
+
