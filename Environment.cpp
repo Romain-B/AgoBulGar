@@ -281,41 +281,44 @@ Spot* Environment::br(Spot* center)
 
 void Environment::diffusion(int x , int y) //Diffusion of metabolites A,B and C
 {
-	float cA_t = (grid_[x][y])->cA();
-	float cB_t = (grid_[x][y])->cB();
-	float cC_t = (grid_[x][y])->cC();
+	
+  Spot* center = grid_[x][y];
 
-	cA_t = cA_t + D_ * this->tl(grid_[x][y])->cA();
-	cB_t = cB_t + D_ * this->tl(grid_[x][y])->cB();
-	cC_t = cC_t + D_ * this->tl(grid_[x][y])->cC();
+  float cA_t = center->cA();
+	float cB_t = center->cB();
+	float cC_t = center->cC();
 
-	cA_t = cA_t + D_ * this->tc(grid_[x][y])->cA();
-	cB_t = cB_t + D_ * this->tc(grid_[x][y])->cB();
-	cC_t = cC_t + D_ * this->tc(grid_[x][y])->cC();
+	cA_t = cA_t + D_ * this->tl(center)->cA();
+	cB_t = cB_t + D_ * this->tl(center)->cB();
+	cC_t = cC_t + D_ * this->tl(center)->cC();
 
-	cA_t = cA_t + D_ * this->tr(grid_[x][y])->cA();
-	cB_t = cB_t + D_ * this->tr(grid_[x][y])->cB();
-	cC_t = cC_t + D_ * this->tr(grid_[x][y])->cC();
+	cA_t = cA_t + D_ * this->tc(center)->cA();
+	cB_t = cB_t + D_ * this->tc(center)->cB();
+	cC_t = cC_t + D_ * this->tc(center)->cC();
 
-	cA_t = cA_t + D_ * this->bl(grid_[x][y])->cA();
-	cB_t = cB_t + D_ * this->bl(grid_[x][y])->cB();
-	cC_t = cC_t + D_ * this->bl(grid_[x][y])->cC();
+	cA_t = cA_t + D_ * this->tr(center)->cA();
+	cB_t = cB_t + D_ * this->tr(center)->cB();
+	cC_t = cC_t + D_ * this->tr(center)->cC();
 
-	cA_t = cA_t + D_ * this->bc(grid_[x][y])->cA();
-	cB_t = cB_t + D_ * this->bc(grid_[x][y])->cB();
-	cC_t = cC_t + D_ * this->bc(grid_[x][y])->cC();
+	cA_t = cA_t + D_ * this->bl(center)->cA();
+	cB_t = cB_t + D_ * this->bl(center)->cB();
+	cC_t = cC_t + D_ * this->bl(center)->cC();
 
-	cA_t = cA_t + D_ * this->br(grid_[x][y])->cA();
-	cB_t = cB_t + D_ * this->br(grid_[x][y])->cB();
-	cC_t = cC_t + D_ * this->br(grid_[x][y])->cC();
+	cA_t = cA_t + D_ * this->bc(center)->cA();
+	cB_t = cB_t + D_ * this->bc(center)->cB();
+	cC_t = cC_t + D_ * this->bc(center)->cC();
 
-	cA_t = cA_t + D_ * this->cl(grid_[x][y])->cA();
-	cB_t = cB_t + D_ * this->cl(grid_[x][y])->cB();
-	cC_t = cC_t + D_ * this->cl(grid_[x][y])->cC();
+	cA_t = cA_t + D_ * this->br(center)->cA();
+	cB_t = cB_t + D_ * this->br(center)->cB();
+	cC_t = cC_t + D_ * this->br(center)->cC();
 
-	cA_t = cA_t + D_ * this->cr(grid_[x][y])->cA();
-	cB_t = cB_t + D_ * this->cr(grid_[x][y])->cB();
-	cC_t = cC_t + D_ * this->cr(grid_[x][y])->cC();
+	cA_t = cA_t + D_ * this->cl(center)->cA();
+	cB_t = cB_t + D_ * this->cl(center)->cB();
+	cC_t = cC_t + D_ * this->cl(center)->cC();
+
+	cA_t = cA_t + D_ * this->cr(center)->cA();
+	cB_t = cB_t + D_ * this->cr(center)->cB();
+	cC_t = cC_t + D_ * this->cr(center)->cC();
 
 	cA_t = cA_t - 9 * D_ * cA_t;
 	cB_t = cB_t - 9 * D_ * cB_t;
