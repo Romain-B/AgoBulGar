@@ -23,6 +23,16 @@ Cell::Cell(int x, int y)
   cC_ = 0;
 }
 
+Cell::Cell(int x, int y, float cA, float cb, float cC)
+{
+  x_ = x;
+  y_ = y;
+
+  cA_ = cA;
+  cB_ = cB;
+  cC_ = cC;
+}
+
 //==============================
 //    DESTRUCTOR
 //==============================
