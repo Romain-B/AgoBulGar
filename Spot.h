@@ -5,6 +5,8 @@
 //    INCLUDES
 //==============================
 
+#include "Cell.h"
+
 /**
  * @class Spot
  * @brief A spot
@@ -12,6 +14,7 @@
 
 class Spot
 {
+  friend class Environment;
 public:
 //==============================
 //    CONSTRUCTORS
@@ -36,6 +39,7 @@ public:
   inline float cA() const;
   inline float cB() const;
   inline float cC() const;
+  inline Cell* cell();
 
 //==============================
 //    SETTERS
@@ -57,6 +61,7 @@ protected:
 //==============================
 //    PROTECTED METHODS
 //==============================
+  void set_cell(Cell*);
 
 //==============================
 // DECLARATION STATIC ATTRIBUTES
@@ -67,30 +72,42 @@ protected:
 //==============================
   int x_, y_; //Position attributs
   float cA_, cB_, cC_; //Concentration attribut
+
+  Cell* cell_;
+
   bool isEmpty_; 
 };
 
 //==============================
 //    GETTER DEFINITION
 //==============================
-inline int Spot::x() const{
+inline int Spot::x() const
+{
 	return x_;
 }
 
-inline int Spot::y() const{
+inline int Spot::y() const
+{
 	return y_;
 }
-inline float Spot::cA() const{
+inline float Spot::cA() const
+{
 	return cA_;
 }
-inline float Spot::cB() const{
+inline float Spot::cB() const
+{
 	return cB_;
 }
 
-inline float Spot::cC() const{
+inline float Spot::cC() const
+{
 	return cC_;
 }
 
+inline Cell* Spot::cell()
+{
+  return cell_;
+}
 //==============================
 //    SETTER DEFINITION
 //==============================

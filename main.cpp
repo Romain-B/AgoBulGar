@@ -42,6 +42,9 @@ void print_cell_info(Cell* cell, int nb)
   cout << "\n----------------------\n";
 }
 
+void print_spot_info(Spot* s, int i)
+{}
+
 
   //-------------
   //    TESTS

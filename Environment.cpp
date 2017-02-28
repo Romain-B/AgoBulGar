@@ -43,6 +43,7 @@ Environment::Environment(float R , float Pmut , float Pdth , int size , float Wm
       {
         cells_.push_back(new CellB(x, y));
       }
+      tmp[y]->set_cell(cells_[cells_.size()-1]);
     }
     grid_.push_back(tmp);
   }
@@ -67,8 +68,11 @@ Environment::Environment()
     vector<Spot*> tmp;
     for (u_int y = 0; y < H_; ++y)
     {
+      
+      //Generate Spot
       tmp.push_back(new Spot(x,y));
 
+      //Generate cell randomly between A and B
       int t = rand() % 2;
       if (t)
       { 
@@ -78,6 +82,9 @@ Environment::Environment()
       {
         cells_.push_back(new CellB(x, y));
       }
+
+      //Set Spot pointer on cell
+      tmp[y]->set_cell(cells_[cells_.size()-1]);
     }
     grid_.push_back(tmp);
   }
@@ -89,17 +96,14 @@ Environment::Environment()
 //==============================
 Environment::~Environment()
 {
+  
+  //Spot deletes the cells
   for (u_int x = 0; x < W_; ++x)
   {
     for (u_int y = 0; y < H_; ++y)
     {
       delete grid_[x][y];
     }
-  }
-
-  for(u_int i = 0; i < cells_.size() ; i++)
-  {
-    delete cells_[i];
   }
 }
 
@@ -123,6 +127,30 @@ void Environment::run(int it)
   for(u_int i = 0; i < it ; i++)
   {
     
+    for (u_int x = 0; x < W_; ++x)
+    {
+      for (u_int y = 0; y < H_; ++y)
+      {
+        this->diffusion(x, y);
+      }
+    }
+
+
+    //this->cell_death();
+
+    //Compet for cell gaps
+    //  
+
+    float* ret;
+    int x, y;
+  
+    for(u_int i = 0; i < cells_.size() ; i++)
+    {
+      Spot* s = grid_[cells_[i]->x()][cells_[i]->y()];
+      ret = cells_[i]->metabolism(s->cA(), s->cB(), s->cC());
+      s->c_update(s->cA() + ret[0], s->cB() + ret[1], s->cC() + ret[3]);
+    }
+
   }
 }
 
