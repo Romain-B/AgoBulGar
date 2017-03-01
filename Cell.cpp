@@ -23,7 +23,7 @@ Cell::Cell(int x, int y)
   cC_ = 0;
 }
 
-Cell::Cell(int x, int y, float cA, float cb, float cC)
+Cell::Cell(int x, int y, float cA, float cB, float cC)
 {
   x_ = x;
   y_ = y;
