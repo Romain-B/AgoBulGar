@@ -76,7 +76,7 @@ protected:
   void diffusion(int x , int y );
   void competition();
   void cell_death();
-  //void cell_division(Spot* mother, Spot* daughter);
+  void cell_division(Spot* mother, Spot* daughter);
 
 
 

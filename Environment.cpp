@@ -376,7 +376,7 @@ void Environment::competition()
 
     for(u_int i=0 ; i < 8 ; ++i)
     {
-      Spot* tmp_spot = (around[i])(it);
+      Spot* tmp_spot = (this->*around[i])(*it);
 
       if (! tmp_spot->isEmpty() && (tmp_spot->cell())->fit() >= best_fitness ) //HERE TO ADD MIN FIT
       {
