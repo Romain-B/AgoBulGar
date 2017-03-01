@@ -42,8 +42,17 @@ void print_cell_info(Cell* cell, int nb)
   cout << "\n----------------------\n";
 }
 
-void print_spot_info(Spot* s, int i)
-{}
+void print_spot_info(Spot* spot, int nb)
+{
+  cout << "\n Info on spot "<< nb <<"\n---------\n";
+  cout << "\n x,y :\t" << spot->x() << "," 
+                              << spot->y();
+  
+  cout << "\n cA, cB, cC :\t" << spot->cA() << ","
+                                     << spot->cB() << ","
+                                     << spot->cC()<<"\n";
+  //cout << "\nSpot is empty : "<< spot->isEmpty_;  
+}
 
 
   //-------------

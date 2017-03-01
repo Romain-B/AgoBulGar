@@ -136,7 +136,7 @@ void Environment::run(int it)
     }
 
 
-    //this->cell_death();
+    this->cell_death();
 
     //Compet for cell gaps
     //  
@@ -388,4 +388,29 @@ void Environment::competition()
 
 }
 
+void Environment::cell_division(Spot* mother, Spot* daughter)
+{
+  float n_cA, n_cB, n_cC;
+
+  n_cA = ((mother->cell())->cA())/2;
+  n_cB = ((mother->cell())->cB())/2;
+  n_cC = ((mother->cell())->cC())/2;
+
+  char g_mother = (mother->cell())->whatAmI();
+
+  float change = (rand()%(1000))/1000.0;
+
+  if (change < Pmut_)
+  {
+    switch(g_mother)
+    {
+      case 'A': 
+        delete mother->cell();
+
+    }
+
+  }
+
+
+}
 
