@@ -315,11 +315,14 @@ void Environment::diffusion(int x , int y) //Diffusion of metabolites A,B and C
 	float cB_t = center->cB();
 	float cC_t = center->cC();
 
-	for(u_int = 0 ; i < 8 ; i++)
+	for(u_int i = 0 ; i < 8 ; ++i)
 	{
-		cA_t += D_ * (around[i])(center)->cA();
-		cB_t += D_ * (around[i])(center)->cB();
-		cC_t += D_ * (around[i])(center)->cC();
+		
+		Spot* s = (this->*around[i])(center);
+
+		cA_t += D_ * s->cA();
+		cB_t += D_ * (this->*around[i])(center)->cB();
+		cC_t += D_ * (this->*around[i])(center)->cC();
 	}
 	/*cA_t = cA_t + D_ * this->tl(center)->cA();
 	cB_t = cB_t + D_ * this->tl(center)->cB();
