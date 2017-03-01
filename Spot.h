@@ -62,6 +62,7 @@ protected:
 //    PROTECTED METHODS
 //==============================
   void set_cell(Cell*);
+  void del_cell();
 
 //==============================
 // DECLARATION STATIC ATTRIBUTES
