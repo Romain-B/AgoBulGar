@@ -10,7 +10,13 @@
 //==============================
 //    CONSTRUCTORS
 //==============================
-CellA::CellA(int x, int y):Cell(x,y)
+CellA::CellA():Cell()
+{
+ this->compute_fitness();
+ geno_ = GenA;
+}
+
+CellA::CellA(float cA, float cB, float cC):Cell(cA, cB, cC)
 {
  this->compute_fitness();
  geno_ = GenA;

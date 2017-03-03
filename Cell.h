@@ -18,8 +18,8 @@ public:
 //==============================
 //    CONSTRUCTORS
 //==============================
-  Cell(int x, int y);
-  Cell(int x, int y, float cA, float cb, float cC);
+  Cell();
+  Cell(float cA, float cB, float cC);
  
 //==============================
 //    DESTRUCTOR
@@ -34,9 +34,6 @@ public:
   inline float cC() const;
 
   inline float fit() const;
-
-  inline int x() const;
-  inline int y() const;
 
   inline float rAA() const;
   inline float rAB() const;
@@ -77,7 +74,6 @@ protected:
 //    ATTRIBUTES
 //==============================
   float cA_, cB_, cC_;    //Concentration of metabolites
-  int x_,y_;              //Coordinates
   float fit_;             //Fitness
   Genotype geno_;         //Genotype
 
@@ -107,16 +103,6 @@ protected:
   inline float Cell::fit() const
   {
     return fit_;
-  }
-
-  inline int Cell::x() const
-  {
-    return x_;
-  }
-
-  inline int Cell::y() const
-  {
-    return y_;
   }
 
   inline float Cell::rAA() const

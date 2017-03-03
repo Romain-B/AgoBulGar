@@ -13,21 +13,16 @@ float Cell::rBC_ = 0;
 //==============================
 //    CONSTRUCTORS
 //=============================
-Cell::Cell(int x, int y)
+Cell::Cell()
 {
-  x_ = x;
-  y_ = y;
 
   cA_ = 0;
   cB_ = 0;
   cC_ = 0;
 }
 
-Cell::Cell(int x, int y, float cA, float cB, float cC)
+Cell::Cell(float cA, float cB, float cC)
 {
-  x_ = x;
-  y_ = y;
-
   cA_ = cA;
   cB_ = cB;
   cC_ = cC;

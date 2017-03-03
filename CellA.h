@@ -18,7 +18,9 @@ public:
 //==============================
 //    CONSTRUCTORS
 //==============================
-  CellA(int x, int y);
+  CellA();
+  CellA(float cA, float cB, float cC);
+
  
 //==============================
 //    DESTRUCTOR
