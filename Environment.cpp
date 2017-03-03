@@ -372,7 +372,7 @@ void Environment::diffusion(int x , int y) //Diffusion of metabolites A,B and C
 	cB_t = cB_t - 9 * D_ * cB_t;
 	cC_t = cC_t - 9 * D_ * cC_t;
 
-	grid_[x][y]->c_update(cA_t , cB_t , cC_t);
+	grid_[x][y]->ct1_update(cA_t , cB_t , cC_t);
 
 }
 
