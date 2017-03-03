@@ -76,3 +76,9 @@ void Spot::set_cell(Cell* c)
   cell_ = c;
   isEmpty_ = 0;
 }
+
+void Spot::del_cell()
+{
+  delete cell_;
+  isEmpty_ = 1;
+}

@@ -12,6 +12,11 @@ using std::cout;
 //  DEFINITION STATIC ATTRIBUTES
 //==============================
 
+  FP Environment::around[] = {&Environment::tl, &Environment::tc, &Environment::tr,
+                                &Environment::cl, &Environment::cr, &Environment::bl, 
+                                &Environment::bc, &Environment::br};
+
+
 //==============================
 //    CONSTRUCTORS
 //==============================
@@ -79,7 +84,7 @@ Environment::Environment()
       { 
         cells_.push_back(new CellA(x, y));
       }
-      else
+      else if(y)
       {
         cells_.push_back(new CellB(x, y));
       }
@@ -142,17 +147,26 @@ void Environment::run(int it)
     //Compet for cell gaps
     //  
 
+    //Metabolism
+
     float* ret;
-    int x, y;
-
-    for(u_int i = 0; i < cells_.size() ; i++)
+    for (u_int x = 0; x < W_; ++x)
     {
-      Spot* s = grid_[cells_[i]->x()][cells_[i]->y()];
-      ret = cells_[i]->metabolism(s->cA(), s->cB(), s->cC());
-      s->c_update(s->cA() + ret[0], s->cB() + ret[1], s->cC() + ret[3]);
-    }
-
+      for (u_int y = 0; y < H_; ++y)
+      {
+        Spot* s = grid_[x][y];
+        if (! s->isEmpty())
+        {
+          //Metab in cell
+          ret = s->cell() ->metabolism(s->cA(), s->cB(), s->cC());
+          
+          //Update of ABC in Spot
+          s->c_update(s->cA() + ret[0], s->cB() + ret[1], s->cC() + ret[3]);
+        }
+      }
+    }        
   }
+
 }
 
 //==============================
@@ -368,6 +382,10 @@ void Environment::diffusion(int x , int y) //Diffusion of metabolites A,B and C
 void Environment::competition()
 {
 
+  grid_[5][5]->del_cell();
+  free_spot_.push_back(grid_[5][5]);
+
+  
   for(auto it = free_spot_.begin() ; it != free_spot_.end() ; ++it)
   {
     float best_fitness = 0;
@@ -377,12 +395,14 @@ void Environment::competition()
 
     for(u_int i=0 ; i < 8 ; ++i)
     {
-      Spot* tmp_spot = (this->*around[i])(*it);
+      Spot* tmp_spot;
+      tmp_spot = ((this)->*(around[i]))(*it);
 
       if (! tmp_spot->isEmpty() && (tmp_spot->cell())->fit() >= best_fitness ) //HERE TO ADD MIN FIT
       {
         best_cell_spot =  tmp_spot;
         best_fitness = (best_cell_spot->cell())->fit();
+        printf("\nHELLO\n cell type : \t%c\n", (tmp_spot->cell())->whatAmI());
       }
     }
 
@@ -393,6 +413,7 @@ void Environment::competition()
 
       //Erase it
     }
+    free_spot_.erase()
 
   }
 
