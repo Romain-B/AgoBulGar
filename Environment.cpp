@@ -332,9 +332,7 @@ void Environment::diffusion(int x , int y) //Diffusion of metabolites A,B and C
 	for(u_int i = 0 ; i < 8 ; ++i)
 	{
 		
-		Spot* s = (this->*around[i])(center);
-
-		cA_t += D_ * s->cA();
+		cA_t += D_ * (this->*around[i])(center)->cA();
 		cB_t += D_ * (this->*around[i])(center)->cB();
 		cC_t += D_ * (this->*around[i])(center)->cC();
 	}
@@ -412,7 +410,7 @@ void Environment::competition()
 
       //Erase it
     }
-    free_spot_.erase()
+    //free_spot_.erase()
 
 	}
 
