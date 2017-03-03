@@ -145,14 +145,18 @@ void print_spot_info(Spot* spot, int nb)
 
   }
 
+
 //==============================
 //    MAIN
 //==============================
 
 int main(int argc, char const *argv[])
 {
+
+  test_diffusion();
   test_cell();
   test_env();
+  
 
   cout << "\nDone.\n\n";
   return 0;

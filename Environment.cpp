@@ -169,6 +169,25 @@ void Environment::run(int it)
 
 }
 
+
+void Environment::test_environment()
+{
+  Environment env;
+  std::cout << "cA :  " << (env.grid_[16][16])->cA() << "\n";
+  std::cout << "cB :  " << (env.grid_[16][16])->cB() << "\n";
+  std::cout << "cC :  " << (env.grid_[16][16])->cC() << "\n";
+
+  env.diffusion(16,16);
+  env.diffusion(16,16);
+  env.diffusion(16,16);
+
+  std::cout << "cA :  " << (env.grid_[16][16])->cA() << "\n";
+  std::cout << "cB :  " << (env.grid_[16][16])->cB() << "\n";
+  std::cout << "cC :  " << (env.grid_[16][16])->cC() << "\n";
+
+}
+
+
 //==============================
 //    PROTECTED METHODS
 //==============================
@@ -441,7 +460,7 @@ void Environment::cell_division(Spot* mother, Spot* daughter)
 
   if (change < Pmut_)
   {
-    switch(g_mother)
+    /*switch(g_mother)
     {
       case 'A': 
         mother->del_cell();
@@ -451,14 +470,14 @@ void Environment::cell_division(Spot* mother, Spot* daughter)
       case 'B':
 
 
-    }
+    }*/
 
   }
 
 
 }
 
-void Environment::cell_mutation(Spot* c)
+/*void Environment::cell_mutation(Spot* c)
 {
   float n_cA, n_cB, n_cC;
 
@@ -481,6 +500,6 @@ void Environment::cell_mutation(Spot* c)
 
     }
 
-}
+}*/
 
 
