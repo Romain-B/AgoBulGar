@@ -39,17 +39,18 @@ Environment::Environment(float R , float Pmut , float Pdth , int size , float Wm
     for (u_int y = 0; y < H_; ++y)
     {
       tmp.push_back(new Spot(x,y, Ainit_, 0,0));
+      Cell* c;
 
       int t = rand() % 2;
       if (t)
       { 
-        cells_.push_back(new CellA(x, y));
+        c = new CellA();
       }
       else
       {
-        cells_.push_back(new CellB(x, y));
+        c = new CellA();
       }
-      tmp[y]->set_cell(cells_[cells_.size()-1]);
+      tmp[y]->set_cell(c);
     }
     grid_.push_back(tmp);
   }
@@ -77,20 +78,21 @@ Environment::Environment()
 
       //Generate Spot
       tmp.push_back(new Spot(x,y, Ainit_, 0,0));
+      Cell* c;
 
       //Generate cell randomly between A and B
       int t = rand() % 2;
       if (t)
       { 
-        cells_.push_back(new CellA());
+        c = new CellA();
       }
       else if(y)
       {
-        cells_.push_back(new CellB());
+        c = new CellB();
       }
 
       //Set Spot pointer on cell
-      tmp[y]->set_cell(cells_[cells_.size()-1]);
+      tmp[y]->set_cell(c);
     }
     grid_.push_back(tmp);
   }
@@ -441,17 +443,7 @@ void Environment::cell_division(Spot* mother, Spot* daughter)
 
   if (change < Pmut_)
   {
-    switch(g_mother)
-    {
-      case 'A': 
-        mother->del_cell();
-        mother-
 
-        break;
-      case 'B':
-
-
-    }
 
   }
 
@@ -473,10 +465,12 @@ void Environment::cell_mutation(Spot* c)
     {
       case 'A': 
         c->del_cell();
-        mother-set_cell(new CellB(n_cA, n_cB, n_cC));
-
+        c->set_cell(new CellB(n_cA, n_cB, n_cC));
         break;
       case 'B':
+        c->del_cell();
+        c->set_cell(new CellA(n_cA, n_cB, n_cC));break;
+        break;
 
 
     }

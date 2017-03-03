@@ -83,6 +83,8 @@ protected:
   //void competition();
   //void cell_death();
   void cell_division(Spot* mother, Spot* daughter);
+  void cell_mutation(Spot* c);
+
 
 
 
@@ -102,7 +104,7 @@ protected:
 
 	vector<vector <Spot*>> grid_;	//Matrix of Spot
 	vector<Spot*> free_spot_;	// Contains free spots
-	vector<Cell*> cells_;		  //Contains cells
+
 
   //Array of function pointers to Spots around center
   static FP around[8];
