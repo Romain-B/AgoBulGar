@@ -304,8 +304,6 @@ void Environment::cell_death()
 
       float reaper =  (rand()%(1000))/1000.0;
 
-      cout << "\n reaper :\t" << reaper;
-
       if (!grid_[ix][iy]->isEmpty_)
       {
         if (reaper < Pdth_)
@@ -323,6 +321,7 @@ void Environment::cell_death()
 
           grid_[ix][iy]->del_cell();
           free_spot_.push_back(grid_[ix][iy]);
+
 
         }
       }
