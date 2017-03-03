@@ -81,11 +81,11 @@ Environment::Environment()
       int t = rand() % 2;
       if (t)
       { 
-        cells_.push_back(new CellA(x, y));
+        cells_.push_back(new CellA());
       }
       else if(y)
       {
-        cells_.push_back(new CellB(x, y));
+        cells_.push_back(new CellB());
       }
 
       //Set Spot pointer on cell
@@ -376,7 +376,7 @@ void Environment::competition()
   free_spot_.push_back(grid_[5][5]);
 
   
-  for(auto it = free_spot_.begin() ; it != free_spot_.end() ; ++it)
+  for(u_int j = 0; j < free_spot_.size() ; ++j)
 	{
 		float best_fitness = 0;
     Spot* best_cell_spot = nullptr;
@@ -386,9 +386,9 @@ void Environment::competition()
     for(u_int i=0 ; i < 8 ; ++i)
     {
       Spot* tmp_spot;
-      tmp_spot = ((this)->*(around[i]))(*it);
+      tmp_spot = ((this)->*(around[i]))(free_spot_[j]);
 
-      if (! tmp_spot->isEmpty() && (tmp_spot->cell())->fit() >= best_fitness ) //HERE TO ADD MIN FIT
+      if (! tmp_spot->isEmpty() && (tmp_spot->cell())->fit() >= best_fitness) //HERE TO ADD MIN FIT
       {
         best_cell_spot =  tmp_spot;
         best_fitness = (best_cell_spot->cell())->fit();
@@ -403,7 +403,7 @@ void Environment::competition()
 
       //Erase it
     }
-    free_spot_.erase()
+    free_spot_.erase(free_spot_.begin()+j);
 
 	}
 
@@ -421,12 +421,19 @@ void Environment::cell_division(Spot* mother, Spot* daughter)
 
   float change = (rand()%(1000))/1000.0;
 
+  
+
   if (change < Pmut_)
   {
     switch(g_mother)
     {
       case 'A': 
-        delete mother->cell();
+        mother->del_cell();
+        mother-
+
+        break;
+      case 'B':
+
 
     }
 
@@ -434,4 +441,30 @@ void Environment::cell_division(Spot* mother, Spot* daughter)
 
 
 }
+
+void Environment::cell_mutation(Spot* c)
+{
+  float n_cA, n_cB, n_cC;
+
+  n_cA = (c->cell())->cA();
+  n_cB = (c->cell())->cB();
+  n_cC = (c->cell())->cC();
+
+
+  char g_cell = (c->cell())->whatAmI();
+
+  switch(g_cell)
+    {
+      case 'A': 
+        c->del_cell();
+        mother-set_cell(new CellB(n_cA, n_cB, n_cC));
+
+        break;
+      case 'B':
+
+
+    }
+
+}
+
 
