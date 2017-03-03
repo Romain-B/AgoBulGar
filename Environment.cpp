@@ -306,7 +306,7 @@ void Environment::cell_death()
 
       cout << "\n reaper :\t" << reaper;
 
-      if (!grid_[ix][iy].isEmpty_)
+      if (!grid_[ix][iy]->isEmpty_)
       {
         if (reaper < Pdth_)
         {
@@ -315,13 +315,13 @@ void Environment::cell_death()
           // int ydead = (*it)->y();
           float ca, cb, cc;
 
-          ca = (*grid_[ix][iy].cell_)->cA();
-          cb = (*grid_[ix][iy].cell_)->cB();
-          cc = (*grid_[ix][iy].cell_)->cC();
+          ca = ((*grid_[ix][iy]).cell_)->cA();
+          cb = ((*grid_[ix][iy]).cell_)->cB();
+          cc = ((*grid_[ix][iy]).cell_)->cC();
 
           grid_[ix][iy]->c_update(ca, cb, cc);
 
-          cells_.erase(grid_[ix][iy].cell_);
+          grid_[ix][iy]->del_cell();
           free_spot_.push_back(grid_[ix][iy]);
 
         }
@@ -413,7 +413,7 @@ void Environment::competition()
 
       //Erase it
     }
-    free_spot_.erase()
+    //free_spot_.erase()
 
   }
 
