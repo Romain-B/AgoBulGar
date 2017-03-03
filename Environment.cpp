@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <ctime>
 
+using std::cout;
 
 
 //==============================
