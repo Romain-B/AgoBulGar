@@ -52,9 +52,12 @@ public:
 //==============================
 //    PUBLIC METHODS
 //==============================
-void c_update(float cA, float cB, float cC);
+void c_update(float cA, float cB, float cC); //Set [ABC]
+void ct1_update(float cA, float cB, float cC);  //Set [ABC] at t+1
+void time_update();                           //Update time
 
 bool isEmpty();
+
 
 
 protected:
@@ -71,8 +74,9 @@ protected:
 //==============================
 //    ATTRIBUTES
 //==============================
-  int x_, y_; //Position attributs
-  float cA_, cB_, cC_; //Concentration attribut
+  int x_, y_; //Position attributes
+  float cA_, cB_, cC_; //Concentration attributes
+  float cA1_, cB1_, cC1_; //Concentration at t+1
 
   Cell* cell_;
 

@@ -61,6 +61,23 @@ void Spot::c_update(float cA, float cB, float cC)
   cC_ = cC;
 }
 
+
+void Spot::ct1_update(float cA, float cB, float cC)
+{
+  cA1_ = cA;
+  cB1_ = cB;
+  cC1_ = cC;
+}
+
+void Spot::time_update()
+{
+  cA_ = cA1_;
+  cB_ = cB1_;
+  cC_ = cC1_;
+}
+
+
+
 bool Spot::isEmpty()
 {
   return isEmpty_;
