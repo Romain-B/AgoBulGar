@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <ctime>
 
+using std::cout;
 
 
 //==============================
@@ -52,7 +53,7 @@ Environment::Environment(float R , float Pmut , float Pdth , int size , float Wm
     }
     grid_.push_back(tmp);
   }
-		
+
 }
 
 Environment::Environment()
@@ -73,7 +74,7 @@ Environment::Environment()
     vector<Spot*> tmp;
     for (u_int y = 0; y < H_; ++y)
     {
-      
+
       //Generate Spot
       tmp.push_back(new Spot(x,y, Ainit_, 0,0));
 
@@ -101,7 +102,7 @@ Environment::Environment()
 //==============================
 Environment::~Environment()
 {
-  
+
   //Spot deletes the cells
   for (u_int x = 0; x < W_; ++x)
   {
@@ -131,7 +132,7 @@ void Environment::run(int it)
 {
   for(u_int i = 0; i < it ; i++)
   {
-    
+
     for (u_int x = 0; x < W_; ++x)
     {
       for (u_int y = 0; y < H_; ++y)
@@ -293,32 +294,40 @@ Spot* Environment::br(Spot* center)
 
 }
 
-
 //Cellular Death
 void Environment::cell_death()
 {
-  for (auto it = cells_.begin(); it!= cells_.end();++it)
+  for (int ix = 0; ix<W_; ix++)
   {
-    float reaper =  (rand()%(1000))/1000.0;
-    if (reaper < Pdth_)
+    for (int iy = 0; iy<H_; iy++)
     {
 
-      int xdead = (*it)->x();
-      int ydead = (*it)->y();
-      float ca, cb, cc;
-      ca = (*it)->cA();
-      cb = (*it)->cB();
-      cc = (*it)->cC();
+      float reaper =  (rand()%(1000))/1000.0;
 
-      grid_[xdead][ydead]->c_update(ca, cb, cc);
+      if (!grid_[ix][iy]->isEmpty_)
+      {
+        if (reaper < Pdth_)
+        {
 
-      cells_.erase(it);
-      free_spot_.push_back(grid_[xdead][ydead]);
+          // int xdead = (*it)->x();
+          // int ydead = (*it)->y();
+          float ca, cb, cc;
 
+          ca = ((*grid_[ix][iy]).cell_)->cA();
+          cb = ((*grid_[ix][iy]).cell_)->cB();
+          cc = ((*grid_[ix][iy]).cell_)->cC();
+
+          grid_[ix][iy]->c_update(ca, cb, cc);
+
+          grid_[ix][iy]->del_cell();
+          free_spot_.push_back(grid_[ix][iy]);
+
+
+        }
+      }
     }
   }
 }
-
 
 void Environment::diffusion(int x , int y) //Diffusion of metabolites A,B and C
 {
@@ -326,46 +335,46 @@ void Environment::diffusion(int x , int y) //Diffusion of metabolites A,B and C
   Spot* center = grid_[x][y];
 
   float cA_t = center->cA();
-	float cB_t = center->cB();
-	float cC_t = center->cC();
+  float cB_t = center->cB();
+  float cC_t = center->cC();
 
-	cA_t = cA_t + D_ * this->tl(center)->cA();
-	cB_t = cB_t + D_ * this->tl(center)->cB();
-	cC_t = cC_t + D_ * this->tl(center)->cC();
+  cA_t = cA_t + D_ * this->tl(center)->cA();
+  cB_t = cB_t + D_ * this->tl(center)->cB();
+  cC_t = cC_t + D_ * this->tl(center)->cC();
 
-	cA_t = cA_t + D_ * this->tc(center)->cA();
-	cB_t = cB_t + D_ * this->tc(center)->cB();
-	cC_t = cC_t + D_ * this->tc(center)->cC();
+  cA_t = cA_t + D_ * this->tc(center)->cA();
+  cB_t = cB_t + D_ * this->tc(center)->cB();
+  cC_t = cC_t + D_ * this->tc(center)->cC();
 
-	cA_t = cA_t + D_ * this->tr(center)->cA();
-	cB_t = cB_t + D_ * this->tr(center)->cB();
-	cC_t = cC_t + D_ * this->tr(center)->cC();
+  cA_t = cA_t + D_ * this->tr(center)->cA();
+  cB_t = cB_t + D_ * this->tr(center)->cB();
+  cC_t = cC_t + D_ * this->tr(center)->cC();
 
-	cA_t = cA_t + D_ * this->bl(center)->cA();
-	cB_t = cB_t + D_ * this->bl(center)->cB();
-	cC_t = cC_t + D_ * this->bl(center)->cC();
+  cA_t = cA_t + D_ * this->bl(center)->cA();
+  cB_t = cB_t + D_ * this->bl(center)->cB();
+  cC_t = cC_t + D_ * this->bl(center)->cC();
 
-	cA_t = cA_t + D_ * this->bc(center)->cA();
-	cB_t = cB_t + D_ * this->bc(center)->cB();
-	cC_t = cC_t + D_ * this->bc(center)->cC();
+  cA_t = cA_t + D_ * this->bc(center)->cA();
+  cB_t = cB_t + D_ * this->bc(center)->cB();
+  cC_t = cC_t + D_ * this->bc(center)->cC();
 
-	cA_t = cA_t + D_ * this->br(center)->cA();
-	cB_t = cB_t + D_ * this->br(center)->cB();
-	cC_t = cC_t + D_ * this->br(center)->cC();
+  cA_t = cA_t + D_ * this->br(center)->cA();
+  cB_t = cB_t + D_ * this->br(center)->cB();
+  cC_t = cC_t + D_ * this->br(center)->cC();
 
-	cA_t = cA_t + D_ * this->cl(center)->cA();
-	cB_t = cB_t + D_ * this->cl(center)->cB();
-	cC_t = cC_t + D_ * this->cl(center)->cC();
+  cA_t = cA_t + D_ * this->cl(center)->cA();
+  cB_t = cB_t + D_ * this->cl(center)->cB();
+  cC_t = cC_t + D_ * this->cl(center)->cC();
 
-	cA_t = cA_t + D_ * this->cr(center)->cA();
-	cB_t = cB_t + D_ * this->cr(center)->cB();
-	cC_t = cC_t + D_ * this->cr(center)->cC();
+  cA_t = cA_t + D_ * this->cr(center)->cA();
+  cB_t = cB_t + D_ * this->cr(center)->cB();
+  cC_t = cC_t + D_ * this->cr(center)->cC();
 
-	cA_t = cA_t - 9 * D_ * cA_t;
-	cB_t = cB_t - 9 * D_ * cB_t;
-	cC_t = cC_t - 9 * D_ * cC_t;
+  cA_t = cA_t - 9 * D_ * cA_t;
+  cB_t = cB_t - 9 * D_ * cB_t;
+  cC_t = cC_t - 9 * D_ * cC_t;
 
-	grid_[x][y]->c_update(cA_t , cB_t , cC_t);
+  grid_[x][y]->c_update(cA_t , cB_t , cC_t);
 
 }
 
@@ -405,7 +414,7 @@ void Environment::competition()
     }
     free_spot_.erase(free_spot_.begin()+j);
 
-	}
+  }
 
 }
 
