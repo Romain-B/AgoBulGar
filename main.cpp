@@ -27,9 +27,6 @@ void print_cell_info(Cell* cell, int nb)
 
   cout << "\n Cell type :\t"<< cell->whatAmI();
 
-  cout << "\n x,y :\t" << cell->x() << "," 
-                              << cell->y();
-
   cout << "\n cA, cB, cC :\t" << cell->cA() << ","
                                      << cell->cB() << ","
                                      << cell->cC();
@@ -63,8 +60,8 @@ void print_spot_info(Spot* spot, int nb)
   {
     cout << "\n\t===============\n\tCELL TESTS\n\t===============\n";
 
-    Cell* cell_1 = new CellA(0,0);
-    Cell* cell_2 = new CellB(0,5);
+    Cell* cell_1 = new CellA(0,0,0);
+    Cell* cell_2 = new CellB(0,5,12.5);
 
     float A=12.3, B=10.2, C=2.5;
 
