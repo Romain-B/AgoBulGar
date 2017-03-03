@@ -52,9 +52,9 @@ public:
 //==============================
 //    PUBLIC METHODS
 //==============================
-void c_update(float cA, float cB, float cC);
-void set_ct1(float cA, float cB, float cC);
-void c_update_t();
+void c_update(float cA, float cB, float cC); //Set [ABC]
+void ct1_update(float cA, float cB, float cC);  //Set [ABC] at t+1
+void time_update();                           //Update time
 
 bool isEmpty();
 
