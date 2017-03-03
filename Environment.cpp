@@ -170,26 +170,6 @@ void Environment::run(int it)
   }
 
 }
-
-
-void Environment::test_environment()
-{
-  Environment env;
-  std::cout << "cA :  " << (env.grid_[16][16])->cA() << "\n";
-  std::cout << "cB :  " << (env.grid_[16][16])->cB() << "\n";
-  std::cout << "cC :  " << (env.grid_[16][16])->cC() << "\n";
-
-  env.diffusion(16,16);
-  env.diffusion(16,16);
-  env.diffusion(16,16);
-
-  std::cout << "cA :  " << (env.grid_[16][16])->cA() << "\n";
-  std::cout << "cB :  " << (env.grid_[16][16])->cB() << "\n";
-  std::cout << "cC :  " << (env.grid_[16][16])->cC() << "\n";
-
-}
-
-
 //==============================
 //    PROTECTED METHODS
 //==============================

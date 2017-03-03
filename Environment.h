@@ -62,7 +62,7 @@ public:
   void run(int it);
   void competition();
   void cell_death();
-  void test_environment();
+  
   
 
 protected:

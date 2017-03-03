@@ -131,7 +131,7 @@ void print_spot_info(Spot* spot, int nb)
 
     cout << "\n\t===============\n\tENV TESTS\n\t===============\n";
     env.env_wipe();
-
+   
     //env.competition();
     env.cell_death();
 
@@ -143,6 +143,7 @@ void print_spot_info(Spot* spot, int nb)
   }
 
 
+
 //==============================
 //    MAIN
 //==============================
@@ -150,7 +151,7 @@ void print_spot_info(Spot* spot, int nb)
 int main(int argc, char const *argv[])
 {
 
-  test_diffusion();
+  
   test_cell();
   test_env();
   
