@@ -189,7 +189,6 @@ void Environment::run(int it)
   }
 
 }
-
 //==============================
 //    PROTECTED METHODS
 //==============================
