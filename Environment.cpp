@@ -144,8 +144,6 @@ void Environment::env_wipe()
     for (u_int y = 0; y < H_; ++y)
     {
       grid_[x][y]->c_update(Ainit_, 0, 0);
-      cout<<"\nIs empty "<<x<<","<<y<<":\t"<<grid_[x][y]->isEmpty();
-      //cout << "\nenv_wipe ";
     }
   }
 }
@@ -422,10 +420,13 @@ void Environment::competition()
       }
     }
 
+    //Divide if a cell was chosen
     if (best_cell_spot != nullptr)
     {
       this->cell_division(best_cell_spot , *it);
       cout << "\nHello "<<(*it)->cell() ->whatAmI();
+
+      //remove the spot from the free_spot_ list
       free_spot_.erase(it);
     }
     else
