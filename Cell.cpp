@@ -21,11 +21,11 @@ Cell::Cell()
   cC_ = 0;
 }
 
-Cell::Cell(float cA, float cB, float cC)
+Cell::Cell(float cAi, float cBi, float cCi)
 {
-  cA_ = cA;
-  cB_ = cB;
-  cC_ = cC;
+  cA_ = cAi;
+  cB_ = cBi;
+  cC_ = cCi;
 }
 
 //==============================
@@ -43,6 +43,13 @@ char Cell::whatAmI()
     case GenA : return 'A'; break;
     case GenB : return 'B'; break;
   }
+}
+
+void Cell::set_c(float cAi, float cBi, float cCi)
+{
+  cA_ = cAi;
+  cB_ = cBi;
+  cC_ = cCi;
 }
 
 

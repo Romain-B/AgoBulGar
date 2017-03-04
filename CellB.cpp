@@ -16,7 +16,7 @@ CellB::CellB():Cell()
  geno_ = GenB;
 }
 
-CellB::CellB(float cA, float cB, float cC):Cell(cA, cB, cC)
+CellB::CellB(float cAi, float cBi, float cCi):Cell(cAi, cBi, cCi)
 {
  this->compute_fitness();
  geno_ = GenB;

@@ -19,7 +19,7 @@ public:
 //    CONSTRUCTORS
 //==============================
   Cell();
-  Cell(float cA, float cB, float cC);
+  Cell(float cAi, float cBi, float cCi);
  
 //==============================
 //    DESTRUCTOR
@@ -53,6 +53,7 @@ public:
 //==============================
   virtual void compute_fitness() = 0;
   virtual float* metabolism(float s_cA, float s_cB, float s_cC) = 0;
+  virtual void set_c(float cAi, float cBi, float cCi);
 
   virtual char whatAmI();
 

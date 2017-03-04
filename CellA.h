@@ -19,7 +19,7 @@ public:
 //    CONSTRUCTORS
 //==============================
   CellA();
-  CellA(float cA, float cB, float cC);
+  CellA(float cAi, float cBi, float cCi);
 
  
 //==============================
