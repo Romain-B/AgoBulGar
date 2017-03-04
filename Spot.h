@@ -6,7 +6,7 @@
 //==============================
 
 #include "Cell.h"
-
+#include <stdio.h>
 /**
  * @class Spot
  * @brief A spot
@@ -39,7 +39,7 @@ public:
   inline float cA() const;
   inline float cB() const;
   inline float cC() const;
-  inline Cell* cell();
+  inline Cell* cell() const;
 
 //==============================
 //    SETTERS
@@ -109,7 +109,7 @@ inline float Spot::cC() const
 	return cC_;
 }
 
-inline Cell* Spot::cell()
+inline Cell* Spot::cell() const
 {
   return cell_;
 }

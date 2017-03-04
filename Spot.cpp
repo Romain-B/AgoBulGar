@@ -35,6 +35,7 @@ Spot::Spot(int x, int y, float cA, float cB, float cC):
 					x_(x), y_(y), cA_(cA), cB_(cB), cC_(cC)
   {
   	isEmpty_ = 1;
+    cell_ = nullptr;
   }
 
 
@@ -90,6 +91,7 @@ bool Spot::isEmpty()
 
 void Spot::set_cell(Cell* c)
 {
+  delete cell_;
   cell_ = c;
   isEmpty_ = 0;
 }
@@ -97,5 +99,6 @@ void Spot::set_cell(Cell* c)
 void Spot::del_cell()
 {
   delete cell_;
+  cell_ = nullptr;
   isEmpty_ = 1;
 }
