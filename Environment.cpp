@@ -35,6 +35,7 @@ Environment::Environment(float R , float Pmut , float Pdth , int size , float Wm
 
   vector<Spot*> tmp;
   Cell* c;
+  int t;
 
   for (u_int x = 0; x < W_; ++x)
   {
@@ -44,18 +45,19 @@ Environment::Environment(float R , float Pmut , float Pdth , int size , float Wm
     {
       tmp.push_back(new Spot(x,y, Ainit_, 0,0));
 
+      c = nullptr;
+      t = rand() % 2;
 
-      int t = rand() % 2;
       if (t)
       { 
         c = new CellA();
       }
       else
       {
-        c = new CellA();
+        c = new CellB();
       }
       tmp[y]->set_cell(c);
-      c= nullptr;
+
     }
     grid_.push_back(tmp);
   }
@@ -76,6 +78,7 @@ Environment::Environment()
 
   vector<Spot*> tmp;
   Cell* c;
+  int t;
   
   for (u_int x = 0; x < W_; ++x)
   {
@@ -87,19 +90,20 @@ Environment::Environment()
       tmp.push_back(new Spot(x,y, Ainit_, 0,0));
       
       //Generate cell randomly between A and B
-      int t = rand() % 2;
+      c = nullptr;
+      t = rand() % 2;
       if (t)
       { 
         c = new CellA();
       }
-      else if(y)
+      else
       {
         c = new CellB();
       }
 
       //Set Spot pointer on cell
       tmp[y]->set_cell(c);
-      c = nullptr;
+      
     }
     grid_.push_back(tmp);
   }
@@ -116,8 +120,6 @@ Environment::~Environment()
   {
     free_spot_.erase(it);
   }
-
-  cout << "\nHi !\n";
   
   //Spot deletes the cells
   for (u_int x = 0; x < W_; ++x)
@@ -125,8 +127,6 @@ Environment::~Environment()
     for (u_int y = 0; y < H_; ++y)
     {
       delete grid_[x][y];
-      cout << "\nHi ! "<<x<<","<<y;
-
     }
   }
   
@@ -144,6 +144,8 @@ void Environment::env_wipe()
     for (u_int y = 0; y < H_; ++y)
     {
       grid_[x][y]->c_update(Ainit_, 0, 0);
+      cout<<"\nIs empty "<<x<<","<<y<<":\t"<<grid_[x][y]->isEmpty();
+      //cout << "\nenv_wipe ";
     }
   }
 }
@@ -317,33 +319,25 @@ Spot* Environment::br(Spot* center)
 //Cellular Death
 void Environment::cell_death()
 {
-  for (int ix = 0; ix<W_; ix++)
+  for (u_int ix = 0; ix < W_; ++ix)
   {
-    for (int iy = 0; iy<H_; iy++)
+    for (u_int iy = 0; iy < H_; ++iy)
     {
 
-      float reaper =  (rand()%(1000))/1000.0;
+      float reaper =  (rand()%(1000))/100000.0;
 
-      if (! grid_[ix][iy]->isEmpty())
+      if (! grid_[ix][iy]->isEmpty() && reaper < Pdth_)
       {
-        if (reaper < Pdth_)
-        {
+        float ca, cb, cc;
 
-          // int xdead = (*it)->x();
-          // int ydead = (*it)->y();
-          float ca, cb, cc;
+        ca = ((grid_[ix][iy])->cell())->cA();
+        cb = ((grid_[ix][iy])->cell())->cB();
+        cc = ((grid_[ix][iy])->cell())->cC();
 
-          ca = ((grid_[ix][iy])->cell_)->cA();
-          cb = ((grid_[ix][iy])->cell_)->cB();
-          cc = ((grid_[ix][iy])->cell_)->cC();
+        grid_[ix][iy]->c_update(ca, cb, cc);
 
-          grid_[ix][iy]->c_update(ca, cb, cc);
-
-          grid_[ix][iy]->del_cell();
-          free_spot_.push_back(grid_[ix][iy]);
-
-
-        }
+        grid_[ix][iy]->del_cell();
+        free_spot_.push_back(grid_[ix][iy]); 
       }
     }
   }
