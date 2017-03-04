@@ -324,7 +324,7 @@ void Environment::cell_death()
     for (u_int iy = 0; iy < H_; ++iy)
     {
 
-      float reaper =  (rand()%(1000))/100000.0;
+      float reaper =  (rand()%(1000))/1000.0;
 
       if (! grid_[ix][iy]->isEmpty() && reaper < Pdth_)
       {
