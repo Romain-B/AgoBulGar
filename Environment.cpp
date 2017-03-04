@@ -33,13 +33,17 @@ Environment::Environment(float R , float Pmut , float Pdth , int size , float Wm
 
   srand(time(0));
 
+  vector<Spot*> tmp;
+  Cell* c;
+
   for (u_int x = 0; x < W_; ++x)
   {
-    vector<Spot*> tmp;
+
+    tmp.clear();
     for (u_int y = 0; y < H_; ++y)
     {
       tmp.push_back(new Spot(x,y, Ainit_, 0,0));
-      Cell* c;
+
 
       int t = rand() % 2;
       if (t)
@@ -51,6 +55,7 @@ Environment::Environment(float R , float Pmut , float Pdth , int size , float Wm
         c = new CellA();
       }
       tmp[y]->set_cell(c);
+      c= nullptr;
     }
     grid_.push_back(tmp);
   }
@@ -69,17 +74,18 @@ Environment::Environment()
 
   srand(time(0));
 
+  vector<Spot*> tmp;
+  Cell* c;
   
   for (u_int x = 0; x < W_; ++x)
   {
-    vector<Spot*> tmp;
+    tmp.clear();
     for (u_int y = 0; y < H_; ++y)
     {
 
       //Generate Spot
       tmp.push_back(new Spot(x,y, Ainit_, 0,0));
-      Cell* c;
-
+      
       //Generate cell randomly between A and B
       int t = rand() % 2;
       if (t)
@@ -93,6 +99,7 @@ Environment::Environment()
 
       //Set Spot pointer on cell
       tmp[y]->set_cell(c);
+      c = nullptr;
     }
     grid_.push_back(tmp);
   }
@@ -104,15 +111,26 @@ Environment::Environment()
 //==============================
 Environment::~Environment()
 {
+  auto it = free_spot_.begin();
+  while(it != free_spot_.end())
+  {
+    free_spot_.erase(it);
+  }
 
+  cout << "\nHi !\n";
+  
   //Spot deletes the cells
   for (u_int x = 0; x < W_; ++x)
   {
     for (u_int y = 0; y < H_; ++y)
     {
       delete grid_[x][y];
+      cout << "\nHi ! "<<x<<","<<y;
+
     }
   }
+  
+
 }
 
 //==============================
@@ -164,6 +182,7 @@ void Environment::run(int it)
           
           //Update of ABC in Spot
           s->c_update(s->cA() + ret[0], s->cB() + ret[1], s->cC() + ret[3]);
+          delete ret;
         }
       }
     }        
@@ -306,7 +325,7 @@ void Environment::cell_death()
 
       float reaper =  (rand()%(1000))/1000.0;
 
-      if (!grid_[ix][iy]->isEmpty_)
+      if (! grid_[ix][iy]->isEmpty())
       {
         if (reaper < Pdth_)
         {
@@ -315,9 +334,9 @@ void Environment::cell_death()
           // int ydead = (*it)->y();
           float ca, cb, cc;
 
-          ca = ((*grid_[ix][iy]).cell_)->cA();
-          cb = ((*grid_[ix][iy]).cell_)->cB();
-          cc = ((*grid_[ix][iy]).cell_)->cC();
+          ca = ((grid_[ix][iy])->cell_)->cA();
+          cb = ((grid_[ix][iy])->cell_)->cB();
+          cc = ((grid_[ix][iy])->cell_)->cC();
 
           grid_[ix][iy]->c_update(ca, cb, cc);
 
@@ -388,13 +407,10 @@ void Environment::diffusion(int x , int y) //Diffusion of metabolites A,B and C
 }
 
 void Environment::competition()
-{
+{  
 
-  grid_[5][5]->del_cell();
-  free_spot_.push_back(grid_[5][5]);
 
-  
-  for(u_int j = 0; j < free_spot_.size() ; ++j)
+  for(auto it = free_spot_.begin(); it != free_spot_.end() ;)
 	{
 		float best_fitness = 0;
     Spot* best_cell_spot = nullptr;
@@ -404,24 +420,25 @@ void Environment::competition()
     for(u_int i=0 ; i < 8 ; ++i)
     {
       Spot* tmp_spot;
-      tmp_spot = ((this)->*(around[i]))(free_spot_[j]);
+      tmp_spot = ((this)->*(around[i]))(*it);
 
       if (! tmp_spot->isEmpty() && (tmp_spot->cell())->fit() >= best_fitness) //HERE TO ADD MIN FIT
       {
         best_cell_spot =  tmp_spot;
         best_fitness = (best_cell_spot->cell())->fit();
-        printf("\nHELLO\n cell type : \t%c\n", (tmp_spot->cell())->whatAmI());
       }
     }
 
     if (best_cell_spot != nullptr)
     {
-      //Division
-        //mutation, répartition ABC
-
-      //Erase it
+      this->cell_division(best_cell_spot , *it);
+      cout << "\nHello "<<(*it)->cell() ->whatAmI();
+      free_spot_.erase(it);
     }
-    free_spot_.erase(free_spot_.begin()+j);
+    else
+    {
+      ++it;
+    }
 
   }
 
@@ -437,16 +454,29 @@ void Environment::cell_division(Spot* mother, Spot* daughter)
 
   char g_mother = (mother->cell())->whatAmI();
 
-  float change = (rand()%(1000))/1000.0;
 
+
+  switch(g_mother)
+  {
+    case 'A':daughter->set_cell(new CellA(n_cA, n_cB, n_cC)); 
+      break;
+    case 'B':daughter->set_cell(new CellB(n_cA, n_cB, n_cC)); 
+      break;
+  }
   
+  (mother->cell())->set_c(n_cA, n_cB, n_cC);
 
+  float change = (rand()%(1000))/1000.0;
   if (change < Pmut_)
   {
-
-
+    this->cell_mutation(mother);
   }
 
+  change = (rand()%(1000))/1000.0;
+  if (change < Pmut_)
+  {
+    this->cell_mutation(daughter);
+  }
 
 }
 
