@@ -133,9 +133,9 @@ void print_spot_info(Spot* spot, int nb)
     env.env_wipe();
 
     cout << "\n Wipe";
-    //env.cell_death();
+    env.cell_death();
 
-    //cout << "\n Cell Death";
+    cout << "\n Cell Death";
 
 
     env.competition();
