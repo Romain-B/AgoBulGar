@@ -39,10 +39,10 @@ float* CellA::metabolism(float s_cA, float s_cB, float s_cC)
 
   //Diffeq
 
-  cB_ += cA_ * rAB_;
-  cA_ += s_cA * rAA_ - cA_ * rAB_;
+  cB_ += 0.1*(cA_ * rAB_);
+  cA_ += 0.1*(s_cA * rAA_ - cA_ * rAB_);
 
-  ms_cA = -(rAA_ * s_cA);
+  ms_cA = -0.1*(rAA_ * s_cA);
   
   //prepare the returned array
   float* ms_c = new float[3];
