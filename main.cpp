@@ -8,6 +8,7 @@
 #include <fstream>
 #include <vector>
 #include <list>
+#include <unistd.h>
 
 using std::cout;
 
@@ -133,13 +134,20 @@ void print_spot_info(Spot* spot, int nb)
     env.env_wipe();
 
     cout << "\n Wipe";
-    env.cell_death();
 
-    cout << "\n Cell Death";
+    //ARE NOW PROTECTED AGAIN 
+    // env.cell_death();
+    // env.competition();
+    env.print_grid();
 
+    while(1)
+    {
+      cout << "\nPress <Enter> to continue.\n";
+      std::cin.get();
 
-    env.competition();
-    cout << "\n compet";
+      env.run(1);
+      env.print_grid();  
+    }  
 
 
 
