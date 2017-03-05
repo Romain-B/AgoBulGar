@@ -87,7 +87,7 @@ Environment::Environment(float R , float Pmut , float Pdth , int size , float Wm
 Environment::Environment()
 {
   Pmut_ = 0;
-  Pdth_ = 0.1;
+  Pdth_ = 0.02;
   D_ = 0.1;
   W_ = 32;
   H_ = 32;
@@ -219,6 +219,8 @@ void Environment::run(int it)
 void Environment::print_grid()
 {
   int iA = 0, iB = 0, iE = 0;
+  float tA = 0, tB = 0, tC = 0;
+  float m_fitA = 0, m_fitB = 0;
 
   std::system("clear");
   cout << "\n\t GRID OF "<<W_<<" BY "<<H_<<"\n--------------------\n";
@@ -229,28 +231,42 @@ void Environment::print_grid()
 
     for(u_int x = 0; x < W_ ; ++x)
     {
+      tA += grid_[x][y]->cA();
+      tB += grid_[x][y]->cB();
+      tC += grid_[x][y]->cC();
+
       if(! grid_[x][y]->isEmpty())
       {
         if ('A' == grid_[x][y]->cell()->whatAmI())
         {
           cout << BOLDBLUE <<"A "<<RESET;
           ++iA;
+          m_fitA += grid_[x][y]->cell()->fit();
         }
         if ('B' == grid_[x][y]->cell()->whatAmI())
         {
           cout << BOLDRED <<"B "<<RESET;
           ++iB;
+          m_fitB += grid_[x][y]->cell()->fit();
         }
       }
       else
       {
-        cout << ".";
+        cout << BOLDGREEN << ".";
         ++iE;
       }
 
     }
   }
-  cout <<"\n\n\tCellA :\t"<<iA<<"\n\tCellB :\t"<<iB<<"\n\tEmpty :\t"<<iE<<"\n";
+  m_fitA = m_fitA/iA;
+  m_fitB = m_fitB/iB;
+
+  cout <<BOLDBLUE<<"\n\n\tCellA :\t"<<iA<<BOLDRED<<"\n\tCellB :\t"<<iB<< BOLDGREEN <<"\n\tEmpty :\t"<<iE<<"\n"<<RESET;
+  cout <<BOLDBLUE<<"\n\n\tMean fitness of A :\t"<<m_fitA<<BOLDRED<<"\n\tMean fitness of B :\t"<<m_fitB<<RESET;
+
+  cout << "\n\nMetabolites on grid :";
+  cout <<"\n\tTotal of A :\t"<<tA<<"\n\tTotal of B :\t"<<tB<<"\n\tTotal of C :\t"<<tC<<"\n";
+
 }
 
 //==============================
@@ -381,6 +397,7 @@ Spot* Environment::br(Spot* center)
 //Cellular Death
 void Environment::cell_death()
 {
+  int deadA = 0, deadB = 0;
   for (u_int ix = 0; ix < W_; ++ix)
   {
     for (u_int iy = 0; iy < H_; ++iy)
@@ -390,19 +407,25 @@ void Environment::cell_death()
 
       if (! grid_[ix][iy]->isEmpty() && reaper < Pdth_)
       {
-        float ca, cb, cc;
+        float ca = grid_[ix][iy]->cA(), 
+              cb = grid_[ix][iy]->cB(), 
+              cc = grid_[ix][iy]->cC();
 
-        ca = ((grid_[ix][iy])->cell())->cA();
-        cb = ((grid_[ix][iy])->cell())->cB();
-        cc = ((grid_[ix][iy])->cell())->cC();
+        ca += ((grid_[ix][iy])->cell())->cA();
+        cb += ((grid_[ix][iy])->cell())->cB();
+        cc += ((grid_[ix][iy])->cell())->cC();
 
         grid_[ix][iy]->c_update(ca, cb, cc);
+
+        if((grid_[ix][iy])->cell()->whatAmI()=='A'){deadA++;}
+        else{deadB ++;}
 
         grid_[ix][iy]->del_cell();
         free_spot_.push_back(grid_[ix][iy]); 
       }
     }
   }
+  cout<<"\n DEAD A :\t"<<deadA<<"\n DEAD B :\t"<<deadB;
 }
 
 void Environment::diffusion(int x , int y) //Diffusion of metabolites A,B and C
@@ -488,7 +511,7 @@ void Environment::competition()
     if (best_cell_spot != nullptr)
     {
       this->cell_division(best_cell_spot , *it);
-      cout << "\nHello "<<(*it)->cell() ->whatAmI();
+      //cout << "\nHello "<<(*it)->cell() ->whatAmI();
 
       //remove the spot from the free_spot_ list
       free_spot_.erase(it);
