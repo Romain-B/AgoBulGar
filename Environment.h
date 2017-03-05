@@ -60,8 +60,7 @@ public:
 
   void env_wipe();
   void run(int it);
-  void competition();
-  void cell_death();
+  void print_grid();
   
   
 
@@ -81,8 +80,8 @@ protected:
   Spot* br(Spot* center);
 
   void diffusion(int x , int y );
-  //void competition();
-  //void cell_death();
+  void competition();
+  void cell_death();
   void cell_division(Spot* mother, Spot* daughter);
   void cell_mutation(Spot* c);
 

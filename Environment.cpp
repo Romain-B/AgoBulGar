@@ -4,8 +4,28 @@
 #include "Environment.h"
 #include <cstdlib>
 #include <ctime>
+#include <unistd.h>
 
 using std::cout;
+
+//the following are UBUNTU/LINUX ONLY terminal color codes.
+#define RESET   "\033[0m"
+#define BLACK   "\033[30m"      /* Black */
+#define RED     "\033[31m"      /* Red */
+#define GREEN   "\033[32m"      /* Green */
+#define YELLOW  "\033[33m"      /* Yellow */
+#define BLUE    "\033[34m"      /* Blue */
+#define MAGENTA "\033[35m"      /* Magenta */
+#define CYAN    "\033[36m"      /* Cyan */
+#define WHITE   "\033[37m"      /* White */
+#define BOLDBLACK   "\033[1m\033[30m"      /* Bold Black */
+#define BOLDRED     "\033[1m\033[31m"      /* Bold Red */
+#define BOLDGREEN   "\033[1m\033[32m"      /* Bold Green */
+#define BOLDYELLOW  "\033[1m\033[33m"      /* Bold Yellow */
+#define BOLDBLUE    "\033[1m\033[34m"      /* Bold Blue */
+#define BOLDMAGENTA "\033[1m\033[35m"      /* Bold Magenta */
+#define BOLDCYAN    "\033[1m\033[36m"      /* Bold Cyan */
+#define BOLDWHITE   "\033[1m\033[37m"      /* Bold White */
 
 
 //==============================
@@ -67,7 +87,7 @@ Environment::Environment(float R , float Pmut , float Pdth , int size , float Wm
 Environment::Environment()
 {
   Pmut_ = 0;
-  Pdth_ = 0.02;
+  Pdth_ = 0.1;
   D_ = 0.1;
   W_ = 32;
   H_ = 32;
@@ -160,12 +180,18 @@ void Environment::run(int it)
         this->diffusion(x, y);
       }
     }
+    for (u_int x = 0; x < W_; ++x)
+    {
+      for (u_int y = 0; y < H_; ++y)
+      {
+        grid_[x][y]->time_update();
+      }
+    }
 
 
     this->cell_death();
 
-    //Compet for cell gaps
-    //  
+    this->competition();
 
     //Metabolism
 
@@ -189,6 +215,44 @@ void Environment::run(int it)
   }
 
 }
+
+void Environment::print_grid()
+{
+  int iA = 0, iB = 0, iE = 0;
+
+  std::system("clear");
+  cout << "\n\t GRID OF "<<W_<<" BY "<<H_<<"\n--------------------\n";
+  
+  for(u_int y = 0; y < H_ ; ++y)
+  {
+    cout <<"\n\t";
+
+    for(u_int x = 0; x < W_ ; ++x)
+    {
+      if(! grid_[x][y]->isEmpty())
+      {
+        if ('A' == grid_[x][y]->cell()->whatAmI())
+        {
+          cout << BOLDBLUE <<"A "<<RESET;
+          ++iA;
+        }
+        if ('B' == grid_[x][y]->cell()->whatAmI())
+        {
+          cout << BOLDRED <<"B "<<RESET;
+          ++iB;
+        }
+      }
+      else
+      {
+        cout << ".";
+        ++iE;
+      }
+
+    }
+  }
+  cout <<"\n\n\tCellA :\t"<<iA<<"\n\tCellB :\t"<<iB<<"\n\tEmpty :\t"<<iE<<"\n";
+}
+
 //==============================
 //    PROTECTED METHODS
 //==============================
