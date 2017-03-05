@@ -10,6 +10,7 @@ float Cell::rAA_ = 0;
 float Cell::rAB_ = 0;
 float Cell::rBB_ = 0;
 float Cell::rBC_ = 0;
+float Cell::min_fit_ = 0;
 //==============================
 //    CONSTRUCTORS
 //=============================
@@ -62,4 +63,9 @@ void Cell::set_rates(float rAA, float rAB, float rBB, float rBC)
   rAB_ = rAB;
   rBB_ = rBB;
   rBC_ = rBC;
+}
+
+void Cell::set_min_fit(float mf)
+{
+  min_fit_ = mf;
 }

@@ -60,5 +60,5 @@ float* CellB::metabolism(float s_cA, float s_cB, float s_cC)
 
 void CellB::compute_fitness()
 {
-  fit_ = cC_;
+  fit_ = (cC_ > min_fit_) ? cC_ : 0;
 }

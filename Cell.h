@@ -59,8 +59,8 @@ public:
 
   
   //will be protected after testing
-  void set_rates(float rAA, float rAB, float rBB, float rBC);
-
+  static void set_rates(float rAA, float rAB, float rBB, float rBC);
+  static void set_min_fit(float mf);
 
 protected:
 //==============================
@@ -79,6 +79,7 @@ protected:
   Genotype geno_;         //Genotype
 
   static float rAA_, rAB_, rBB_, rBC_; //Metabolism rates
+  static float min_fit_;   //Minimum fitness
 };
 
 
