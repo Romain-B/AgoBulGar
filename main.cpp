@@ -135,30 +135,23 @@ void print_spot_info(Spot* spot, int nb)
 
     cout << "\n Wipe";
 
-    //ARE NOW PROTECTED AGAIN 
-    // env.cell_death();
-    // env.competition();
-    env.print_grid();
-    int i=0;
-
-    while(1)
-    {
-      cout << "\nPress <Enter> to continue.\n";
-      std::cin.get();
-
-      env.run(1);
-      env.print_grid();
-      i++;
-      if(i > 20)
-      {
-        i = 0;
-        env.env_wipe();
-      }
-    }  
+    // //ARE NOW PROTECTED AGAIN 
+    // // env.cell_death();
+    // // env.competition();
+    // env.print_grid();
+    // int i=0;
 
 
+    //   cout << "\nPress <Enter> to continue.\n";
+    //   std::cin.get();
 
-    
+    //   env.run(1,1);
+    //   env.print_grid();
+  
+
+    Environment env2(0.1, 0.0, 0.02, 32, 0,25);
+    env2.run(10000, 50);
+
 
     cout << "\nDone.\n";
 
@@ -175,6 +168,8 @@ int main(int argc, char const *argv[])
 
   
   test_cell();
+  //std::system("Rscript test.R");
+
   test_env();
   
 
