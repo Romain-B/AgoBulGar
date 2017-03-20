@@ -182,6 +182,7 @@ void Environment::env_wipe()
 
 void Environment::run(int it)
 {
+
   for(u_int i = 0; i < it ; i++)
   {
 
@@ -223,8 +224,14 @@ void Environment::run(int it)
           delete ret;
         }
       }
-    }      
+    } 
+    if (0 == it%T)
+    {
+      this-> env_wipe()
+    }
   }
+
+
 }
 
 void Environment::print_grid()

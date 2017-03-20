@@ -144,9 +144,10 @@ void test_spot()
     //env2.run(10000, 50);
 
 
-void test_csv()
+void write_csv()
 {
   Environment env;
+
 
   cout << "\n\t===============\n\tCSV TESTS\n\t===============\n";
   env.env_wipe();
@@ -157,11 +158,12 @@ void test_csv()
     // env.competition();
     //env.print_grid();
 
-  env.run(10000);
+  env.run(10000, );
 
   cout << "\nDone.\n";
 
 }
+
 
 
 
@@ -172,7 +174,7 @@ void test_csv()
 int main(int argc, char const *argv[])
 {
   //test_env();
-  test_csv();
+  write_csv();
   
   cout << "\nDone.\n\n";
   return 0;
