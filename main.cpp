@@ -139,6 +139,7 @@ void print_spot_info(Spot* spot, int nb)
     // env.cell_death();
     // env.competition();
     env.print_grid();
+    int i=0;
 
     while(1)
     {
@@ -146,7 +147,13 @@ void print_spot_info(Spot* spot, int nb)
       std::cin.get();
 
       env.run(1);
-      env.print_grid();  
+      env.print_grid();
+      i++;
+      if(i > 20)
+      {
+        i = 0;
+        env.env_wipe();
+      }
     }  
 
 
