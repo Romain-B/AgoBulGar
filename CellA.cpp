@@ -39,8 +39,9 @@ float* CellA::metabolism(float s_cA, float s_cB, float s_cC)
 
   //Diffeq
 
+  cA_ += 0.1*(s_cA * rAA_);
   cB_ += 0.1*(cA_ * rAB_);
-  cA_ += 0.1*(s_cA * rAA_ - cA_ * rAB_);
+  cA_ += 0.1*(-cA_ * rAB_);
 
   ms_cA = -0.1*(rAA_ * s_cA);
   

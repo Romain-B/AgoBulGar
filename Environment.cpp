@@ -20,9 +20,12 @@ using std::cout;
 #define WHITE   "\033[37m"      /* White */
 #define BOLDBLACK   "\033[1m\033[30m"      /* Bold Black */
 #define BOLDRED     "\033[1m\033[31m"      /* Bold Red */
+#define BOLDREDBG     "\033[1m\033[31;41m"      /* Bold Red */
 #define BOLDGREEN   "\033[1m\033[32m"      /* Bold Green */
+#define BOLDGREENBG   "\033[1m\033[32;42m"      /* Bold Green */
 #define BOLDYELLOW  "\033[1m\033[33m"      /* Bold Yellow */
 #define BOLDBLUE    "\033[1m\033[34m"      /* Bold Blue */
+#define BOLDBLUEBG   "\033[1m\033[34;44m"      /* Bold Blue */
 #define BOLDMAGENTA "\033[1m\033[35m"      /* Bold Magenta */
 #define BOLDCYAN    "\033[1m\033[36m"      /* Bold Cyan */
 #define BOLDWHITE   "\033[1m\033[37m"      /* Bold White */
@@ -92,8 +95,8 @@ FP Environment::around[] = {&Environment::tl, &Environment::tc, &Environment::tr
 
 Environment::Environment()
 {
-  Pmut_ = 0.0;
-  Pdth_ = 0.02;
+  Pmut_ = 0.02;
+  Pdth_ = 0.1;
   D_ = 0.1;
   W_ = 32;
   H_ = 32;
@@ -177,7 +180,7 @@ void Environment::env_wipe()
   }
 }
 
-void Environment::run(int it)
+void Environment::run(int it, int T)
 {
   data_csv.open ("data.csv");
   this->init_csv();
@@ -218,7 +221,7 @@ void Environment::run(int it)
           ret = s->cell() ->metabolism(s->cA(), s->cB(), s->cC());
           
           //Update of ABC in Spot
-          s->c_update(s->cA() + ret[0], s->cB() + ret[1], s->cC() + ret[3]);
+          s->c_update(s->cA() + ret[0], s->cB() + ret[1], s->cC() + ret[2]);
           delete ret;
         }
       }
@@ -252,20 +255,20 @@ void Environment::print_grid()
       {
         if ('A' == grid_[x][y]->cell()->whatAmI())
         {
-          cout << BOLDBLUE <<"A "<<RESET;
+          cout << BOLDBLUEBG <<"A "<<RESET;
           ++iA;
           m_fitA += grid_[x][y]->cell()->fit();
         }
         if ('B' == grid_[x][y]->cell()->whatAmI())
         {
-          cout << BOLDRED <<"B "<<RESET;
+          cout << BOLDREDBG <<"B "<<RESET;
           ++iB;
           m_fitB += grid_[x][y]->cell()->fit();
         }
       }
       else
       {
-        cout << BOLDGREEN << ". ";
+        cout << BOLDGREENBG << ". "<<RESET;
         ++iE;
       }
 
@@ -466,13 +469,11 @@ void Environment::cell_death()
       if (! grid_[ix][iy]->isEmpty() && reaper < Pdth_)
       {
         float ca = grid_[ix][iy]->cA(), 
-        cb = grid_[ix][iy]->cB(), 
-        cc = grid_[ix][iy]->cC();
-
+              cb = grid_[ix][iy]->cB(), 
+              cc = grid_[ix][iy]->cC();
         ca += ((grid_[ix][iy])->cell())->cA();
         cb += ((grid_[ix][iy])->cell())->cB();
         cc += ((grid_[ix][iy])->cell())->cC();
-
         grid_[ix][iy]->c_update(ca, cb, cc);
 
         if((grid_[ix][iy])->cell()->whatAmI()=='A'){deadA++;}
@@ -495,48 +496,19 @@ void Environment::diffusion(int x , int y) //Diffusion of metabolites A,B and C
   float cB_t = center->cB();
   float cC_t = center->cC();
 
-  for(u_int i = 0 ; i < 8 ; ++i)
-  {
+	for(u_int i = 0 ; i < 8 ; ++i)
+	{
+		
+		cA_t += D_ * (this->*around[i])(center)->cA();
+		cB_t += D_ * (this->*around[i])(center)->cB();
+		cC_t += D_ * (this->*around[i])(center)->cC();
+	}
 
-    cA_t += D_ * (this->*around[i])(center)->cA();
-    cB_t += D_ * (this->*around[i])(center)->cB();
-    cC_t += D_ * (this->*around[i])(center)->cC();
-  }
-	/*cA_t = cA_t + D_ * this->tl(center)->cA();
-	cB_t = cB_t + D_ * this->tl(center)->cB();
-	cC_t = cC_t + D_ * this->tl(center)->cC();
+  cA_t = cA_t - 8 * D_ * center->cA();
+  cB_t = cB_t - 8 * D_ * center->cB();
+  cC_t = cC_t - 8 * D_ * center->cC();
 
-  cA_t = cA_t + D_ * this->tc(center)->cA();
-  cB_t = cB_t + D_ * this->tc(center)->cB();
-  cC_t = cC_t + D_ * this->tc(center)->cC();
 
-  cA_t = cA_t + D_ * this->tr(center)->cA();
-  cB_t = cB_t + D_ * this->tr(center)->cB();
-  cC_t = cC_t + D_ * this->tr(center)->cC();
-
-  cA_t = cA_t + D_ * this->bl(center)->cA();
-  cB_t = cB_t + D_ * this->bl(center)->cB();
-  cC_t = cC_t + D_ * this->bl(center)->cC();
-
-  cA_t = cA_t + D_ * this->bc(center)->cA();
-  cB_t = cB_t + D_ * this->bc(center)->cB();
-  cC_t = cC_t + D_ * this->bc(center)->cC();
-
-  cA_t = cA_t + D_ * this->br(center)->cA();
-  cB_t = cB_t + D_ * this->br(center)->cB();
-  cC_t = cC_t + D_ * this->br(center)->cC();
-
-  cA_t = cA_t + D_ * this->cl(center)->cA();
-  cB_t = cB_t + D_ * this->cl(center)->cB();
-  cC_t = cC_t + D_ * this->cl(center)->cC();
-
-	cA_t = cA_t + D_ * this->cr(center)->cA();
-	cB_t = cB_t + D_ * this->cr(center)->cB();
-	cC_t = cC_t + D_ * this->cr(center)->cC();*/
-
-  cA_t = cA_t - 9 * D_ * cA_t;
-  cB_t = cB_t - 9 * D_ * cB_t;
-  cC_t = cC_t - 9 * D_ * cC_t;
 
   grid_[x][y]->ct1_update(cA_t , cB_t , cC_t);
 
