@@ -171,7 +171,7 @@ void test_csv()
 
 int main(int argc, char const *argv[])
 {
-  test_env();
+  //test_env();
   test_csv();
   
   cout << "\nDone.\n\n";
