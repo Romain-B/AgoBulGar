@@ -64,6 +64,7 @@ public:
   void run(int it);
   void print_grid();
   void write_csv();
+  void init_csv();
   
   
 
@@ -104,6 +105,7 @@ protected:
 	float Pdth_;		// Death probability
 	float Pmut_;		// Mutation probability
   int Ainit_;     // cA init
+  std::ofstream data_csv;
 
 	vector<vector <Spot*>> grid_;	//Matrix of Spot
 	vector<Spot*> free_spot_;	// Contains free spots
