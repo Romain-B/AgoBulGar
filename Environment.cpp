@@ -227,7 +227,7 @@ void Environment::run(int it, int T)
     } 
     if (0 == it%T)
     {
-      this-> env_wipe()
+      this-> env_wipe();
     }
   }
 
