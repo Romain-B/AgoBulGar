@@ -182,8 +182,7 @@ void Environment::env_wipe()
 
 void Environment::run(int it, int T)
 {
-  data_csv.open ("data.csv");
-  this->init_csv();
+
   for(u_int i = 0; i < it ; i++)
   {
 
@@ -226,9 +225,12 @@ void Environment::run(int it, int T)
         }
       }
     } 
-    this->write_csv();       
+    if (0 == it%T)
+    {
+      this-> env_wipe()
+    }
   }
-  data_csv.close();
+
 
 }
 
