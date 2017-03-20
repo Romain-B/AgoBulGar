@@ -22,4 +22,5 @@ Spot.o: Spot.cpp Spot.h
 	g++ $(OPTS) -c Spot.cpp
 
 clean : 
-	rm -rf *.o celllab
+	rm -rf *.o celllab data.csv
+	

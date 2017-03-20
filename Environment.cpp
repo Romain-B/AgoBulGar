@@ -35,38 +35,39 @@ using std::cout;
 //  DEFINITION STATIC ATTRIBUTES
 //==============================
 
-  FP Environment::around[] = {&Environment::tl, &Environment::tc, &Environment::tr,
-                                &Environment::cl, &Environment::cr, &Environment::bl, 
-                                &Environment::bc, &Environment::br};
+FP Environment::around[] = {&Environment::tl, &Environment::tc, &Environment::tr,
+  &Environment::cl, &Environment::cr, &Environment::bl, 
+  &Environment::bc, &Environment::br};
 
 
 //==============================
 //    CONSTRUCTORS
 //==============================
 
-Environment::Environment(float R , float Pmut , float Pdth , int size , float Wmin , int Ainit)
-{
-	Pmut_ = Pmut;
-	Pdth_ = Pdth;
-	D_ = 0.1;
-	W_ = size;
-	H_ = W_;
-
-  Ainit_ = Ainit;
-
-  srand(time(0));
-
-  Cell::set_rates(R,R,R,R);
-  Cell::set_min_fit(Wmin);
-
-
-
-  vector<Spot*> tmp;
-  Cell* c;
-  int t;
-
-  for (u_int x = 0; x < W_; ++x)
+  Environment::Environment(float R , float Pmut , float Pdth , int size , float Wmin , int Ainit)
   {
+   Pmut_ = Pmut;
+   Pdth_ = Pdth;
+   D_ = 0.1;
+   W_ = size;
+   H_ = W_;
+   
+
+   Ainit_ = Ainit;
+
+   srand(time(0));
+
+   Cell::set_rates(R,R,R,R);
+   Cell::set_min_fit(Wmin);
+
+
+
+   vector<Spot*> tmp;
+   Cell* c;
+   int t;
+
+   for (u_int x = 0; x < W_; ++x)
+   {
 
     tmp.clear();
     for (u_int y = 0; y < H_; ++y)
@@ -181,6 +182,8 @@ void Environment::env_wipe()
 
 void Environment::run(int it, int T)
 {
+  data_csv.open ("data.csv");
+  this->init_csv();
   for(u_int i = 0; i < it ; i++)
   {
 
@@ -222,12 +225,10 @@ void Environment::run(int it, int T)
           delete ret;
         }
       }
-    }
-    if(0 == it%T)
-    {
-      this->env_wipe();
-    }        
+    } 
+    this->write_csv();       
   }
+  data_csv.close();
 
 }
 
@@ -281,6 +282,51 @@ void Environment::print_grid()
 
   cout << "\n\nMetabolites on grid :";
   cout <<"\n\tTotal of A :\t"<<tA<<"\n\tTotal of B :\t"<<tB<<"\n\tTotal of C :\t"<<tC<<"\n";
+
+}
+void Environment::init_csv()
+{
+  data_csv << "A; B; E\n";
+}
+
+
+void Environment::write_csv()
+{
+  int iA = 0, iB = 0, iE = 0;
+  float tA = 0, tB = 0, tC = 0;
+  float m_fitA = 0.0, m_fitB = 0.0;
+
+
+  for(u_int y = 0; y < H_ ; ++y)
+  {
+
+    for(u_int x = 0; x < W_ ; ++x)
+    {
+      tA += grid_[x][y]->cA();
+      tB += grid_[x][y]->cB();
+      tC += grid_[x][y]->cC();
+      if(! grid_[x][y]->isEmpty())
+      {
+        if ('A' == grid_[x][y]->cell()->whatAmI())
+        {
+          ++iA;
+          m_fitA += grid_[x][y]->cell()->fit();
+        }
+        if ('B' == grid_[x][y]->cell()->whatAmI())
+        {
+          ++iB;
+          m_fitB += grid_[x][y]->cell()->fit();
+        }
+      }
+      else
+      {
+        ++iE;
+      }
+
+    }
+  }
+
+  data_csv << iA <<";"<< iB <<";"<< iE << "\n";
 
 }
 
@@ -459,7 +505,7 @@ void Environment::diffusion(int x , int y) //Diffusion of metabolites A,B and C
 
 
 
-	grid_[x][y]->ct1_update(cA_t , cB_t , cC_t);
+  grid_[x][y]->ct1_update(cA_t , cB_t , cC_t);
 
 }
 
@@ -468,8 +514,8 @@ void Environment::competition()
 
 
   for(auto it = free_spot_.begin(); it != free_spot_.end() ;)
-	{
-		float best_fitness = 0;
+  {
+    float best_fitness = 0;
     Spot* best_cell_spot = nullptr;
 
     //Get best cell (if any)
@@ -519,9 +565,9 @@ void Environment::cell_division(Spot* mother, Spot* daughter)
   switch(g_mother)
   {
     case 'A':daughter->set_cell(new CellA(n_cA, n_cB, n_cC)); 
-      break;
+    break;
     case 'B':daughter->set_cell(new CellB(n_cA, n_cB, n_cC)); 
-      break;
+    break;
   }
   
   (mother->cell())->set_c(n_cA, n_cB, n_cC);
@@ -552,19 +598,21 @@ void Environment::cell_mutation(Spot* c)
   char g_cell = (c->cell())->whatAmI();
 
   switch(g_cell)
-    {
-      case 'A': 
-        c->del_cell();
-        c->set_cell(new CellB(n_cA, n_cB, n_cC));
-        break;
-      case 'B':
-        c->del_cell();
-        c->set_cell(new CellA(n_cA, n_cB, n_cC));break;
-        break;
+  {
+    case 'A': 
+    c->del_cell();
+    c->set_cell(new CellB(n_cA, n_cB, n_cC));
+    break;
+    case 'B':
+    c->del_cell();
+    c->set_cell(new CellA(n_cA, n_cB, n_cC));break;
+    break;
 
 
-    }
+  }
 
 }
+
+
 
 
