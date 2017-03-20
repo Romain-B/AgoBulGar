@@ -8,6 +8,8 @@
 #include <iostream>
 #include <vector>
 #include <array>
+#include <fstream>
+#include <iostream>
 
 #include "Cell.h"
 #include "CellA.h"
@@ -61,6 +63,7 @@ public:
   void env_wipe();
   void run(int it);
   void print_grid();
+  void write_csv();
   
   
 
