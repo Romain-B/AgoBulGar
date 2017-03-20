@@ -126,36 +126,23 @@ void test_spot()
 
 }
 
-void test_env()
-{
-  Environment env;
+    // //ARE NOW PROTECTED AGAIN 
+    // // env.cell_death();
+    // // env.competition();
+    // env.print_grid();
+    // int i=0;
 
-  cout << "\n\t===============\n\tENV TESTS\n\t===============\n";
-  env.env_wipe();
 
-  cout << "\n Wipe";
+    //   cout << "\nPress <Enter> to continue.\n";
+    //   std::cin.get();
 
-    //ARE NOW PROTECTED AGAIN 
-    // env.cell_death();
-    // env.competition();
-  env.print_grid();
-  int i=0;
+    //   env.run(1,1);
+    //   env.print_grid();
+  
 
-  while(1)
-  {
-    cout << "\nPress <Enter> to continue.\n";
-    std::cin.get();
+    Environment env2(0.1, 0.0, 0.02, 32, 0,25);
+    env2.run(10000, 50);
 
-    env.run(1);
-    //env.print_grid();
-
-    i++;
-    if(i > 20)
-    {
-      i = 0;
-      env.env_wipe();
-    }
-  }  
 }
 
 void test_csv()
@@ -185,7 +172,7 @@ void test_csv()
 
 int main(int argc, char const *argv[])
 {
-
+  test_env();
   test_csv();
   
   cout << "\nDone.\n\n";

@@ -444,7 +444,6 @@ Spot* Environment::br(Spot* center)
 //Cellular Death
 void Environment::cell_death()
 {
-  int deadA = 0, deadB = 0;
   for (u_int ix = 0; ix < W_; ++ix)
   {
     for (u_int iy = 0; iy < H_; ++iy)
@@ -462,15 +461,11 @@ void Environment::cell_death()
         cc += ((grid_[ix][iy])->cell())->cC();
         grid_[ix][iy]->c_update(ca, cb, cc);
 
-        if((grid_[ix][iy])->cell()->whatAmI()=='A'){deadA++;}
-        else{deadB ++;}
-
         grid_[ix][iy]->del_cell();
         free_spot_.push_back(grid_[ix][iy]); 
       }
     }
   }
-  cout<<"\n DEAD A :\t"<<deadA<<"\n DEAD B :\t"<<deadB;
 }
 
 void Environment::diffusion(int x , int y) //Diffusion of metabolites A,B and C
