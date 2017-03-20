@@ -126,43 +126,52 @@ void print_spot_info(Spot* spot, int nb)
 
   }
 
-  void test_env()
-  {
-    Environment env;
+  Spot* spot_1 = new Spot(0,0);
+  Spot* spot_2 = new Spot(0,1);
 
     cout << "\n\t===============\n\tENV TESTS\n\t===============\n";
     env.env_wipe();
 
     cout << "\n Wipe";
 
+    // //ARE NOW PROTECTED AGAIN 
+    // // env.cell_death();
+    // // env.competition();
+    // env.print_grid();
+    // int i=0;
+
+
+    //   cout << "\nPress <Enter> to continue.\n";
+    //   std::cin.get();
+
+    //   env.run(1,1);
+    //   env.print_grid();
+  
+
+    //Environment env2(0.1, 0.0, 0.02, 32, 0,25);
+    //env2.run(10000, 50);
+
+
+void write_csv()
+{
+  Environment env;
+
+
+  cout << "\n\t===============\n\tCSV TESTS\n\t===============\n";
+  env.env_wipe();
+  cout << "\n Wipe";
+
     //ARE NOW PROTECTED AGAIN 
     // env.cell_death();
     // env.competition();
-    env.print_grid();
-    int i=0;
+    //env.print_grid();
 
-    while(1)
-    {
-      cout << "\nPress <Enter> to continue.\n";
-      std::cin.get();
-
-      env.run(1);
-      env.print_grid();
-      i++;
-      if(i > 20)
-      {
-        i = 0;
-        env.env_wipe();
-      }
-    }  
-
-
-
-    
+  env.run(10000, 50);
 
     cout << "\nDone.\n";
 
   }
+
 
 
 
@@ -172,7 +181,8 @@ void print_spot_info(Spot* spot, int nb)
 
 int main(int argc, char const *argv[])
 {
-
+  //test_env();
+  write_csv();
   
   test_cell();
   test_env();

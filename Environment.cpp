@@ -182,8 +182,7 @@ void Environment::env_wipe()
 
 void Environment::run(int it, int T)
 {
-  data_csv.open ("data.csv");
-  this->init_csv();
+
   for(u_int i = 0; i < it ; i++)
   {
 
@@ -226,9 +225,12 @@ void Environment::run(int it, int T)
         }
       }
     } 
-    this->write_csv();       
+    if (0 == it%T)
+    {
+      this-> env_wipe();
+    }
   }
-  data_csv.close();
+
 
 }
 
@@ -284,17 +286,10 @@ void Environment::print_grid()
   cout <<"\n\tTotal of A :\t"<<tA<<"\n\tTotal of B :\t"<<tB<<"\n\tTotal of C :\t"<<tC<<"\n";
 
 }
-void Environment::init_csv()
-{
-  data_csv << "A; B; E\n";
-}
 
-
-void Environment::write_csv()
+int Environment::proportion()
 {
   int iA = 0, iB = 0, iE = 0;
-  float tA = 0, tB = 0, tC = 0;
-  float m_fitA = 0.0, m_fitB = 0.0;
 
 
   for(u_int y = 0; y < H_ ; ++y)
@@ -302,20 +297,16 @@ void Environment::write_csv()
 
     for(u_int x = 0; x < W_ ; ++x)
     {
-      tA += grid_[x][y]->cA();
-      tB += grid_[x][y]->cB();
-      tC += grid_[x][y]->cC();
+
       if(! grid_[x][y]->isEmpty())
       {
         if ('A' == grid_[x][y]->cell()->whatAmI())
         {
           ++iA;
-          m_fitA += grid_[x][y]->cell()->fit();
         }
         if ('B' == grid_[x][y]->cell()->whatAmI())
         {
           ++iB;
-          m_fitB += grid_[x][y]->cell()->fit();
         }
       }
       else
@@ -326,8 +317,10 @@ void Environment::write_csv()
     }
   }
 
-  data_csv << iA <<";"<< iB <<";"<< iE << "\n";
-
+  
+  if (iA!=0 && iB!=0){return 1;}
+  if (iA!=0 && iB==0){return -1;}
+  else {return 0;}
 }
 
 //==============================
@@ -458,7 +451,6 @@ Spot* Environment::br(Spot* center)
 //Cellular Death
 void Environment::cell_death()
 {
-  int deadA = 0, deadB = 0;
   for (u_int ix = 0; ix < W_; ++ix)
   {
     for (u_int iy = 0; iy < H_; ++iy)
@@ -476,15 +468,11 @@ void Environment::cell_death()
         cc += ((grid_[ix][iy])->cell())->cC();
         grid_[ix][iy]->c_update(ca, cb, cc);
 
-        if((grid_[ix][iy])->cell()->whatAmI()=='A'){deadA++;}
-        else{deadB ++;}
-
         grid_[ix][iy]->del_cell();
         free_spot_.push_back(grid_[ix][iy]); 
       }
     }
   }
-  cout<<"\n DEAD A :\t"<<deadA<<"\n DEAD B :\t"<<deadB;
 }
 
 void Environment::diffusion(int x , int y) //Diffusion of metabolites A,B and C

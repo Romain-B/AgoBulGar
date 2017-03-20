@@ -8,8 +8,6 @@
 #include <iostream>
 #include <vector>
 #include <array>
-#include <fstream>
-#include <iostream>
 
 #include "Cell.h"
 #include "CellA.h"
@@ -35,15 +33,15 @@ public:
 //==============================
 //    CONSTRUCTORS
 //==============================
- 	
- 	Environment();
+
+  Environment();
   Environment(float R , float Pmut , float Pdth , int size , float Wmin , int Ainit);		//Custom constructor
 
 //==============================
 //    DESTRUCTOR
 //==============================
   ~Environment();
- 
+
 //==============================
 //    GETTERS
 //==============================
@@ -63,10 +61,7 @@ public:
   void env_wipe();
   void run(int it, int T);
   void print_grid();
-  void write_csv();
-  void init_csv();
-  
-  
+  int proportion();
 
 protected:
 //==============================
@@ -105,7 +100,6 @@ protected:
 	float Pdth_;		// Death probability
 	float Pmut_;		// Mutation probability
   int Ainit_;     // cA init
-  std::ofstream data_csv;
 
 	vector<vector <Spot*>> grid_;	//Matrix of Spot
 	vector<Spot*> free_spot_;	// Contains free spots
