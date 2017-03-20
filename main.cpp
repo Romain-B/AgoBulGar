@@ -140,10 +140,9 @@ void test_spot()
     //   env.print_grid();
   
 
-    Environment env2(0.1, 0.0, 0.02, 32, 0,25);
-    env2.run(10000, 50);
+    //Environment env2(0.1, 0.0, 0.02, 32, 0,25);
+    //env2.run(10000, 50);
 
-}
 
 void test_csv()
 {
