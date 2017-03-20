@@ -158,7 +158,7 @@ void write_csv()
     // env.competition();
     //env.print_grid();
 
-  env.run(10000, );
+  env.run(10000, 50);
 
   cout << "\nDone.\n";
 
