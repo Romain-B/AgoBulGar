@@ -20,9 +20,12 @@ using std::cout;
 #define WHITE   "\033[37m"      /* White */
 #define BOLDBLACK   "\033[1m\033[30m"      /* Bold Black */
 #define BOLDRED     "\033[1m\033[31m"      /* Bold Red */
+#define BOLDREDBG     "\033[1m\033[31;41m"      /* Bold Red */
 #define BOLDGREEN   "\033[1m\033[32m"      /* Bold Green */
+#define BOLDGREENBG   "\033[1m\033[32;42m"      /* Bold Green */
 #define BOLDYELLOW  "\033[1m\033[33m"      /* Bold Yellow */
 #define BOLDBLUE    "\033[1m\033[34m"      /* Bold Blue */
+#define BOLDBLUEBG   "\033[1m\033[34;44m"      /* Bold Blue */
 #define BOLDMAGENTA "\033[1m\033[35m"      /* Bold Magenta */
 #define BOLDCYAN    "\033[1m\033[36m"      /* Bold Cyan */
 #define BOLDWHITE   "\033[1m\033[37m"      /* Bold White */
@@ -247,20 +250,20 @@ void Environment::print_grid()
       {
         if ('A' == grid_[x][y]->cell()->whatAmI())
         {
-          cout << BOLDBLUE <<"A "<<RESET;
+          cout << BOLDBLUEBG <<"A "<<RESET;
           ++iA;
           m_fitA += grid_[x][y]->cell()->fit();
         }
         if ('B' == grid_[x][y]->cell()->whatAmI())
         {
-          cout << BOLDRED <<"B "<<RESET;
+          cout << BOLDREDBG <<"B "<<RESET;
           ++iB;
           m_fitB += grid_[x][y]->cell()->fit();
         }
       }
       else
       {
-        cout << BOLDGREEN << ". ";
+        cout << BOLDGREENBG << ". "<<RESET;
         ++iE;
       }
 
