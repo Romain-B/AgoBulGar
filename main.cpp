@@ -147,7 +147,7 @@ void test_env()
     std::cin.get();
 
     env.run(1);
-      //env.print_grid();
+    //env.print_grid();
 
     i++;
     if(i > 20)
@@ -171,7 +171,7 @@ void test_csv()
     // env.competition();
     //env.print_grid();
 
-  env.run(1000);
+  env.run(10000);
 
   cout << "\nDone.\n";
 
