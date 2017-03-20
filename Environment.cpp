@@ -225,7 +225,7 @@ void Environment::run(int it, int T)
         }
       }
     } 
-    if (0 == it%T)
+    if (T !=0 && 0 == it%T)
     {
       this-> env_wipe();
     }

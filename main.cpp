@@ -146,19 +146,26 @@ void test_spot()
 
 void write_csv()
 {
-  Environment env;
-
+  int iteration = 100;
 
   cout << "\n\t===============\n\tCSV TESTS\n\t===============\n";
-  env.env_wipe();
-  cout << "\n Wipe";
+
+  for (int i_Ainit = 0; i_Ainit < 50; ++i_Ainit ){
+
+    for (int i_wipeT = 0; i_wipeT < 1500; i_wipeT+= 10){
+
+      Environment env(0.1, 0.0, 0.02, 32, 0, i_Ainit);
+      env.run(iteration, i_wipeT);
+      int prop = env.proportion();
+      cout << "A_init= "<<i_Ainit<<"; wipe_T = "<<i_wipeT<<"\n";
+    }
+  }
+  
 
     //ARE NOW PROTECTED AGAIN 
     // env.cell_death();
     // env.competition();
     //env.print_grid();
-
-  env.run(10000, 50);
 
   cout << "\nDone.\n";
 
