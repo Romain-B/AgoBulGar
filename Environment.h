@@ -33,7 +33,7 @@ public:
 //==============================
 //    CONSTRUCTORS
 //==============================
-  
+
   Environment();
   Environment(float R , float Pmut , float Pdth , int size , float Wmin , int Ainit);		//Custom constructor
 
@@ -41,7 +41,7 @@ public:
 //    DESTRUCTOR
 //==============================
   ~Environment();
-  
+
 //==============================
 //    GETTERS
 //==============================
