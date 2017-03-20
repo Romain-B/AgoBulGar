@@ -91,8 +91,8 @@ Environment::Environment(float R , float Pmut , float Pdth , int size , float Wm
 
 Environment::Environment()
 {
-  Pmut_ = 0.0;
-  Pdth_ = 0.02;
+  Pmut_ = 0.02;
+  Pdth_ = 0.1;
   D_ = 0.1;
   W_ = 32;
   H_ = 32;
@@ -176,7 +176,7 @@ void Environment::env_wipe()
   }
 }
 
-void Environment::run(int it)
+void Environment::run(int it, int T)
 {
   for(u_int i = 0; i < it ; i++)
   {
@@ -215,7 +215,7 @@ void Environment::run(int it)
           ret = s->cell() ->metabolism(s->cA(), s->cB(), s->cC());
           
           //Update of ABC in Spot
-          s->c_update(s->cA() + ret[0], s->cB() + ret[1], s->cC() + ret[3]);
+          s->c_update(s->cA() + ret[0], s->cB() + ret[1], s->cC() + ret[2]);
           delete ret;
         }
       }
@@ -418,11 +418,9 @@ void Environment::cell_death()
         float ca = grid_[ix][iy]->cA(), 
               cb = grid_[ix][iy]->cB(), 
               cc = grid_[ix][iy]->cC();
-
         ca += ((grid_[ix][iy])->cell())->cA();
         cb += ((grid_[ix][iy])->cell())->cB();
         cc += ((grid_[ix][iy])->cell())->cC();
-
         grid_[ix][iy]->c_update(ca, cb, cc);
 
         if((grid_[ix][iy])->cell()->whatAmI()=='A'){deadA++;}
@@ -452,41 +450,12 @@ void Environment::diffusion(int x , int y) //Diffusion of metabolites A,B and C
 		cB_t += D_ * (this->*around[i])(center)->cB();
 		cC_t += D_ * (this->*around[i])(center)->cC();
 	}
-	/*cA_t = cA_t + D_ * this->tl(center)->cA();
-	cB_t = cB_t + D_ * this->tl(center)->cB();
-	cC_t = cC_t + D_ * this->tl(center)->cC();
 
-  cA_t = cA_t + D_ * this->tc(center)->cA();
-  cB_t = cB_t + D_ * this->tc(center)->cB();
-  cC_t = cC_t + D_ * this->tc(center)->cC();
+  cA_t = cA_t - 8 * D_ * center->cA();
+  cB_t = cB_t - 8 * D_ * center->cB();
+  cC_t = cC_t - 8 * D_ * center->cC();
 
-  cA_t = cA_t + D_ * this->tr(center)->cA();
-  cB_t = cB_t + D_ * this->tr(center)->cB();
-  cC_t = cC_t + D_ * this->tr(center)->cC();
 
-  cA_t = cA_t + D_ * this->bl(center)->cA();
-  cB_t = cB_t + D_ * this->bl(center)->cB();
-  cC_t = cC_t + D_ * this->bl(center)->cC();
-
-  cA_t = cA_t + D_ * this->bc(center)->cA();
-  cB_t = cB_t + D_ * this->bc(center)->cB();
-  cC_t = cC_t + D_ * this->bc(center)->cC();
-
-  cA_t = cA_t + D_ * this->br(center)->cA();
-  cB_t = cB_t + D_ * this->br(center)->cB();
-  cC_t = cC_t + D_ * this->br(center)->cC();
-
-  cA_t = cA_t + D_ * this->cl(center)->cA();
-  cB_t = cB_t + D_ * this->cl(center)->cB();
-  cC_t = cC_t + D_ * this->cl(center)->cC();
-
-	cA_t = cA_t + D_ * this->cr(center)->cA();
-	cB_t = cB_t + D_ * this->cr(center)->cB();
-	cC_t = cC_t + D_ * this->cr(center)->cC();*/
-
-  cA_t = cA_t - 9 * D_ * cA_t;
-  cB_t = cB_t - 9 * D_ * cB_t;
-  cC_t = cC_t - 9 * D_ * cC_t;
 
 	grid_[x][y]->ct1_update(cA_t , cB_t , cC_t);
 

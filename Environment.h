@@ -59,7 +59,7 @@ public:
 //==============================
 
   void env_wipe();
-  void run(int it);
+  void run(int it, int T);
   void print_grid();
   
   
