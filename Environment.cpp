@@ -53,6 +53,11 @@ Environment::Environment(float R , float Pmut , float Pdth , int size , float Wm
 
   srand(time(0));
 
+  Cell::set_rates(R,R,R,R);
+  Cell::set_min_fit(Wmin);
+
+
+
   vector<Spot*> tmp;
   Cell* c;
   int t;
@@ -86,7 +91,7 @@ Environment::Environment(float R , float Pmut , float Pdth , int size , float Wm
 
 Environment::Environment()
 {
-  Pmut_ = 0;
+  Pmut_ = 0.0;
   Pdth_ = 0.02;
   D_ = 0.1;
   W_ = 32;
@@ -95,6 +100,9 @@ Environment::Environment()
   Ainit_ = 25;
 
   srand(time(0));
+
+  Cell::set_rates(0.1,0.1,0.1,0.1);
+  //Cell::set_min_fit(0.01);
 
   vector<Spot*> tmp;
   Cell* c;
@@ -220,7 +228,7 @@ void Environment::print_grid()
 {
   int iA = 0, iB = 0, iE = 0;
   float tA = 0, tB = 0, tC = 0;
-  float m_fitA = 0, m_fitB = 0;
+  float m_fitA = 0.0, m_fitB = 0.0;
 
   std::system("clear");
   cout << "\n\t GRID OF "<<W_<<" BY "<<H_<<"\n--------------------\n";
@@ -252,7 +260,7 @@ void Environment::print_grid()
       }
       else
       {
-        cout << BOLDGREEN << ".";
+        cout << BOLDGREEN << ". ";
         ++iE;
       }
 
@@ -500,7 +508,7 @@ void Environment::competition()
       Spot* tmp_spot;
       tmp_spot = ((this)->*(around[i]))(*it);
 
-      if (! tmp_spot->isEmpty() && (tmp_spot->cell())->fit() >= best_fitness) //HERE TO ADD MIN FIT
+      if (! tmp_spot->isEmpty() && (tmp_spot->cell())->fit() > best_fitness) //HERE TO ADD MIN FIT
       {
         best_cell_spot =  tmp_spot;
         best_fitness = (best_cell_spot->cell())->fit();
