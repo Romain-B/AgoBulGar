@@ -158,8 +158,8 @@ void final()
   Environment* env;
   fstream sim_data;
 
-  int Amax = 10, 
-      Tmax = 100;
+  int Amax = 40, 
+      Tmax = 500;
 
   int state;
 
@@ -172,7 +172,7 @@ void final()
     {
       state = 0;
       env = new Environment(0.1, 0.0, 0.02, 32, 0, Ainit);
-      env->run(1000, T);
+      env->run(10000, T);
       state = env->proportion();
 
       sim_data<<"\n"<<Ainit<<";"<<T<<";"<<state;
