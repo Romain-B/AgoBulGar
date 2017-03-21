@@ -100,6 +100,7 @@ protected:
 	float Pdth_;		// Death probability
 	float Pmut_;		// Mutation probability
   int Ainit_;     // cA init
+  int nbA_;       // Number of A cells. Usefull for optimization
 
 	vector<vector <Spot*>> grid_;	//Matrix of Spot
 	vector<Spot*> free_spot_;	// Contains free spots

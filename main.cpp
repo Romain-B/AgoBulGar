@@ -158,8 +158,8 @@ void final()
   Environment* env;
   fstream sim_data;
 
-  int Amax = 40, 
-      Tmax = 500;
+  int Amax = 50, 
+      Tmax = 1500;
 
   int state;
 
@@ -168,7 +168,7 @@ void final()
 
   for (int Ainit = 0 ; Ainit <= Amax ; Ainit++)
   {
-    for (int T = 0 ; T < Tmax ; T += 50)
+    for (int T = 0 ; T < Tmax ; T += 10)
     {
       state = 0;
       env = new Environment(0.1, 0.0, 0.02, 32, 0, Ainit);
