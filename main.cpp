@@ -11,6 +11,7 @@
 #include <unistd.h>
 
 using std::cout;
+using std::fstream;
 
 
 #include "Environment.h"
@@ -124,7 +125,7 @@ void test_spot()
   print_spot_info(spot_1, 1);
   print_spot_info(spot_2, 2);
 
-}
+
 
     // //ARE NOW PROTECTED AGAIN 
     // // env.cell_death();
@@ -143,6 +144,8 @@ void test_spot()
     Environment env2(0.1, 0.0, 0.02, 32, 0,25);
     env2.run(10000, 50);
 
+    std::system("Rscript script_name.R");
+
 }
 
 void test_csv()
@@ -158,12 +161,31 @@ void test_csv()
     // env.competition();
     //env.print_grid();
 
-  env.run(1000);
+  env.run(1000,1);
 
   cout << "\nDone.\n";
 
 }
 
+void final()
+{
+  Environment* env;
+  fstream sim_data;
+
+  sim_data.open("simdata.csv",  fstream::in | fstream::out);
+
+  sim_data << "Ainit ; T ; val";
+
+  for (int Ainit = 0 ; Ainit <= 50 ; Ainit++)
+  {
+    for (int T = 0; T < 1500; T += 50)
+    {
+      env = new Environment(0.1, 0.0, 0.02, 32, 0, Ainit);
+      env->run(10000, T);
+
+    }
+  }
+}
 
 
 //==============================
@@ -172,7 +194,6 @@ void test_csv()
 
 int main(int argc, char const *argv[])
 {
-  test_env();
   test_csv();
   
   cout << "\nDone.\n\n";
