@@ -10,7 +10,7 @@ if (length(args)==0) {
 
 library("ggplot2")
 
-data <- read.table(args[1], header = TRUE, sep = " ")
+data <- read.table(args[1], header = TRUE, sep = ";")
 
 # extinct <- data[data[,3]==0,]
 # cohab <- data[data[,3]==2,]
