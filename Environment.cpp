@@ -225,7 +225,7 @@ void Environment::run(int it, int T)
         }
       }
     } 
-    if (0 == it%T)
+    if (T !=0 && 0 == it%T)
     {
       this-> env_wipe();
     }
@@ -285,6 +285,42 @@ void Environment::print_grid()
   cout << "\n\nMetabolites on grid :";
   cout <<"\n\tTotal of A :\t"<<tA<<"\n\tTotal of B :\t"<<tB<<"\n\tTotal of C :\t"<<tC<<"\n";
 
+}
+
+int Environment::proportion()
+{
+  int iA = 0, iB = 0, iE = 0;
+
+
+  for(u_int y = 0; y < H_ ; ++y)
+  {
+
+    for(u_int x = 0; x < W_ ; ++x)
+    {
+
+      if(! grid_[x][y]->isEmpty())
+      {
+        if ('A' == grid_[x][y]->cell()->whatAmI())
+        {
+          ++iA;
+        }
+        if ('B' == grid_[x][y]->cell()->whatAmI())
+        {
+          ++iB;
+        }
+      }
+      else
+      {
+        ++iE;
+      }
+
+    }
+  }
+
+  
+  if (iA!=0 && iB!=0){return 1;}
+  if (iA!=0 && iB==0){return -1;}
+  else {return 0;}
 }
 
 //==============================
