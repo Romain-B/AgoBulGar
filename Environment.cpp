@@ -51,6 +51,7 @@ FP Environment::around[] = {&Environment::tl, &Environment::tc, &Environment::tr
    D_ = 0.1;
    W_ = size;
    H_ = W_;
+   nbA_ = 0;
    
 
    Ainit_ = Ainit;
@@ -80,6 +81,7 @@ FP Environment::around[] = {&Environment::tl, &Environment::tc, &Environment::tr
       if (t)
       { 
         c = new CellA();
+        ++nbA_;
       }
       else
       {
@@ -100,6 +102,7 @@ Environment::Environment()
   D_ = 0.1;
   W_ = 32;
   H_ = 32;
+  nbA_ = 0;
 
   Ainit_ = 25;
 
@@ -127,6 +130,7 @@ Environment::Environment()
       if (t)
       { 
         c = new CellA();
+        ++nbA_;
       }
       else
       {
@@ -202,9 +206,9 @@ void Environment::run(int it, int T)
     }
 
 
-    this->cell_death();
+    this->cell_death(); 
 
-    this->competition();
+    this->competition(); 
 
     //Metabolism
 
@@ -229,6 +233,11 @@ void Environment::run(int it, int T)
     {
       this-> env_wipe();
     }
+
+    //Condition for optimization 
+    //if there is no A or B cells
+    //we break the run
+    if(nbA_ == 0 || nbA_ == H_*W_){break;}
   }
 
 
@@ -289,8 +298,8 @@ void Environment::print_grid()
 
 int Environment::proportion()
 {
-  int iA = 0, iB = 0, iE = 0;
 
+  if (nbA_ == 0){return 0;}
 
   for(u_int y = 0; y < H_ ; ++y)
   {
@@ -298,29 +307,17 @@ int Environment::proportion()
     for(u_int x = 0; x < W_ ; ++x)
     {
 
-      if(! grid_[x][y]->isEmpty())
+      if(!grid_[x][y]->isEmpty())
       {
-        if ('A' == grid_[x][y]->cell()->whatAmI())
-        {
-          ++iA;
-        }
         if ('B' == grid_[x][y]->cell()->whatAmI())
         {
-          ++iB;
-        }
-      }
-      else
-      {
-        ++iE;
-      }
+         return 1;
+       }
+     }
+   }
+ }
 
-    }
-  }
-
-  
-  if (iA!=0 && iB!=0){return 1;}
-  if (iA!=0 && iB==0){return -1;}
-  else {return 0;}
+  return -1;
 }
 
 //==============================
@@ -461,12 +458,15 @@ void Environment::cell_death()
       if (! grid_[ix][iy]->isEmpty() && reaper < Pdth_)
       {
         float ca = grid_[ix][iy]->cA(), 
-              cb = grid_[ix][iy]->cB(), 
-              cc = grid_[ix][iy]->cC();
+        cb = grid_[ix][iy]->cB(), 
+        cc = grid_[ix][iy]->cC();
+
         ca += ((grid_[ix][iy])->cell())->cA();
         cb += ((grid_[ix][iy])->cell())->cB();
         cc += ((grid_[ix][iy])->cell())->cC();
         grid_[ix][iy]->c_update(ca, cb, cc);
+
+        if (grid_[ix][iy]->cell()->whatAmI()=='A'){--nbA_;}
 
         grid_[ix][iy]->del_cell();
         free_spot_.push_back(grid_[ix][iy]); 
@@ -484,13 +484,13 @@ void Environment::diffusion(int x , int y) //Diffusion of metabolites A,B and C
   float cB_t = center->cB();
   float cC_t = center->cC();
 
-	for(u_int i = 0 ; i < 8 ; ++i)
-	{
-		
-		cA_t += D_ * (this->*around[i])(center)->cA();
-		cB_t += D_ * (this->*around[i])(center)->cB();
-		cC_t += D_ * (this->*around[i])(center)->cC();
-	}
+  for(u_int i = 0 ; i < 8 ; ++i)
+  {
+
+    cA_t += D_ * (this->*around[i])(center)->cA();
+    cB_t += D_ * (this->*around[i])(center)->cB();
+    cC_t += D_ * (this->*around[i])(center)->cC();
+  }
 
   cA_t = cA_t - 8 * D_ * center->cA();
   cB_t = cB_t - 8 * D_ * center->cB();
@@ -557,7 +557,7 @@ void Environment::cell_division(Spot* mother, Spot* daughter)
 
   switch(g_mother)
   {
-    case 'A':daughter->set_cell(new CellA(n_cA, n_cB, n_cC)); 
+    case 'A':daughter->set_cell(new CellA(n_cA, n_cB, n_cC)); nbA_++;
     break;
     case 'B':daughter->set_cell(new CellB(n_cA, n_cB, n_cC)); 
     break;
@@ -593,10 +593,12 @@ void Environment::cell_mutation(Spot* c)
   switch(g_cell)
   {
     case 'A': 
+    nbA_--;
     c->del_cell();
     c->set_cell(new CellB(n_cA, n_cB, n_cC));
     break;
     case 'B':
+    nbA_++;
     c->del_cell();
     c->set_cell(new CellA(n_cA, n_cB, n_cC));break;
     break;
