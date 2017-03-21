@@ -124,83 +124,64 @@ void print_spot_info(Spot* spot, int nb)
 
     print_spot_info(spot_1, 1);
     print_spot_info(spot_2, 2);
-
   }
 
-  Spot* spot_1 = new Spot(0,0);
-  Spot* spot_2 = new Spot(0,1);
+  void write_csv()
+  {
+    int iteration = 100;
 
-    cout << "\n\t===============\n\tENV TESTS\n\t===============\n";
-    env.env_wipe();
+    cout << "\n\t===============\n\tCSV TESTS\n\t===============\n";
 
+    for (int i_Ainit = 0; i_Ainit < 50; ++i_Ainit ){
 
+      for (int i_wipeT = 0; i_wipeT < 1500; i_wipeT+= 10){
 
-    // //ARE NOW PROTECTED AGAIN 
-    // // env.cell_death();
-    // // env.competition();
-    // env.print_grid();
-    // int i=0;
-
-
-    //   cout << "\nPress <Enter> to continue.\n";
-    //   std::cin.get();
-
-    //   env.run(1,1);
-    //   env.print_grid();
-  
-
-    //Environment env2(0.1, 0.0, 0.02, 32, 0,25);
-    //env2.run(10000, 50);
-
-    std::system("Rscript script_name.R");
-
-}
-
-void write_csv()
-{
-  int iteration = 100;
-
-  cout << "\n\t===============\n\tCSV TESTS\n\t===============\n";
-
-  for (int i_Ainit = 0; i_Ainit < 50; ++i_Ainit ){
-
-    for (int i_wipeT = 0; i_wipeT < 1500; i_wipeT+= 10){
-
-      Environment env(0.1, 0.0, 0.02, 32, 0, i_Ainit);
-      env.run(iteration, i_wipeT);
-      int prop = env.proportion();
-      cout << "A_init= "<<i_Ainit<<"; wipe_T = "<<i_wipeT<<"\n";
+        Environment env(0.1, 0.0, 0.02, 32, 0, i_Ainit);
+        env.run(iteration, i_wipeT);
+        int prop = env.proportion();
+        cout << "A_init= "<<i_Ainit<<"; wipe_T = "<<i_wipeT<<"\n";
+      }
     }
+    
+
+      //ARE NOW PROTECTED AGAIN 
+      // env.cell_death();
+      // env.competition();
+      //env.print_grid();
+
+    cout << "\nDone.\n";
+
   }
-  
-
-    //ARE NOW PROTECTED AGAIN 
-    // env.cell_death();
-    // env.competition();
-    //env.print_grid();
-
-  cout << "\nDone.\n";
-
-}
 
 void final()
 {
   Environment* env;
   fstream sim_data;
 
-  sim_data.open("simdata.csv",  fstream::in | fstream::out);
+  int Amax = 10, 
+      Tmax = 100;
 
+  int state;
+
+  sim_data.open("simdata.csv",  fstream::in | fstream::out);
   sim_data << "Ainit ; T ; val";
 
-  for (int Ainit = 0 ; Ainit <= 50 ; Ainit++)
+  for (int Ainit = 0 ; Ainit <= Amax ; Ainit++)
   {
-    for (int T = 0; T < 1500; T += 50)
+    for (int T = 0 ; T < Tmax ; T += 50)
     {
+      state = 0;
       env = new Environment(0.1, 0.0, 0.02, 32, 0, Ainit);
-      env->run(10000, T);
+      env->run(1000, T);
+      state = env->proportion();
+
+      sim_data<<"\n"<<Ainit<<";"<<T<<";"<<state;
+      cout<<"\n A_init = "<<Ainit<<"; T = "<<T<<"; state ="<<state;
+
 
     }
   }
+  std::system("Rscript Plot_heatmap.R simdata.csv simdtat.pdf");
 }
 
 
@@ -210,9 +191,9 @@ void final()
 //==============================
 
 int main(int argc, char const *argv[])
-{
-  test_csv();
+{  
   
+  final();
   cout << "\nDone.\n\n";
   return 0;
 }
