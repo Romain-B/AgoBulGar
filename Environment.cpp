@@ -286,51 +286,6 @@ void Environment::print_grid()
   cout <<"\n\tTotal of A :\t"<<tA<<"\n\tTotal of B :\t"<<tB<<"\n\tTotal of C :\t"<<tC<<"\n";
 
 }
-void Environment::init_csv()
-{
-  data_csv << "A; B; E\n";
-}
-
-
-void Environment::write_csv()
-{
-  int iA = 0, iB = 0, iE = 0;
-  float tA = 0, tB = 0, tC = 0;
-  float m_fitA = 0.0, m_fitB = 0.0;
-
-
-  for(u_int y = 0; y < H_ ; ++y)
-  {
-
-    for(u_int x = 0; x < W_ ; ++x)
-    {
-      tA += grid_[x][y]->cA();
-      tB += grid_[x][y]->cB();
-      tC += grid_[x][y]->cC();
-      if(! grid_[x][y]->isEmpty())
-      {
-        if ('A' == grid_[x][y]->cell()->whatAmI())
-        {
-          ++iA;
-          m_fitA += grid_[x][y]->cell()->fit();
-        }
-        if ('B' == grid_[x][y]->cell()->whatAmI())
-        {
-          ++iB;
-          m_fitB += grid_[x][y]->cell()->fit();
-        }
-      }
-      else
-      {
-        ++iE;
-      }
-
-    }
-  }
-
-  data_csv << iA <<";"<< iB <<";"<< iE << "\n";
-
-}
 
 //==============================
 //    PROTECTED METHODS
