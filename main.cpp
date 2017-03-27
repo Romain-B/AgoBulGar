@@ -166,21 +166,23 @@ void final()
   sim_data.open("simdata.csv",  fstream::in | fstream::out);
   sim_data << "Ainit ; T ; val";
 
-  for (int Ainit = 0 ; Ainit <= Amax ; Ainit++)
+  for (int Ainit = 0 ; Ainit <= Amax ; Ainit+= 10)
   {
-    for (int T = 0 ; T < Tmax ; T += 50)
+    for (int T = 0 ; T < Tmax ; T += 100)
     {
       state = 0;
       env = new Environment(0.1, 0.0, 0.02, 32, 0, Ainit);
-      env->run(10000, T);
+      env->run(1000, T);
       state = env->proportion();
 
       sim_data<<"\n"<<Ainit<<";"<<T<<";"<<state;
       cout<<"\n A_init = "<<Ainit<<"; T = "<<T<<"; state ="<<state;
 
-
     }
   }
+
+  sim_data.close();
+
   std::system("Rscript Plot_heatmap.R simdata.csv simdtat.pdf");
 }
 
