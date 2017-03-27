@@ -158,7 +158,7 @@ void print_spot_info(Spot* spot, int nb)
   }
 void show_progress(int Amax, int Tmax, int Ai, int Ti, int T, int A, int st, float duration)
 {
-  int nb_it = (Amax/Ai+1) * (Tmax/Ti);
+  int nb_it = (Amax/Ai+1) * (Tmax/Ti+1);
   int pos = (A/Ai)*31 + T/Ti+1;
 
   cout<<"\nAinit : "<<A<<"; T : "<<T<<" || Final state :\t";
@@ -182,8 +182,8 @@ void final()
   int Amax = 50, 
       Tmax = 1500;
 
-  int iA = 10,
-      iT = 50;
+  int iA = 5,
+      iT = 30;
 
   int state;
 
@@ -191,7 +191,7 @@ void final()
   sim_data.open("simdata.csv", fstream::out);
   sim_data << "Ainit ; T ; val";
 
-  //TIME
+  //TIME COUNT
   std::clock_t start;
   double duration;
 

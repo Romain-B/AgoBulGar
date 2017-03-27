@@ -46,15 +46,18 @@ FP Environment::around[] = {&Environment::tl, &Environment::tc, &Environment::tr
 
   Environment::Environment(float R , float Pmut , float Pdth , int size , float Wmin , float Ainit)
   {
+   /*
+   Sets the parameters,
+   Fills the grid with half A and half B randomly.
+   */
+
    Pmut_ = Pmut;
    Pdth_ = Pdth;
-   D_ = 0.1;
    W_ = size;
    H_ = W_;
-   nbA_ = 0;
-   
-
    Ainit_ = Ainit;
+   nbA_ = 0;
+   D_ = 0.1;
 
    srand(time(0));
 
@@ -73,8 +76,10 @@ FP Environment::around[] = {&Environment::tl, &Environment::tc, &Environment::tr
     tmp.clear();
     for (u_int y = 0; y < H_; ++y)
     {
+      //Generate Spot
       tmp.push_back(new Spot(x,y, Ainit_, 0,0));
 
+      //Generate cell randomly between A and B
       c = nullptr;
       t = rand() % 2;
 
@@ -87,6 +92,7 @@ FP Environment::around[] = {&Environment::tl, &Environment::tc, &Environment::tr
       {
         c = new CellB();
       }
+      //Set Spot pointer on cell
       tmp[y]->set_cell(c);
 
     }
@@ -109,7 +115,7 @@ Environment::Environment()
   srand(time(0));
 
   Cell::set_rates(0.1,0.1,0.1,0.1);
-  //Cell::set_min_fit(0.01);
+  Cell::set_min_fit(0.01);
 
   vector<Spot*> tmp;
   Cell* c;
