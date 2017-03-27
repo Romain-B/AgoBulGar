@@ -175,6 +175,11 @@ Environment::~Environment()
 
 void Environment::env_wipe()
 {
+  /*
+  Resets the metabolites in grid to (Ainit,0,0)
+  No alteration of Cell
+  */
+
   for (u_int x = 0; x < W_; ++x)
   {
     for (u_int y = 0; y < H_; ++y)
@@ -186,10 +191,20 @@ void Environment::env_wipe()
 
 void Environment::run(int it, int T)
 {
+  /*
+  General execution of Environment for 'it' iterations and wipes
+  every 'T' steps.
+
+  1- diffuses the metabolites in grid
+  2- kills cells according to Pmut_
+  3- competition for empty spots (and division)
+  4- metabolism
+  */
 
   for(u_int i = 0; i < it ; i++)
   {
 
+    //Diffusion 
     for (u_int x = 0; x < W_; ++x)
     {
       for (u_int y = 0; y < H_; ++y)
@@ -205,13 +220,13 @@ void Environment::run(int it, int T)
       }
     }
 
-
+    //Cell death
     this->cell_death(); 
 
+    //Competition
     this->competition(); 
 
     //Metabolism
-
     float* ret;
     for (u_int x = 0; x < W_; ++x)
     {
@@ -228,16 +243,13 @@ void Environment::run(int it, int T)
           delete ret;
         }
       }
-    } 
+    }
+
     if (T != 0 && 0 == i%T)
     {
       this-> env_wipe();
     }
-
-    //Condition for optimization -> WITHOUT MUTATION
-    //if there is no A or B cells
-    //we break the run
-    //if(nbA_ == H_*W_){break;} //||nbA_ == 0  
+ 
   }
 
 
@@ -245,6 +257,17 @@ void Environment::run(int it, int T)
 
 void Environment::print_grid()
 {
+  /*
+  Displays the colored grid of cells and 
+  -Number of A
+  -Number of B
+  -Mean fitness of A
+  -Mean fitness of B
+  -Total of A metabolites in grid
+  -Total of B metabolites in grid
+  -Total of C metabolites in grid
+  */
+
   int iA = 0, iB = 0, iE = 0;
   float tA = 0, tB = 0, tC = 0;
   float m_fitA = 0.0, m_fitB = 0.0;
@@ -298,6 +321,12 @@ void Environment::print_grid()
 
 int Environment::proportion()
 {
+  /*
+  Returns the state of the system :
+  1 if cohabitation
+  -1 if exclusion of B
+  0 if extinction
+  */
 
   if (nbA_ == 0){return 0;}
 
@@ -327,7 +356,7 @@ int Environment::proportion()
 
 Spot* Environment::tl(Spot* center)
 {
-  //Top left : x-1 ; y+1
+  /*Top left : x-1 ; y+1*/
 
   int x = center->x(), y = center->y();
 
@@ -342,7 +371,7 @@ Spot* Environment::tl(Spot* center)
 
 Spot* Environment::tc(Spot* center)
 {
-  //Top Center : x ; y+1
+  /*Top Center : x ; y+1*/
 
   int x = center->x(), y = center->y();
 
@@ -357,7 +386,7 @@ Spot* Environment::tc(Spot* center)
 
 Spot* Environment::tr(Spot* center)
 {
-  //Top right : x+1 ; y+1
+  /*Top right : x+1 ; y+1*/
 
   int x = center->x(), y = center->y();
 
@@ -372,7 +401,7 @@ Spot* Environment::tr(Spot* center)
 
 Spot* Environment::cl(Spot* center)
 {
-  //Center left : x-1 ; y
+  /*Center left : x-1 ; y*/
 
   int x = center->x(), y = center->y();
 
@@ -387,7 +416,7 @@ Spot* Environment::cl(Spot* center)
 
 Spot* Environment::cr(Spot* center)
 {
-  //Top left : x+1 ; y
+  /*Center right : x+1 ; y*/
 
   int x = center->x(), y = center->y();
 
@@ -402,7 +431,7 @@ Spot* Environment::cr(Spot* center)
 
 Spot* Environment::bl(Spot* center)
 {
-  //Top left : x-1 ; y-1
+  /*Bottom left : x-1 ; y-1*/
 
   int x = center->x(), y = center->y();
 
@@ -417,7 +446,7 @@ Spot* Environment::bl(Spot* center)
 
 Spot* Environment::bc(Spot* center)
 {
-  //Top left : x ; y-1
+  /*Bottom center : x ; y-1*/
 
   int x = center->x(), y = center->y();
 
@@ -432,7 +461,7 @@ Spot* Environment::bc(Spot* center)
 
 Spot* Environment::br(Spot* center)
 {
-  //Top left : x+1 ; y-1
+  /*Bottom right : x+1 ; y-1*/
 
   int x = center->x(), y = center->y();
 
@@ -445,9 +474,13 @@ Spot* Environment::br(Spot* center)
 
 }
 
-//Cellular Death
+
 void Environment::cell_death()
 {
+  /*
+  Kills cells according to Pmut_
+  */
+  
   for (u_int ix = 0; ix < W_; ++ix)
   {
     for (u_int iy = 0; iy < H_; ++iy)
@@ -475,8 +508,11 @@ void Environment::cell_death()
   }
 }
 
-void Environment::diffusion(int x , int y) //Diffusion of metabolites A,B and C
+void Environment::diffusion(int x , int y) 
 {
+  /*
+  Diffusion of metabolites A,B and C according to Moore's algorithm
+  */
 	
   Spot* center = grid_[x][y];
 
@@ -497,14 +533,16 @@ void Environment::diffusion(int x , int y) //Diffusion of metabolites A,B and C
   cC_t = cC_t - 8 * D_ * center->cC();
 
 
-
+  //modification of A,B,C at t1, NOT t
   grid_[x][y]->ct1_update(cA_t , cB_t , cC_t);
 
 }
 
 void Environment::competition()
 {  
-
+  /*
+  Competition for division in free spots, based on cell fitness.
+  */
 
   for(auto it = free_spot_.begin(); it != free_spot_.end() ;)
   {
