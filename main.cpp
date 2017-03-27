@@ -188,6 +188,7 @@ void final()
   int state;
 
   //CSV
+  std::system("touch simdata.csv");
   sim_data.open("simdata.csv", fstream::out);
   sim_data << "Ainit ; T ; val";
 
@@ -215,7 +216,7 @@ void final()
     }
   }
   sim_data.close();
-  std::system("Rscript Plot_heatmap.R simdata.csv simdat.pdf");
+  //std::system("Rscript Plot_heatmap.R simdata.csv simdat.pdf");
 }
 void test_single()
 {
