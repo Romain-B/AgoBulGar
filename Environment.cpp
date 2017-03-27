@@ -619,6 +619,10 @@ void Environment::cell_division(Spot* mother, Spot* daughter)
 
 void Environment::cell_mutation(Spot* c)
 {
+  /*
+  Mutates cell in given spot (A->B, B->A)
+  */
+
   float n_cA, n_cB, n_cC;
 
   n_cA = (c->cell())->cA();
