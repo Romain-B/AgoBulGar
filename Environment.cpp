@@ -44,7 +44,7 @@ FP Environment::around[] = {&Environment::tl, &Environment::tc, &Environment::tr
 //    CONSTRUCTORS
 //==============================
 
-  Environment::Environment(float R , float Pmut , float Pdth , int size , float Wmin , int Ainit)
+  Environment::Environment(float R , float Pmut , float Pdth , int size , float Wmin , float Ainit)
   {
    Pmut_ = Pmut;
    Pdth_ = Pdth;
@@ -229,15 +229,15 @@ void Environment::run(int it, int T)
         }
       }
     } 
-    if (T !=0 && 0 == it%T)
+    if (T != 0 && 0 == i%T)
     {
       this-> env_wipe();
     }
 
-    //Condition for optimization 
+    //Condition for optimization -> WITHOUT MUTATION
     //if there is no A or B cells
     //we break the run
-    if(nbA_ == 0 || nbA_ == H_*W_){break;}
+    //if(nbA_ == H_*W_){break;} //||nbA_ == 0  
   }
 
 

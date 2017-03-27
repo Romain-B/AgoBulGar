@@ -35,7 +35,7 @@ public:
 //==============================
 
   Environment();
-  Environment(float R , float Pmut , float Pdth , int size , float Wmin , int Ainit);		//Custom constructor
+  Environment(float R , float Pmut , float Pdth , int size , float Wmin , float Ainit);		//Custom constructor
 
 //==============================
 //    DESTRUCTOR
@@ -99,7 +99,7 @@ protected:
 	float D_;				// Diffusion coefficient
 	float Pdth_;		// Death probability
 	float Pmut_;		// Mutation probability
-  int Ainit_;     // cA init
+  float Ainit_;     // cA init
   int nbA_;       // Number of A cells. Usefull for optimization
 
 	vector<vector <Spot*>> grid_;	//Matrix of Spot
