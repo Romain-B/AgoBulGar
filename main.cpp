@@ -182,8 +182,8 @@ void final()
   int Amax = 50, 
       Tmax = 1500;
 
-  int iA = 5,
-      iT = 30;
+  int iA = 1,
+      iT = 1;
 
   int state;
 
