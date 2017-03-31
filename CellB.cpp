@@ -39,9 +39,9 @@ float* CellB::metabolism(float s_cA, float s_cB, float s_cC)
 
   //Diffeq
 
-  cB_ += 0.1*(s_cB * rBB_);
-  cC_ += 0.1*(cB_ * rBC_);
-  cB_ += 0.1*(-cB_ * rBC_);
+  cB_ += 0.1*(s_cB * rBB_);     //Absorb
+  cC_ += 0.1*(cB_ * rBC_);      //Transform
+  cB_ += 0.1*(-cB_ * rBC_);     //Remove used product
 
   ms_cB = -0.1*(rBB_ * s_cB);
 
