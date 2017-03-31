@@ -98,7 +98,7 @@ FP Environment::around[] = {&Environment::tl, &Environment::tc, &Environment::tr
     }
     grid_.push_back(tmp);
   }
-
+  this->env_wipe();
 }
 
 Environment::Environment()
@@ -149,7 +149,7 @@ Environment::Environment()
     }
     grid_.push_back(tmp);
   }
-
+  this->env_wipe();
 }
 
 //==============================
@@ -241,12 +241,15 @@ void Environment::run(int it, int T)
         Spot* s = grid_[x][y];
         if (! s->isEmpty())
         {
-          //Metab in cell
-          ret = s->cell() ->metabolism(s->cA(), s->cB(), s->cC());
-          
-          //Update of ABC in Spot
-          s->c_update(s->cA() + ret[0], s->cB() + ret[1], s->cC() + ret[2]);
-          delete ret;
+          for(u_int z = 0 ; z < 10 ; ++z)
+          {
+            //Metab in cell
+            ret = s->cell() ->metabolism(s->cA(), s->cB(), s->cC());
+            
+            //Update of ABC in Spot
+            s->c_update(s->cA() + ret[0], s->cB() + ret[1], s->cC() + ret[2]);
+            delete ret;
+          }
         }
       }
     }
@@ -260,6 +263,82 @@ void Environment::run(int it, int T)
 
 
 }
+
+void Environment::run_graphic(int it, int T)
+{
+  /*
+  General execution of Environment for 'it' iterations and wipes
+  every 'T' steps.
+
+  1- diffuses the metabolites in grid
+  2- kills cells according to Pmut_
+  3- competition for empty spots (and division)
+  4- metabolism
+  */
+
+  for(u_int i = 0; i < it ; i++)
+  {
+
+    //Diffusion 
+    for (u_int x = 0; x < W_; ++x)
+    {
+      for (u_int y = 0; y < H_; ++y)
+      {
+        this->diffusion(x, y);
+      }
+    }
+    for (u_int x = 0; x < W_; ++x)
+    {
+      for (u_int y = 0; y < H_; ++y)
+      {
+        grid_[x][y]->time_update();
+      }
+    }
+
+    //Cell death
+    this->cell_death(); 
+
+    //Competition
+    this->competition(); 
+
+    //Metabolism
+    float* ret;
+    for (u_int x = 0; x < W_; ++x)
+    {
+      for (u_int y = 0; y < H_; ++y)
+      {
+        Spot* s = grid_[x][y];
+        if (! s->isEmpty())
+        {
+          for(u_int z = 0 ; z < 10 ; ++z)
+          {
+            //Metab in cell
+            ret = s->cell() ->metabolism(s->cA(), s->cB(), s->cC());
+            
+            //Update of ABC in Spot
+            s->c_update(s->cA() + ret[0], s->cB() + ret[1], s->cC() + ret[2]);
+            delete ret;
+          }
+        }
+      }
+    }
+
+    if (T != 0 && 0 == i%T)
+    {
+      this-> env_wipe();
+    }
+    if(0 == i%10)
+    {
+      this->print_grid();
+      cout << "\nStep "<<i<<"/"<<it<<"\nPress <Enter> to continue.\n";
+      std::cin.get();
+    }
+ 
+  }
+
+
+}
+
 
 void Environment::print_grid()
 {
