@@ -241,6 +241,7 @@ void Environment::run(int it, int T)
         Spot* s = grid_[x][y];
         if (! s->isEmpty())
         {
+          //10 metabolisms since dt = .1
           for(u_int z = 0 ; z < 10 ; ++z)
           {
             //Metab in cell
@@ -254,7 +255,7 @@ void Environment::run(int it, int T)
       }
     }
 
-    if (T != 0 && 0 == i%T)
+    if (T == 0 || 0 == i%T)
     {
       this-> env_wipe();
     }
@@ -310,6 +311,8 @@ void Environment::run_graphic(int it, int T)
         Spot* s = grid_[x][y];
         if (! s->isEmpty())
         {
+          
+          //10 metabolisms since dt = .1
           for(u_int z = 0 ; z < 10 ; ++z)
           {
             //Metab in cell
@@ -323,15 +326,14 @@ void Environment::run_graphic(int it, int T)
       }
     }
 
-    if (T != 0 && 0 == i%T)
+    if (T == 0 || 0 == i%T)
     {
       this-> env_wipe();
     }
     if(0 == i%10)
     {
       this->print_grid();
-      cout << "\nStep "<<i<<"/"<<it<<"\nPress <Enter> to continue.\n";
-      std::cin.get();
+      cout << "\nStep "<<i<<"/"<<it<<"\n\n";
     }
  
   }
@@ -397,7 +399,7 @@ void Environment::print_grid()
   m_fitB = m_fitB/iB;
 
   cout <<BOLDBLUE<<"\n\n\tCellA :\t"<<iA<<BOLDRED<<"\n\tCellB :\t"<<iB<< BOLDGREEN <<"\n\tEmpty :\t"<<iE<<"\n"<<RESET;
-  cout <<BOLDBLUE<<"\n\n\tMean fitness of A :\t"<<m_fitA<<BOLDRED<<"\n\tMean fitness of B :\t"<<m_fitB<<RESET;
+  cout <<BOLDBLUE<<"\n\tMean fitness of A :\t"<<m_fitA<<BOLDRED<<"\n\tMean fitness of B :\t"<<m_fitB<<RESET;
 
   cout << "\n\nMetabolites on grid :";
   cout <<"\n\tTotal of A :\t"<<tA<<"\n\tTotal of B :\t"<<tB<<"\n\tTotal of C :\t"<<tC<<"\n";
