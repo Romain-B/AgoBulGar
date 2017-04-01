@@ -230,7 +230,7 @@ void final(std::string csv, std::string outpdf, int Amax, int Tmax, float iA, in
       duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
       show_progress(pos, total_it, T, Ainit, state, duration);
 
-      pos++;
+      pos++; 
     }
   }
 
