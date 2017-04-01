@@ -206,7 +206,7 @@ void final(std::string csv, std::string outpdf, int Amax, int Tmax, float iA, in
   int state;
 
   //CSV
-  std::system(("touch "+csv).c_str());
+  std::system(("touch data/"+csv).c_str());
   out << "Ainit ; T ; val";
 
   //TIME COUNT
@@ -237,7 +237,7 @@ void final(std::string csv, std::string outpdf, int Amax, int Tmax, float iA, in
   sim_data.open(csv, fstream::out);
   sim_data<<out.str();
   sim_data.close();
-  std::system(("Rscript Plot_heatmap.R "+csv+" "+outpdf).c_str());
+  std::system(("Rscript Plot_heatmap.R data/"+csv+" out/"+outpdf).c_str());
 }
 
 void test_single(float Ainit, int T, int runstep, float pmut)
