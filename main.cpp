@@ -82,7 +82,10 @@ void show_help()
           << "\n\t -n, --Amax   \t Max value of Ainit. (default 50)\n"
           << "\n\t -s, --Tstart \t Start value of T. (default 0)"
           << "\n\t -t, --Astart \t Start value of Ainit. (default 0)\n"
-          << "\n\t -r, --runstep\t Number of steps per simulation. (default 10 000)\n\n"
+          << "\n\t -r, --runstep\t Number of steps per simulation. (default 10 000)"
+          << "\n\t -d, --Diff   \t Diffusion factor. (default 0.1)\n\n"
+          << "\n\t -p, --Pmut   \t Probability of mutation. (default 0.0)"
+          << "\n\t -q, --Pdeath \t Probability of death. (default 0.02)\n\n"
           ;
 }
 
@@ -193,7 +196,7 @@ void show_progress(int pos, int nb_it, int T, float A, int st, float duration)
 
 }
 
-void final(std::string csv, std::string outpdf, int Amax, int Tmax, float iA, int iT, int Tstart, float Astart, int runstep, float pmut)
+void final(std::string csv, std::string outpdf, int Amax, int Tmax, float iA, int iT, int Tstart, float Astart, int runstep, float pmut, float pdeath, float D)
 {
   Environment* env;
   fstream sim_data;
@@ -221,7 +224,7 @@ void final(std::string csv, std::string outpdf, int Amax, int Tmax, float iA, in
     for (int T = Tstart ; T <= Tmax ; T += iT)
     {
       state = 0;
-      env = new Environment(0.1, pmut, 0.02, 32, 0.001, Ainit);
+      env = new Environment(0.1, pmut, pdeath, 32, 0.001, Ainit, D);
       env->run(5000, T);
       state = env->proportion();
 
@@ -240,11 +243,11 @@ void final(std::string csv, std::string outpdf, int Amax, int Tmax, float iA, in
   std::system(("Rscript Plot_heatmap.R data/"+csv+" out/"+outpdf).c_str());
 }
 
-void test_single(float Ainit, int T, int runstep, float pmut)
+void test_single(float Ainit, int T, int runstep, float pmut, float pdeath, float D)
 {
   Environment * env;
 
-  env = new Environment(0.1, pmut, 0.02, 32, 0.001, Ainit);
+  env = new Environment(0.1, pmut, pdeath, 32, 0.001, Ainit, D);
   env->run_graphic(runstep, T);
 }
 
@@ -269,7 +272,7 @@ int main(int argc, char const *argv[])
   int Tstart = 0, Ti = 50, 
       Tmax = 1500, Amax = 50,
       runstep = 10000;
-  float Astart = 0, Ai = 5, pmut = 0.0;
+  float Astart = 0, Ai = 5, pmut = 0.0, pdeath = 0.02, D = 0.1;
 
   bool exec;
 
@@ -343,12 +346,17 @@ int main(int argc, char const *argv[])
         if(i+1 < argc)
         {pmut = atof(argv[++i]);}
       }
+    if(("-q"==arg) || ("--Pdeath"==arg))
+      {
+        if(i+1 < argc)
+        {pdeath = atof(argv[++i]);}
+      }
   }
   if(exec)
-    final(csv, outpdf, Amax, Tmax, Ai, Ti, Tstart, Astart, runstep, pmut);
+    final(csv, outpdf, Amax, Tmax, Ai, Ti, Tstart, Astart, runstep, pmut, pdeath, D);
   
   else 
-    test_single(Astart, Tstart, runstep, pmut);
+    test_single(Astart, Tstart, runstep, pmut, pdeath, D);
   cout << "\nDone.\n\n";
   return 0;
 }
