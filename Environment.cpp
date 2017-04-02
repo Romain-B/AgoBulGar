@@ -60,6 +60,7 @@ FP Environment::around[] = {&Environment::tl, &Environment::tc, &Environment::tr
    H_ = W_;
    Ainit_ = Ainit;
    nbA_ = 0;
+   nbB_ = 0;
    D_ = D;
 
    srand(time(0));
@@ -94,6 +95,7 @@ FP Environment::around[] = {&Environment::tl, &Environment::tc, &Environment::tr
       else
       {
         c = new CellB();
+        ++nbB_;
       }
       //Set Spot pointer on cell
       tmp[y]->set_cell(c);
@@ -116,6 +118,7 @@ Default constructor
   W_ = 32;
   H_ = 32;
   nbA_ = 0;
+  nbB_ = 0;
 
   Ainit_ = 25;
 
@@ -148,6 +151,7 @@ Default constructor
       else
       {
         c = new CellB();
+        ++nbB_;
       }
 
       //Set Spot pointer on cell
@@ -413,7 +417,7 @@ void Environment::print_grid()
 
 }
 
-int Environment::proportion()
+float Environment::proportion()
 {
   /*
   Returns the state of the system :
@@ -422,25 +426,10 @@ int Environment::proportion()
   0 if extinction
   */
 
-  if (nbA_ == 0){return 0;}
+  if (nbA_ == 0 || (nbB_ == 0 && nbA_ == 0)){return 0;}
 
-  for(u_int y = 0; y < H_ ; ++y)
-  {
 
-    for(u_int x = 0; x < W_ ; ++x)
-    {
-
-      if(!grid_[x][y]->isEmpty())
-      {
-        if ('B' == grid_[x][y]->cell()->whatAmI())
-        {
-         return 1;
-       }
-     }
-   }
- }
-
- return -1;
+  else {return (1.0 + (1.0*nbB_)/(1.0*nbA_));}
 }
 
 //==============================
@@ -596,6 +585,7 @@ void Environment::cell_death()
         grid_[ix][iy]->c_update(ca, cb, cc);
 
         if (grid_[ix][iy]->cell()->whatAmI()=='A'){--nbA_;}
+        else {--nbB_;}
 
         grid_[ix][iy]->del_cell();
         free_spot_.push_back(grid_[ix][iy]); 
@@ -698,7 +688,7 @@ manage the division of the cell
   {
     case 'A':daughter->set_cell(new CellA(n_cA, n_cB, n_cC)); nbA_++;
     break;
-    case 'B':daughter->set_cell(new CellB(n_cA, n_cB, n_cC)); 
+    case 'B':daughter->set_cell(new CellB(n_cA, n_cB, n_cC)); nbB_++;
     break;
   }
   
@@ -739,11 +729,13 @@ void Environment::cell_mutation(Spot* c)
   {
     case 'A': 
     nbA_--;
+    nbB_++;
     c->del_cell();
     c->set_cell(new CellB(n_cA, n_cB, n_cC));
     break;
     case 'B':
     nbA_++;
+    nbB_++;
     c->del_cell();
     c->set_cell(new CellA(n_cA, n_cB, n_cC));break;
     break;

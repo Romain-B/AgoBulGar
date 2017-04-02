@@ -62,7 +62,7 @@ public:
   void run(int it, int T);
   void run_graphic(int it, int T);
   void print_grid();
-  int proportion();
+  float proportion();
 
 protected:
 //==============================
@@ -101,7 +101,9 @@ protected:
 	float Pdth_;		// Death probability
 	float Pmut_;		// Mutation probability
   float Ainit_;     // cA init
-  int nbA_;       // Number of A cells. Usefull for optimization
+  // Number of A and B cells. Usefull for optimization and vizualisation
+  int nbA_;       
+  int nbB_;
 
 	vector<vector <Spot*>> grid_;	//Matrix of Spot
 	vector<Spot*> free_spot_;	// Contains free spots

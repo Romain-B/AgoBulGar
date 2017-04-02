@@ -227,6 +227,7 @@ void full(std::string csv, std::string outpdf, int Amax, int Tmax, float iA, int
       env = new Environment(0.1, pmut, pdeath, 32, 0.001, Ainit, D);
       env->run(runstep, T);
       state = env->proportion();
+      cout <<"\n"<< env->proportion();
 
       out<<"\n"<<Ainit<<";"<<T<<";"<<state;
 
