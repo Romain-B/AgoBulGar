@@ -206,7 +206,7 @@ void full(std::string csv, std::string outpdf, int Amax, int Tmax, float iA, int
 
   int total_it = (Amax/iA - Astart/iA)*(Tmax/iT - Tstart/iT) +1;
   int pos = 1;
-  int state;
+  float state;
 
   //CSV
   std::system(("touch data/"+csv).c_str());
@@ -225,7 +225,7 @@ void full(std::string csv, std::string outpdf, int Amax, int Tmax, float iA, int
     {
       state = 0;
       env = new Environment(0.1, pmut, pdeath, 32, 0.001, Ainit, D);
-      env->run(5000, T);
+      env->run(runstep, T);
       state = env->proportion();
 
       out<<"\n"<<Ainit<<";"<<T<<";"<<state;
