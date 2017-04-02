@@ -237,9 +237,10 @@ void full(std::string csv, std::string outpdf, int Amax, int Tmax, float iA, int
     }
   }
 
-  sim_data.open(csv, fstream::out);
+  sim_data.open(("data/"+csv), fstream::out);
   sim_data<<out.str();
   sim_data.close();
+
   std::system(("Rscript Plot_heatmap.R data/"+csv+" out/"+outpdf).c_str());
 }
 
