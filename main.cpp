@@ -181,7 +181,7 @@ void show_help()
     
     cout << "\nDone.\n";
   }
-  
+
 void show_progress(int pos, int nb_it, int T, float A, int st, float duration)
 {
   cout<<"\nAinit : "<<A<<"; T : "<<T<<" || Final state :\t";
@@ -196,7 +196,7 @@ void show_progress(int pos, int nb_it, int T, float A, int st, float duration)
 
 }
 
-void final(std::string csv, std::string outpdf, int Amax, int Tmax, float iA, int iT, int Tstart, float Astart, int runstep, float pmut, float pdeath, float D)
+void full(std::string csv, std::string outpdf, int Amax, int Tmax, float iA, int iT, int Tstart, float Astart, int runstep, float pmut, float pdeath, float D)
 {
   Environment* env;
   fstream sim_data;
@@ -243,7 +243,7 @@ void final(std::string csv, std::string outpdf, int Amax, int Tmax, float iA, in
   std::system(("Rscript Plot_heatmap.R data/"+csv+" out/"+outpdf).c_str());
 }
 
-void test_single(float Ainit, int T, int runstep, float pmut, float pdeath, float D)
+void graphic(float Ainit, int T, int runstep, float pmut, float pdeath, float D)
 {
   Environment * env;
 
@@ -353,10 +353,10 @@ int main(int argc, char const *argv[])
       }
   }
   if(exec)
-    final(csv, outpdf, Amax, Tmax, Ai, Ti, Tstart, Astart, runstep, pmut, pdeath, D);
+    full(csv, outpdf, Amax, Tmax, Ai, Ti, Tstart, Astart, runstep, pmut, pdeath, D);
   
   else 
-    test_single(Astart, Tstart, runstep, pmut, pdeath, D);
+    graphic(Astart, Tstart, runstep, pmut, pdeath, D);
   cout << "\nDone.\n\n";
   return 0;
 }
