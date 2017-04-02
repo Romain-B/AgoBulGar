@@ -44,11 +44,14 @@ FP Environment::around[] = {&Environment::tl, &Environment::tc, &Environment::tr
 //    CONSTRUCTORS
 //==============================
 
-  Environment::Environment(float R , float Pmut , float Pdth , int size , float Wmin , float Ainit)
+  Environment::Environment(float R , float Pmut , float Pdth , int size , float Wmin , float Ainit, float D)
   {
    /*
    Sets the parameters,
    Fills the grid with half A and half B randomly.
+   - R : rates for metabolism
+
+   other parameters are descripted in Environment.h
    */
 
    Pmut_ = Pmut;
@@ -57,7 +60,7 @@ FP Environment::around[] = {&Environment::tl, &Environment::tc, &Environment::tr
    H_ = W_;
    Ainit_ = Ainit;
    nbA_ = 0;
-   D_ = 0.1;
+   D_ = D;
 
    srand(time(0));
 
@@ -101,8 +104,12 @@ FP Environment::around[] = {&Environment::tl, &Environment::tc, &Environment::tr
   this->env_wipe();
 }
 
+
 Environment::Environment()
 {
+/*
+Default constructor
+*/
   Pmut_ = 0.02;
   Pdth_ = 0.1;
   D_ = 0.1;
@@ -433,14 +440,16 @@ int Environment::proportion()
    }
  }
 
-  return -1;
+ return -1;
 }
 
 //==============================
 //    PROTECTED METHODS
 //==============================
 
-
+/*
+Getters to access surounding spot
+*/
 Spot* Environment::tl(Spot* center)
 {
   /*Top left : x-1 ; y+1*/
@@ -669,6 +678,11 @@ void Environment::competition()
 }
 
 void Environment::cell_division(Spot* mother, Spot* daughter)
+/*
+manage the division of the cell
+- Spot* mother is the cell who will divise
+- Spot* daughter is the cell after divison
+*/
 {
   float n_cA, n_cB, n_cC;
 
@@ -679,7 +693,7 @@ void Environment::cell_division(Spot* mother, Spot* daughter)
   char g_mother = (mother->cell())->whatAmI();
 
 
-
+  //make a new cell with mother genotype
   switch(g_mother)
   {
     case 'A':daughter->set_cell(new CellA(n_cA, n_cB, n_cC)); nbA_++;
@@ -688,8 +702,10 @@ void Environment::cell_division(Spot* mother, Spot* daughter)
     break;
   }
   
+  //Halve concentration of metobolite in mother
   (mother->cell())->set_c(n_cA, n_cB, n_cC);
 
+  //Mutation managment for mother and doughter cells
   float change = (rand()%(1000))/1000.0;
   if (change < Pmut_)
   {
