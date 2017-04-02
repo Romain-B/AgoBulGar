@@ -172,7 +172,7 @@ void show_help()
 
       for (int i_wipeT = 0; i_wipeT < 1500; i_wipeT+= 10){
 
-        Environment env(0.1, 0.0, 0.02, 32, 0, i_Ainit);
+        Environment env(0.1, 0.0, 0.02, 32, 0, i_Ainit, 0.1);
         env.run(iteration, i_wipeT);
         int prop = env.proportion();
         cout << "A_init= "<<i_Ainit<<"; wipe_T = "<<i_wipeT<<"\n";
@@ -180,8 +180,8 @@ void show_help()
     }
     
     cout << "\nDone.\n";
-
   }
+  
 void show_progress(int pos, int nb_it, int T, float A, int st, float duration)
 {
   cout<<"\nAinit : "<<A<<"; T : "<<T<<" || Final state :\t";
