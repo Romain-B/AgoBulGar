@@ -72,7 +72,7 @@ void show_help()
           << "\n"
           << "\n The command MUST have one of the following argument :\n"
           << "\n\t -F, --FULL   \t Executes the full simulation"
-          << "\n\t -G, --GRAPHIC\t Executes one run with grid shown."
+          << "\n\t -G, --GRAPHIC\t Executes one run with grid shown. (T and Ainit are given with 'start' options)"
           << "\n\n Optionnal parameters, followed by value :\n"
           << "\n\t -c, --csv    \t name of the csv file to write simulation outputs. (default simdata.csv)"
           << "\n\t -o, --outpdf \t name of the output pdf for heatmap. (default simdata.pdf)\n"
