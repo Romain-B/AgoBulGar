@@ -35,7 +35,7 @@ public:
 //==============================
 
   Environment();
-  Environment(float R , float Pmut , float Pdth , int size , float Wmin , float Ainit);		//Custom constructor
+  Environment(float R , float Pmut , float Pdth , int size , float Wmin , float Ainit, float D);		//Custom constructor
 
 //==============================
 //    DESTRUCTOR
@@ -102,7 +102,7 @@ protected:
 	float Pmut_;		// Mutation probability
   float Ainit_;     // cA init
   int nbA_;       // Number of A cells. Usefull for optimization
-  float D_; 				//Diffusion Rate
+
 	vector<vector <Spot*>> grid_;	//Matrix of Spot
 	vector<Spot*> free_spot_;	// Contains free spots
 
