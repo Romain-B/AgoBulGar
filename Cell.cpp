@@ -51,6 +51,7 @@ void Cell::set_c(float cAi, float cBi, float cCi)
   cA_ = cAi;
   cB_ = cBi;
   cC_ = cCi;
+  this->compute_fitness();
 }
 
 

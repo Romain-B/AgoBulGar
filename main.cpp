@@ -7,6 +7,7 @@
 #include <ctime>
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <vector>
 #include <list>
 #include <unistd.h>
@@ -61,6 +62,28 @@ void print_spot_info(Spot* spot, int nb)
   cout << "\n cA, cB, cC :\t" << spot->cA() << ","
                                      << spot->cB() << ","
                                      << spot->cC()<<"\n"; 
+}
+
+void show_help()
+{
+  std::cerr << "\nCELL LAB SIMULATION"
+          << "\n-------------------"
+          << "\nThis program needs some arguments to function.\nThis help message also appears with -h or --help."
+          << "\n"
+          << "\n The command MUST have one of the following argument :\n"
+          << "\n\t -F, --FULL   \t Executes the full simulation"
+          << "\n\t -G, --GRAPHIC\t Executes one run with grid shown. (T and Ainit are given with 'start' options)"
+          << "\n\n Optionnal parameters, followed by value :\n"
+          << "\n\t -c, --csv    \t name of the csv file to write simulation outputs. (default simdata.csv)"
+          << "\n\t -o, --outpdf \t name of the output pdf for heatmap. (default simdata.pdf)\n"
+          << "\n\t -i, --Ti     \t Incrementation  of T. (default 50)"
+          << "\n\t -j, --Ai     \t Incrementation  of Ainit. (default 5)\n"
+          << "\n\t -m, --Tmax   \t Max value of T. (default 1500)"
+          << "\n\t -n, --Amax   \t Max value of Ainit. (default 50)\n"
+          << "\n\t -s, --Tstart \t Start value of T. (default 0)"
+          << "\n\t -t, --Astart \t Start value of Ainit. (default 0)\n"
+          << "\n\t -r, --runstep\t Number of steps per simulation. (default 10 000)\n\n"
+          ;
 }
 
 
@@ -156,11 +179,8 @@ void print_spot_info(Spot* spot, int nb)
     cout << "\nDone.\n";
 
   }
-void show_progress(int Amax, int Tmax, int Ai, int Ti, int T, int A, int st, float duration)
+void show_progress(int pos, int nb_it, int T, float A, int st, float duration)
 {
-  int nb_it = (Amax/Ai+1) * (Tmax/Ti);
-  int pos = (A/Ai)*31 + T/Ti+1;
-
   cout<<"\nAinit : "<<A<<"; T : "<<T<<" || Final state :\t";
 
   switch(st)
@@ -173,56 +193,59 @@ void show_progress(int Amax, int Tmax, int Ai, int Ti, int T, int A, int st, flo
 
 }
 
-void final()
+void final(std::string csv, std::string outpdf, int Amax, int Tmax, float iA, int iT, int Tstart, float Astart, int runstep, float pmut)
 {
   Environment* env;
   fstream sim_data;
+  std::stringstream out;
 
   //ITERATORS
-  int Amax = 50, 
-      Tmax = 2000;
 
-  int iA = 5,
-      iT = 100;
-
+  int total_it = (Amax/iA - Astart/iA)*(Tmax/iT - Tstart/iT) +1;
+  int pos = 1;
   int state;
 
   //CSV
-  sim_data.open("simdata.csv", fstream::out);
-  sim_data << "Ainit ; T ; val";
+  std::system(("touch data/"+csv).c_str());
+  out << "Ainit ; T ; val";
 
-  //TIME
+  //TIME COUNT
   std::clock_t start;
   double duration;
 
   start = std::clock();
 
 
-  for (int Ainit = 0 ; Ainit <= Amax ; Ainit+=iA)
+  for (float Ainit = Astart; Ainit <= Amax ; Ainit+=iA)
   {
-    for (int T = 0 ; T < Tmax ; T += iT)
+    for (int T = Tstart ; T <= Tmax ; T += iT)
     {
       state = 0;
-      env = new Environment(0.1, 0.0, 0.02, 32, 0, Ainit);
-      env->run(1000, T);
+      env = new Environment(0.1, pmut, 0.02, 32, 0.001, Ainit);
+      env->run(5000, T);
       state = env->proportion();
 
-      sim_data<<"\n"<<Ainit<<";"<<T<<";"<<state;
+      out<<"\n"<<Ainit<<";"<<T<<";"<<state;
 
       duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
-      show_progress(Amax, Tmax, iA, iT, T, Ainit, state, duration);
+      show_progress(pos, total_it, T, Ainit, state, duration);
 
+      pos++; 
     }
   }
+
+  sim_data.open(csv, fstream::out);
+  sim_data<<out.str();
   sim_data.close();
-  std::system("Rscript Plot_heatmap.R simdata.csv simdat.pdf");
+  std::system(("Rscript Plot_heatmap.R data/"+csv+" out/"+outpdf).c_str());
 }
-void test_single()
+
+void test_single(float Ainit, int T, int runstep, float pmut)
 {
   Environment * env;
 
-  env = new Environment(0.1, 0.0, 0.02, 32, 0, 0.01);
-  env->run(10000, 1500);
+  env = new Environment(0.1, pmut, 0.02, 32, 0.001, Ainit);
+  env->run_graphic(runstep, T);
 }
 
 
@@ -234,8 +257,98 @@ void test_single()
 int main(int argc, char const *argv[])
 {  
   
-  final();
-  //test_single();
+  if (argc < 2)
+  {
+    show_help();
+    return 1;
+  }
+
+  std::string csv="simdata.csv",
+              outpdf = "simdata.pdf";
+
+  int Tstart = 0, Ti = 50, 
+      Tmax = 1500, Amax = 50,
+      runstep = 10000;
+  float Astart = 0, Ai = 5, pmut = 0.0;
+
+  bool exec;
+
+
+  for (int i=1 ; i < argc ; ++i)
+  {
+    std::string arg = argv[i];
+    
+
+    
+    if(("-h"==arg) || ("--help"==arg))
+      {show_help(); return 1;}
+
+    if(("-F"==arg) || ("--FULL"==arg))
+      {exec = 1;}
+    if(("-G"==arg) || ("--GRAPHIC"==arg))
+      {exec = 0;}
+
+    if(("-o"==arg) || ("--outpdf"==arg))
+      {
+        if(i+1 < argc)
+        {outpdf = argv[++i];}
+      }
+    if(("-c"==arg) || ("--csv"==arg))
+      {
+        if(i+1 < argc)
+        {csv = argv[++i];}
+      }
+
+    if(("-i"==arg) || ("--Ti"==arg))
+      {
+        if(i+1 < argc)
+        {Ti = atoi(argv[++i]);}
+      }
+    if(("-j"==arg) || ("--Ai"==arg))
+      {
+        if(i+1 < argc)
+        {Ai = atof(argv[++i]);}
+      }
+
+    if(("-m"==arg) || ("--Tmax"==arg))
+      {
+        if(i+1 < argc)
+        {Tmax = atoi(argv[++i]);}
+      }
+    if(("-n"==arg) || ("--Amax"==arg))
+      {
+        if(i+1 < argc)
+        {Amax = atoi(argv[++i]);}
+      }
+
+    if(("-s"==arg) || ("--Tstart"==arg))
+      {
+        if(i+1 < argc)
+        {Tstart = atoi(argv[++i]);}
+      }
+    if(("-t"==arg) || ("--Astart"==arg))
+      {
+        if(i+1 < argc)
+        {Astart = atoi(argv[++i]);}
+      }
+
+    if(("-r"==arg) || ("--runstep"==arg))
+      {
+        if(i+1 < argc)
+        {runstep = atoi(argv[++i]);}
+      }
+    
+    if(("-p"==arg) || ("--Pmut"==arg))
+      {
+        if(i+1 < argc)
+        {pmut = atof(argv[++i]);}
+      }
+  }
+  if(exec)
+    final(csv, outpdf, Amax, Tmax, Ai, Ti, Tstart, Astart, runstep, pmut);
+  
+  else 
+    test_single(Astart, Tstart, runstep, pmut);
   cout << "\nDone.\n\n";
   return 0;
 }

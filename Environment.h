@@ -60,6 +60,7 @@ public:
 
   void env_wipe();
   void run(int it, int T);
+  void run_graphic(int it, int T);
   void print_grid();
   int proportion();
 
