@@ -92,6 +92,7 @@ FP Environment::around[] = {&Environment::tl, &Environment::tc, &Environment::tr
     }
     grid_.push_back(tmp);
   }
+  this->env_wipe();
 
 }
 
@@ -143,6 +144,7 @@ Environment::Environment()
     }
     grid_.push_back(tmp);
   }
+  this->env_wipe();
 
 }
 
@@ -220,12 +222,15 @@ void Environment::run(int it, int T)
         Spot* s = grid_[x][y];
         if (! s->isEmpty())
         {
+
+
           //Metab in cell
-          ret = s->cell() ->metabolism(s->cA(), s->cB(), s->cC());
-          
+            ret = s->cell() ->metabolism(s->cA(), s->cB(), s->cC());
+
           //Update of ABC in Spot
-          s->c_update(s->cA() + ret[0], s->cB() + ret[1], s->cC() + ret[2]);
-          delete ret;
+            s->c_update(s->cA() + ret[0], s->cB() + ret[1], s->cC() + ret[2]);
+            delete ret;
+
         }
       }
     } 
@@ -317,7 +322,7 @@ int Environment::proportion()
    }
  }
 
-  return -1;
+ return -1;
 }
 
 //==============================

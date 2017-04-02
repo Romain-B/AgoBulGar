@@ -180,10 +180,10 @@ void final()
 
   //ITERATORS
   int Amax = 50, 
-      Tmax = 1500;
+      Tmax = 2000;
 
-  int iA = 10,
-      iT = 50;
+  int iA = 5,
+      iT = 100;
 
   int state;
 
