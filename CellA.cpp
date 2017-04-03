@@ -31,6 +31,9 @@ CellA::~CellA(){}
 //    PUBLIC METHODS
 //==============================
 float* CellA::metabolism(float s_cA, float s_cB, float s_cC)
+/*
+Set the metalism of the cell
+*/
 {
   //s_cA stands for Spot cA
   //ms_cA stands for Modified Spot cA
@@ -60,6 +63,9 @@ float* CellA::metabolism(float s_cA, float s_cB, float s_cC)
 }
 
 void CellA::compute_fitness()
+/*
+Update fitness
+*/
 {
   fit_ = (cB_ > min_fit_) ? cB_ : 0;
 }

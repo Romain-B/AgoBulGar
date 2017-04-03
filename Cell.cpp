@@ -38,6 +38,9 @@ Cell::~Cell(){}
 //    PUBLIC METHODS
 //==============================
 char Cell::whatAmI()
+/*
+Give the type of the cell
+*/
 {
   switch(geno_)
   {
@@ -47,6 +50,9 @@ char Cell::whatAmI()
 }
 
 void Cell::set_c(float cAi, float cBi, float cCi)
+/*
+Update concentration of the cell
+*/
 {
   cA_ = cAi;
   cB_ = cBi;
@@ -59,6 +65,9 @@ void Cell::set_c(float cAi, float cBi, float cCi)
 //    PROTECTED METHODS
 //==============================
 void Cell::set_rates(float rAA, float rAB, float rBB, float rBC)
+/*
+define metabolism rates (Class fonction)
+*/
 {
   rAA_ = rAA;
   rAB_ = rAB;
@@ -67,6 +76,9 @@ void Cell::set_rates(float rAA, float rAB, float rBB, float rBC)
 }
 
 void Cell::set_min_fit(float mf)
+/*
+set minimum fitness (Class fonction)
+*/
 {
   min_fit_ = mf;
 }

@@ -62,14 +62,15 @@ void Spot::c_update(float cA, float cB, float cC)
   cC_ = cC;
 }
 
-
+//Set concentration at time t+1
 void Spot::ct1_update(float cA, float cB, float cC)
 {
   cA1_ = cA;
   cB1_ = cB;
   cC1_ = cC;
-}
+} 
 
+//Set concentration at time t+1 as default concentration
 void Spot::time_update()
 {
   cA_ = cA1_;
@@ -78,7 +79,7 @@ void Spot::time_update()
 }
 
 
-
+//check if the spot is empty
 bool Spot::isEmpty()
 {
   return isEmpty_;
@@ -89,6 +90,7 @@ bool Spot::isEmpty()
 //    PROTECTED METHODS
 //==============================
 
+//Define the new cell of the spot
 void Spot::set_cell(Cell* c)
 {
   delete cell_;
@@ -96,6 +98,7 @@ void Spot::set_cell(Cell* c)
   isEmpty_ = 0;
 }
 
+//Erase cell of the spot
 void Spot::del_cell()
 {
   delete cell_;
