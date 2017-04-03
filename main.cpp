@@ -111,14 +111,18 @@ void full(std::string csv, std::string outpdf, int Amax, int Tmax, float iA, int
 
   start = std::clock();
 
-  #pragma omp parallel 
   for (float Ainit = Astart; Ainit <= Amax ; Ainit+=iA)
   {
+    
+    #pragma omp parallel for ordered 
     for (int T = Tstart ; T <= Tmax ; T += iT)
     {
       state = 0;
       env = new Environment(0.1, pmut, pdeath, 32, 0.001, Ainit, D);
       env->run(runstep, T);
+
+      // #pragma omp ordered
+      // {
       state = env->proportion();
       cout <<"\n"<< env->proportion();
 
@@ -126,6 +130,7 @@ void full(std::string csv, std::string outpdf, int Amax, int Tmax, float iA, int
 
       duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
       show_progress(pos, total_it, T, Ainit, state, duration);
+      // }
 
       pos++; 
     }
