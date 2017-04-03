@@ -22,6 +22,11 @@ using std::fstream;
 #include "CellA.h"
 #include "CellB.h"
 
+//OpenMP
+#include <omp.h>
+
+
+
 //Color definitions for terminal print
 
 #define RESET   "\033[0m"
@@ -106,7 +111,7 @@ void full(std::string csv, std::string outpdf, int Amax, int Tmax, float iA, int
 
   start = std::clock();
 
-
+   
   for (float Ainit = Astart; Ainit <= Amax ; Ainit+=iA)
   {
     for (int T = Tstart ; T <= Tmax ; T += iT)
@@ -151,14 +156,14 @@ void graphic(float Ainit, int T, int runstep, float pmut, float pdeath, float D)
 
 int main(int argc, char const *argv[])
 {  
-  
+
   bool opt = 1;
 
   for (int i=1 ; i < argc ; ++i)
   {
+    std::string arg = argv[i];
     //Check if the NECESSARY arguments are there.
-    if("-F" == argv[i] || "--FULL"==argv[i] 
-      || "-G" == argv[i] || "--GRAPHIC" == argv[i])
+    if("-F" == arg || "--FULL"==arg || "-G" == arg || "--GRAPHIC" == arg)
       opt = 0;
   }
 
