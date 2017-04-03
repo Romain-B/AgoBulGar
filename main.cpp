@@ -182,16 +182,18 @@ void show_help()
     cout << "\nDone.\n";
   }
 
-void show_progress(int pos, int nb_it, int T, float A, int st, float duration)
+void show_progress(int pos, int nb_it, int T, float A, float st, float duration)
 {
   cout<<"\nAinit : "<<A<<"; T : "<<T<<" || Final state :\t";
 
-  switch(st)
-  {
-    case -1 : cout<<BOLDGREEN<<"Exclusion"<<RESET; break;
-    case  0 : cout<<BOLDRED<<"Extinction"<<RESET; break;
-    case  1 : cout<<BOLDBLUE<<"Cohabitation"<<RESET; break;
-  }
+  if(0!= st && st<1)
+    cout<<BOLDGREEN<<"Exclusion"<<RESET;
+
+  else if(st>1) 
+    cout<<BOLDBLUE<<"Cohabitation"<<RESET; 
+  else
+    cout<<BOLDRED<<"Extinction"<<RESET;
+  
   cout <<"\t||\t Progress : "<<pos<<" / "<<nb_it<<" __ Time :"<<duration<<"s";
 
 }
@@ -204,7 +206,7 @@ void full(std::string csv, std::string outpdf, int Amax, int Tmax, float iA, int
 
   //ITERATORS
 
-  int total_it = (Amax/iA - Astart/iA)*(Tmax/iT - Tstart/iT) +1;
+  int total_it = (Amax/iA - Astart/iA +1)*(Tmax/iT - Tstart/iT) +1;
   int pos = 1;
   float state;
 

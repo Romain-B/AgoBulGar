@@ -429,7 +429,7 @@ float Environment::proportion()
   if (nbA_ == 0 || (nbB_ == 0 && nbA_ == 0)){return 0;}
 
 
-  else {return (1.0 + (1.0*nbB_)/(1.0*nbA_));}
+  else {return (1.0 + (1.0*nbB_)/(1.0*nbA_+1.0*nbB_));}
 }
 
 //==============================
