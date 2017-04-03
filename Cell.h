@@ -20,12 +20,12 @@ public:
 //==============================
   Cell();
   Cell(float cAi, float cBi, float cCi);
- 
+  
 //==============================
 //    DESTRUCTOR
 //==============================
   virtual ~Cell();
- 
+  
 //==============================
 //    GETTERS
 //==============================
@@ -58,7 +58,7 @@ public:
   virtual char whatAmI();
 
   
-  //will be protected after testing
+  
   static void set_rates(float rAA, float rAB, float rBB, float rBC);
   static void set_min_fit(float mf);
 
@@ -86,46 +86,48 @@ protected:
 //==============================
 //    GETTER DEFINITION
 //==============================
+/*
+Getters for concentrations
+*/
+inline float Cell::cA() const
+{
+  return cA_;
+}
 
-  inline float Cell::cA() const
-  {
-    return cA_;
-  }
+inline float Cell::cB() const
+{
+  return cB_;
+}
 
-  inline float Cell::cB() const
-  {
-    return cB_;
-  }
+inline float Cell::cC() const
+{
+  return cC_;
+}
 
-  inline float Cell::cC() const
-  {
-    return cC_;
-  }
+inline float Cell::fit() const
+{
+  return fit_;
+}
 
-  inline float Cell::fit() const
-  {
-    return fit_;
-  }
+inline float Cell::rAA() const
+{
+  return rAA_;
+}
 
-  inline float Cell::rAA() const
-  {
-    return rAA_;
-  }
+inline float Cell::rAB() const
+{
+  return rAB_;
+}
 
-  inline float Cell::rAB() const
-  {
-    return rAB_;
-  }
+inline float Cell::rBB() const
+{
+  return rBB_;
+}
 
-  inline float Cell::rBB() const
-  {
-    return rBB_;
-  }
-
-  inline float Cell::rBC() const
-  {
-    return rBC_;
-  }
+inline float Cell::rBC() const
+{
+  return rBC_;
+}
 
 //==============================
 //    SETTER DEFINITION
