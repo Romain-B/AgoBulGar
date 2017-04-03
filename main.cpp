@@ -111,7 +111,7 @@ void full(std::string csv, std::string outpdf, int Amax, int Tmax, float iA, int
 
   start = std::clock();
 
-   
+  #pragma omp parallel 
   for (float Ainit = Astart; Ainit <= Amax ; Ainit+=iA)
   {
     for (int T = Tstart ; T <= Tmax ; T += iT)

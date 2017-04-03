@@ -1,13 +1,13 @@
-OPTS = -g -Wall -Wextra -g3 -O0 -std=gnu++0x
+OPTS = -g -Wall -Wextra -g3 -O0 -std=gnu++0x -fopenmp 
 
 all : Cell.o CellA.o CellB.o Environment.o Spot.o main.o
 	g++ $(OPTS) Cell.o CellA.o CellB.o Environment.o Spot.o main.o -o celllab
 
 main.o: main.cpp
-	g++ $(OPTS) -c main.cpp
+	g++ $(OPTS) -c main.cpp  
 
 Cell.o: Cell.cpp Cell.h
-	g++ $(OPTS) -c Cell.cpp
+	g++ $(OPTS) -c Cell.cpp 
 
 CellA.o: CellA.cpp CellA.h
 	g++ $(OPTS) -c CellA.cpp
