@@ -22,6 +22,8 @@ using std::fstream;
 #include "CellA.h"
 #include "CellB.h"
 
+//Color definitions for terminal print
+
 #define RESET   "\033[0m"
 
 #define BOLDRED     "\033[1m\033[31m"         /* Bold Red */
@@ -35,34 +37,7 @@ using std::fstream;
 //==============================
 //    FUNCTION DECLARATION
 //==============================
-void print_cell_info(Cell* cell, int nb)
-{
-  cout << "\n Info on cell "<< nb <<"\n---------\n";
 
-  cout << "\n Cell type :\t"<< cell->whatAmI();
-
-  cout << "\n cA, cB, cC :\t" << cell->cA() << ","
-                                     << cell->cB() << ","
-                                     << cell->cC();
-
-  cout << "\n fitness : \t" << cell->fit();
-  cout << "\n Metabolim rates rAA, rAB, rBB, rBC : \t" << cell->rAA() << ","
-                                                        << cell->rAB() << ","
-                                                        << cell->rBB() << ","
-                                                        << cell->rBC();
-  cout << "\n----------------------\n";
-}
-
-void print_spot_info(Spot* spot, int nb)
-{
-  cout << "\n Info on spot "<< nb <<"\n---------\n";
-  cout << "\n x,y :\t" << spot->x() << "," 
-                              << spot->y();
-  
-  cout << "\n cA, cB, cC :\t" << spot->cA() << ","
-                                     << spot->cB() << ","
-                                     << spot->cC()<<"\n"; 
-}
 
 void show_help()
 {
@@ -90,100 +65,10 @@ void show_help()
 }
 
 
-  //-------------
-  //    TESTS
-  //-------------
-
-  void test_cell()
-  {
-    cout << "\n\t===============\n\tCELL TESTS\n\t===============\n";
-
-    Cell* cell_1 = new CellA(0,0,0);
-    Cell* cell_2 = new CellB(0,5,12.5);
-
-    float A=12.3, B=10.2, C=2.5;
-
-    cell_1 -> set_rates(0.1,0.1,0.1,0.1);
-
-    print_cell_info(cell_1, 1);
-    print_cell_info(cell_2, 2);
-
-    float* s_c;
-
-    //Metabolism test for CellA
-
-    for(u_int i=0; i<3; ++i)
-    {
-      s_c = cell_1->metabolism(A,B,C);
-      cout << "\n returned from metabolism :\t" << s_c[0] << "," << s_c[1] << "," << s_c[2];
-
-      A += s_c[0];
-      B += s_c[1];
-      C += s_c[2];
-
-      cout << "\n A, B, C \t" << A << "," << B << "," << C;
-      cout <<"\n++++++++++\n";
-
-      print_cell_info(cell_1, 1);
-      delete [] s_c;
-    }
-
-    for(u_int i=0; i<3; ++i)
-    {
-      s_c = cell_2->metabolism(A,B,C);
-      cout << "\n returned from metabolism :\t"<< s_c[0] << "," << s_c[1] << "," << s_c[2];
-
-      A += s_c[0];
-      B += s_c[1];
-      C += s_c[2];
-
-      cout << "\n A, B, C \t" << A << "," << B << "," << C;
-      cout <<"\n++++++++++\n";
-
-
-      print_cell_info(cell_2, 2);
-      delete [] s_c;
-    }
-
-    
-    delete cell_1;
-    delete cell_2;
-  }
-
-  void test_spot()
-  {
-  
-    cout << "\n\t===============\n\tSPOT TESTS\n\t===============\n";
-
-    Spot* spot_1 = new Spot(0,0);
-    Spot* spot_2 = new Spot(0,1);
-
-    print_spot_info(spot_1, 1);
-    print_spot_info(spot_2, 2);
-  }
-
-  void write_csv()
-  {
-    int iteration = 100;
-
-    cout << "\n\t===============\n\tCSV TESTS\n\t===============\n";
-
-    for (int i_Ainit = 0; i_Ainit < 50; ++i_Ainit ){
-
-      for (int i_wipeT = 0; i_wipeT < 1500; i_wipeT+= 10){
-
-        Environment env(0.1, 0.0, 0.02, 32, 0, i_Ainit, 0.1);
-        env.run(iteration, i_wipeT);
-        int prop = env.proportion();
-        cout << "A_init= "<<i_Ainit<<"; wipe_T = "<<i_wipeT<<"\n";
-      }
-    }
-    
-    cout << "\nDone.\n";
-  }
-
 void show_progress(int pos, int nb_it, int T, float A, float st, float duration)
 {
+  //Show the progress of the simulation.
+
   cout<<"\nAinit : "<<A<<"; T : "<<T<<" || Final state :\t";
 
   if(0!= st && st<1)
@@ -200,13 +85,14 @@ void show_progress(int pos, int nb_it, int T, float A, float st, float duration)
 
 void full(std::string csv, std::string outpdf, int Amax, int Tmax, float iA, int iT, int Tstart, float Astart, int runstep, float pmut, float pdeath, float D)
 {
+  //Execute full simulation. 
   Environment* env;
   fstream sim_data;
   std::stringstream out;
 
   //ITERATORS
 
-  int total_it = (Amax/iA - Astart/iA +1)*(Tmax/iT - Tstart/iT) +1;
+  int total_it = (Amax/iA - Astart/iA +1)*(Tmax/iT - Tstart/iT+1) ;
   int pos = 1;
   float state;
 
@@ -240,6 +126,7 @@ void full(std::string csv, std::string outpdf, int Amax, int Tmax, float iA, int
     }
   }
 
+  //Write to stringtream during simulation and to csv after in one go. Faster.
   sim_data.open(("data/"+csv), fstream::out);
   sim_data<<out.str();
   sim_data.close();
@@ -249,6 +136,7 @@ void full(std::string csv, std::string outpdf, int Amax, int Tmax, float iA, int
 
 void graphic(float Ainit, int T, int runstep, float pmut, float pdeath, float D)
 {
+  //Execute graphical simulation.
   Environment * env;
 
   env = new Environment(0.1, pmut, pdeath, 32, 0.001, Ainit, D);
@@ -264,7 +152,17 @@ void graphic(float Ainit, int T, int runstep, float pmut, float pdeath, float D)
 int main(int argc, char const *argv[])
 {  
   
-  if (argc < 2)
+  bool opt = 1;
+
+  for (int i=1 ; i < argc ; ++i)
+  {
+    //Check if the NECESSARY arguments are there.
+    if("-F" == argv[i] || "--FULL"==argv[i] 
+      || "-G" == argv[i] || "--GRAPHIC" == argv[i])
+      opt = 0;
+  }
+
+  if (argc < 2 || opt)
   {
     show_help();
     return 1;
@@ -280,7 +178,7 @@ int main(int argc, char const *argv[])
 
   bool exec;
 
-
+//Argument Management
   for (int i=1 ; i < argc ; ++i)
   {
     std::string arg = argv[i];
