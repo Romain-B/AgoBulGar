@@ -23,7 +23,7 @@ using std::fstream;
 #include "CellB.h"
 
 //OpenMP
-#include <omp.h>
+//#include <omp.h>
 
 
 
@@ -114,7 +114,7 @@ void full(std::string csv, std::string outpdf, int Amax, int Tmax, float iA, int
   for (float Ainit = Astart; Ainit <= Amax ; Ainit+=iA)
   {
     
-    #pragma omp parallel for ordered 
+    //#pragma omp parallel for ordered 
     for (int T = Tstart ; T <= Tmax ; T += iT)
     {
       state = 0;
