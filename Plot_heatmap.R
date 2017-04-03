@@ -23,10 +23,8 @@ pdf(args[2])
 # legend("topright", leg=c("Ext","Cohab", "Exclu"), col=c("yellow", "royalblue", "firebrick"), pch=15)
 
 obj <- ggplot(data =  data, aes(x = Ainit, y = T)) + 
-      geom_tile(aes(fill = factor(val))) +
-      scale_fill_manual(name="Etat final \n du système",
-          labels=c("Exclusion", "Extinction", "Cohabitation"), 
-          values = c("royalblue","darkblue", "lightgrey"))
+      geom_tile(aes(fill = val)) +
+      scale_fill_gradient(name="Etat final \n du système")
 
 print(obj)
 dev.off()
